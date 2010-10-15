@@ -1,0 +1,15 @@
+<h1>Event Pooler</h1>
+
+Here are all the sharables in the database:
+<ul>
+<% @sharables.each do |sharable| %>
+  <li><%= sharable.name %></li>
+<% end %>
+</ul>
+
+Here are all the group types in the database:
+<ul>
+<% @types.each do |type| %>
+  <li><%= type.name %></li>
+<% end %>
+</ul>
