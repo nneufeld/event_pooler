@@ -1,3 +1,3 @@
 class Sharable < ActiveRecord::Base
-  has_many :shares
+  has_and_belongs_to_many :memberships
 end
