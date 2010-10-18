@@ -7,12 +7,13 @@ class Event < ActiveRecord::Base
     sources.each do |source|
      results << self.method( source ).call(query).collect{ |r| r }
     end
-    p "HELLO THERE!"
+    results.flatten
   end
 
   def self.native(q)
    if !q.to_s.strip.empty?
-      find_by_sql(["select e.* from events e where e.name like '#{q}'"]);
+      result = find_by_sql(["select e.* from events e"]);
+      result
    else
       []
    end

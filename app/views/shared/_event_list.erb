@@ -1,1 +1,7 @@
-This is the event list
+<table>
+<% @events.each do |event|  %>
+  <tr>
+    <td><%= event.name %> </td>
+  </tr>
+<% end %>
+</table>
