@@ -50,7 +50,11 @@ EventPooler::Application.routes.draw do
   # just remember to delete public/index.html.
   root :controller => 'main', :action => 'index'
 
-  match '/event/search', :to => 'event#search'
+  match '/event/search', :to => 'event#search', :as => 'search'
+
+  match '/user/signup', :to => 'user#signup', :as => 'signup'
+
+  match '/user/welcome', :to => 'user#welcome', :as => 'welcome'
 
   # See how all your routes lay out with "rake routes
   # This is a legacy wild controller route that's not recommended for RESTful applications.
