@@ -1,0 +1,6 @@
+<%= form_tag do %>
+<%= flash[:warning] %><br />
+Email Address: <%= text_field_tag :email %><br />
+Password: <%= password_field_tag :password %><br />
+<%= submit_tag "Login" %>
+<% end %>
