@@ -1,0 +1,6 @@
+<% if current_user.nil? %>
+<%= link_to 'Login', login_path %> or <%= link_to 'Sign-up', signup_path %>
+<% else %>
+Welcome <%= current_user.name %> - <%= link_to 'Logout', logout_path %>
+<% end %>
+<hr />

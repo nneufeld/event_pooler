@@ -53,7 +53,8 @@ EventPooler::Application.routes.draw do
   match '/event/search', :to => 'event#search', :as => 'search'
 
   match '/user/signup', :to => 'user#signup', :as => 'signup'
-
+  match '/user/login', :to => 'user#login', :as => 'login'
+  match '/user/logout', :to => 'user#logout', :as => 'logout'
   match '/user/welcome', :to => 'user#welcome', :as => 'welcome'
 
   # See how all your routes lay out with "rake routes
