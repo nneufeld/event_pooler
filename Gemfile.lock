@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/freelancing-god/thinking-sphinx.git
+  revision: cae810f54b22b936c61a52d9a7383bee367c147f
+  branch: rails3
+  specs:
+    thinking-sphinx (2.0.0.rc2)
+      activerecord (>= 3.0.0)
+      riddle (>= 1.0.12)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -59,6 +68,7 @@ GEM
       rake (>= 0.8.4)
       thor (~> 0.14.0)
     rake (0.8.7)
+    riddle (1.1.0)
     ruby-mysql (2.9.3)
     thor (0.14.0)
     treetop (1.4.8)
@@ -71,3 +81,4 @@ PLATFORMS
 DEPENDENCIES
   rails (= 3.0.0)
   ruby-mysql (= 2.9.3)
+  thinking-sphinx!

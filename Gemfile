@@ -1,7 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0'
-
+gem 'thinking-sphinx', 
+  :git => 'git://github.com/freelancing-god/thinking-sphinx.git',
+  :branch => 'rails3',
+  :require => 'thinking_sphinx'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
