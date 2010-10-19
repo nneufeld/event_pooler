@@ -50,7 +50,7 @@ EventPooler::Application.routes.draw do
   # just remember to delete public/index.html.
   root :controller => 'main', :action => 'index'
 
-  match '/event/search', :to => 'event#search', :as => 'search'
+  match '/event/event_find', :to => 'event#event_find', :as => 'event_find'
 
   match '/user/signup', :to => 'user#signup', :as => 'signup'
   match '/user/login', :to => 'user#login', :as => 'login'

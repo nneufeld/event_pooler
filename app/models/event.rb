@@ -1,22 +1,32 @@
 class Event < ActiveRecord::Base
   has_many :groups
 
-  def self.search(query)
+
+   define_index do
+    # fields
+    indexes :name, :sortable => true
+    indexes :slug
+    indexes :description
+    indexes :location, :sortable => true
+
+    # attributes
+    has created_at, updated_at, starts_at, ends_at
+  end
+
+  def self.event_find(query)
     sources = [:native]
-    results = []
-    sources.each do |source|
-     results << self.method( source ).call(query).collect{ |r| r }
+
+    @results = []
+    if !query.to_s.strip.empty?
+      sources.each do |source|
+       @results << (self.method( source ).call(query).collect{ |r| r }.collect{|result| result}) || []
+      end
     end
-    results.flatten
+    @results.flatten
   end
 
   def self.native(q)
-   if !q.to_s.strip.empty?
-      result = find_by_sql(["select e.* from events e"]);
-      result
-   else
-      []
-   end
+    Event.search q, :match_mode => :boolean
   end
 
 end

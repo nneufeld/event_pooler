@@ -1,7 +1,7 @@
 class EventController < ApplicationController
 
-def search
-  @events = Event.search(params[:q])
+def event_find
+  @events = Event.event_find(params[:q])
 end
 
 end
