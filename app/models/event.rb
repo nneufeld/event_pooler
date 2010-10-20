@@ -2,6 +2,8 @@ require 'net/http'
 require 'net/https'
 require 'rubygems'
 require 'json'
+require 'uri'
+
 class Event < ActiveRecord::Base
   has_many :groups
 
@@ -38,7 +40,7 @@ class Event < ActiveRecord::Base
   #TODO: Add a link here - this whole thing could be more robust re: info collected
   def self.meetup(q)
 
-    query_uri = "https://api.meetup.com/2/open_events.json?text=#{q}&key=717541311e433f517204e38795d6f"
+    query_uri = URI.escape("https://api.meetup.com/2/open_events.json?text=#{q}&key=717541311e433f517204e38795d6f")
     url = URI.parse(query_uri);
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true;
@@ -62,10 +64,10 @@ class Event < ActiveRecord::Base
   end
 
   def self.eventbrite(q)
-    query_uri = "https://www.eventbrite.com/json/event_search?keywords=#{q}&app_key=ZDRiMTBjYWVkYjA4"
-    url = URI.parse(query_uri);
+    query_uri = URI.escape("https://www.eventbrite.com/json/event_search?keywords=#{q}&app_key=ZDRiMTBjYWVkYjA4")
+    url = URI.parse(query_uri)
     http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true;
+    http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     request = Net::HTTP::Get.new(url.request_uri)
     response = http.request(request)
