@@ -11,6 +11,7 @@ gem 'thinking-sphinx',
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'ruby-mysql', '2.9.3'
+gem 'json', '1.4.6'
 
 # Use unicorn as the web server
 # gem 'unicorn'
