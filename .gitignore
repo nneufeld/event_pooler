@@ -3,3 +3,5 @@ tmp/
 db/schema.rb
 config/database.yml
 nbproject/
+config/development.sphinx.conf
+db/sphinx/
