@@ -1,6 +1,11 @@
+require 'net/http'
+require 'net/https'
+require 'rubygems'
+require 'json'
 class Event < ActiveRecord::Base
   has_many :groups
 
+    
 
    define_index do
     # fields
@@ -14,7 +19,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.event_find(query)
-    sources = [:native]
+    sources = [:native, :meetup]
 
     @results = []
     if !query.to_s.strip.empty?
@@ -27,6 +32,33 @@ class Event < ActiveRecord::Base
 
   def self.native(q)
     Event.search q, :match_mode => :boolean
+  end
+
+  #TODO: Do we really need an API key for this?
+  #TODO: Add a link here - this whole thing could be more robust re: info collected
+  def self.meetup(q)
+
+    query_uri = "https://api.meetup.com/2/open_events.json?text=#{q}&key=717541311e433f517204e38795d6f"
+    url = URI.parse(query_uri);
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true;
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::Get.new(url.request_uri)
+    response = http.request(request)
+
+    events = JSON.parse(response.body)
+
+    results = []
+
+    events["results"].each do |event|
+     results << Event.new(:name=> event['name'],
+                :description => event['description'],
+                :location => (event['venue']['name'] rescue ""),
+                :starts_at => event['time'],
+                :ends_at => event['time'])
+    end
+
+    results
   end
 
 end
