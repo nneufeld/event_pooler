@@ -1,9 +1,2 @@
-<h3>Sign-up</h3>
-<% form_for :user do |f| %>
-  <%= f.error_messages %>
-  Name: <%= f.text_field :name %><br />
-  Email: <%= f.text_field :email %><br />
-  Password: <%= f.password_field :password %><br />
-  Confirm Password: <%= f.password_field :password_confirmation %><br />
-  <%= submit_tag "Sign-up" %>
-<% end %>
+<h3>Sign-up</h3><br />
+<%= render :partial => 'user_info' %>
