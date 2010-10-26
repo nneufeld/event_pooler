@@ -5,3 +5,4 @@ config/database.yml
 nbproject/
 config/development.sphinx.conf
 db/sphinx/
+public/system

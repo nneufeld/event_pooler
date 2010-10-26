@@ -22,8 +22,12 @@ class UserController < ApplicationController
 		if request.post?
 			email_changed = params[:user][:email] != @user.email
 			@user.update_attributes(params[:user])
-			flash[:message] = "Account successfully updated. "
-			flash[:message] += "You will need to use your new email address as your login id in the future. " if email_changed
+			if @user.valid?
+				@user.avatar = params[:avatar] unless params[:avatar].blank?
+				@user.save
+				flash[:message] = "Account successfully updated. "
+				flash[:message] += "You will need to use your new email address as your login id in the future. " if email_changed
+			end
 		end
   end
   
