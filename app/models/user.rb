@@ -8,20 +8,27 @@ class User < ActiveRecord::Base
   has_many :notifications
   has_many :group_invitations
 
-  validates_length_of :password, :within => 6..40
-  validates_presence_of :name, :email, :password, :password_confirmation, :salt
+  validates_length_of :password, :within => 6..40, :if => :validate_password?
+  validates_presence_of :name, :email, :salt
+  validates_presence_of :password, :password_confirmation, :if => :validate_password?
   validates_uniqueness_of :email
-  validates_confirmation_of :password
+  validates_confirmation_of :password, :if => :validate_password?
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email"
 
   attr_protected :id, :salt
 
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :validate_password
+
+	def validate_password?
+		return true unless !self.new_record? && self.password.blank?
+	end
 
   def password=(pass)
     @password=pass
-    self.salt = User.random_string(10) if !self.salt?
-    self.hashed_password = User.encrypt(@password, self.salt)
+    unless password.blank?
+		  self.salt = User.random_string(10) if !self.salt?
+		  self.hashed_password = User.encrypt(@password, self.salt)
+    end
   end
 
   def self.authenticate(email, password)
