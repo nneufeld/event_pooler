@@ -1,11 +1,17 @@
 <% btnText = "Sign-up"
 	 btnText = "Update" unless @user.new_record? %>
 <%= flash[:message] %>
-<% form_for :user do |f| %>
+<% form_for :user, @user, :html => { :multipart => true } do |f| %>
   <%= f.error_messages %>
   Name: <%= f.text_field :name %><br />
   Email: <%= f.text_field :email %><br />
   New Password: <%= f.password_field :password, :value => '' %><br />
   Confirm Password: <%= f.password_field :password_confirmation, :value => '' %><br />
+	<% unless @user.new_record? %>
+		Picture: <br />
+		<%= image_tag @user.avatar.url(:thumb) if @user.avatar.exists? %>
+		<%= file_field_tag :avatar %><br />
+	<% end %>
+	<br />
 	<%= submit_tag btnText %>
 <% end %>

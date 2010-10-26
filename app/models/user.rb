@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :notifications
   has_many :group_invitations
+  has_attached_file :avatar, 
+                    :styles => { :medium => "100x100>",
+                                 :thumb => "40x40>" }
+
 
   validates_length_of :password, :within => 6..40, :if => :validate_password?
   validates_presence_of :name, :email, :salt
