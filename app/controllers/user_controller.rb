@@ -1,13 +1,15 @@
 class UserController < ApplicationController
 
-	before_filter :login_required, :only=>[:welcome, :myaccount, :delete_account]
+	before_filter :login_required, :only=>[:myaccount, :delete_account]
 	
   def signup
     @user = User.new(params[:user])
     if request.post?
       @user.registered_on = DateTime.now
       if @user.save
-        session[:user] = User.authenticate(@user.email, @user.password)
+        @user.generate_token
+        @user.save
+        UserMailer.welcome_email(@user).deliver
         redirect_to :action => "welcome" and return
       end
     end
@@ -15,6 +17,14 @@ class UserController < ApplicationController
 
   def welcome
     
+  end
+
+  def confirm
+    @user = User.where({:token => params[:token]}).first
+    unless @user.nil?
+      @user.token = nil
+      @user.save
+    end
   end
 
 	def myaccount
@@ -53,5 +63,32 @@ class UserController < ApplicationController
     session[:user] = nil
     flash[:message] = 'Logged out'
     redirect_to root_path
+  end
+
+  def forgot_password
+    if request.post?
+      @user = User.where({:email => params[:email]}).first
+      if @user.nil?
+        flash[:message] = 'No user with this email address could be found.'
+      else
+        @user.generate_token
+        @user.save
+        UserMailer.forgot_password(@user).deliver
+        flash[:message] = 'A reset password link has been sent to your email address'
+      end
+    end
+  end
+
+  def reset_password
+    @user = User.where({:token => params[:token]}).first
+    @password_reset = false
+    if request.post?
+      @user.update_attributes(params[:user])
+      if @user.save
+        @user.token = nil
+        @user.save
+        @password_reset = true
+      end
+    end
   end
 end
