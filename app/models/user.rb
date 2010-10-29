@@ -23,10 +23,6 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :password_confirmation, :validate_password
 
-	def validate_password?
-		return true unless !self.new_record? && self.password.blank?
-	end
-
   def password=(pass)
     @password=pass
     unless password.blank?
@@ -36,10 +32,17 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(email, password)
-    user = self.where({:email => email}).first
+    user = User.where(['email = ? AND token IS NULL', email]).first
     return nil if user.nil?
     return user if User.encrypt(password, user.salt) == user.hashed_password
     return nil
+  end
+
+  def generate_token
+    begin
+      t = User.random_string(20)
+    end while !User.where({:token => t}).first.nil?
+    self.token = t
   end
 
   protected
@@ -55,4 +58,8 @@ class User < ActiveRecord::Base
     1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
     return newpass
   end
+
+  def validate_password?
+		return true unless !self.new_record? && self.password.blank?
+	end
 end
