@@ -23,10 +23,10 @@ class Event < ActiveRecord::Base
 
   def self.event_find(query, location = "")
 
-    sources = [:meetup]
+    sources = [:native, :meetup, :eventbrite]
     lat, lng = ""
     #get the latlong for the location passed in, this will make lookup a lot easier
-    if !location.nil? && !location.empty?
+    if !location.nil? && !location.blank?
       latlong_uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{URI.escape(location)}&sensor=false")
       latlong = Net::HTTP.get_response(latlong_uri)
 
@@ -37,7 +37,7 @@ class Event < ActiveRecord::Base
     end
 
     @results = []
-    if !query.to_s.strip.empty? || !location.to_s.strip.empty?
+    if !query.to_s.strip.blank? || !location.to_s.strip.blank?
       sources.each do |source|
        @results << (self.method( source ).call(query, lat, lng).collect{ |r| r }.collect{|result| result}) || []
       end
@@ -48,10 +48,10 @@ class Event < ActiveRecord::Base
 
 
   def self.native(q, lat = "", lng = "")
-    if lat.empty? || lng.empty?
+    if lat.blank? || lng.blank?
        Event.search q, :match_mode => :boolean
     else
-       Event.search q, :conditions => {:location => location}, :match_mode => :boolean
+       Event.search q, :conditions => {:location => lat}, :match_mode => :boolean
     end
   end
 
@@ -62,7 +62,7 @@ class Event < ActiveRecord::Base
     #get the latlong for the location passed in, this will make lookup a lot easier
     if lat.blank? || lng.blank?
       query_uri = URI.escape("https://api.meetup.com/2/open_events.json?text=#{q}&key=717541311e433f517204e38795d6f")
-    elsif q.empty?
+    elsif q.blank?
       query_uri = URI.escape("https://api.meetup.com/2/open_events.json?lat=#{lat}&lon=#{lng}&radius=50&key=717541311e433f517204e38795d6f")
     else
       query_uri = URI.escape("https://api.meetup.com/2/open_events.json?text=#{q}&lat=#{lat}&lon=#{lng}&radius=50&key=717541311e433f517204e38795d6f")
@@ -106,7 +106,7 @@ class Event < ActiveRecord::Base
 
   def self.eventbrite(q, lat = "", lng = "")
 
-    if lat.empty? || lng.empty?
+    if lat.blank? || lng.blank?
       query_uri = URI.escape("https://www.eventbrite.com/json/event_search?keywords=#{q}&app_key=ZDRiMTBjYWVkYjA4")
     else
       query_uri = URI.escape("https://www.eventbrite.com/json/event_search?keywords=#{q}&latitude=#{lat}&longitude=#{lng}&within=50&within_unit=K&app_key=ZDRiMTBjYWVkYjA4")
