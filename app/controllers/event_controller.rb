@@ -5,9 +5,7 @@ def event_find
 end
 
 def event_page
-  if(params[:source] == "native")
-    @event = Event.find_by_id(params[:id], params[:loc])
-  end
+    @event = Event.find_by_id(params[:id])
 end
 
 end

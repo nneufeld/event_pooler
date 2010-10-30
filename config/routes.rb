@@ -51,7 +51,7 @@ EventPooler::Application.routes.draw do
   root :controller => 'main', :action => 'index'
 
   match '/event/event_find', :to => 'event#event_find', :as => 'event_find'
-  match '/event/:source/:id', :to => 'event#event_page', :as => 'event'
+  match '/event/:id', :to => 'event#event_page', :as => 'event'
 
   match '/user/signup', :to => 'user#signup', :as => 'signup'
   match '/user/login', :to => 'user#login', :as => 'login'
