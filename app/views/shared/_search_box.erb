@@ -1,5 +1,8 @@
 <%= form_tag('/event/event_find', :method => "post") do %>
   <%= label_tag(:q, "Search for:") %>
   <%= text_field_tag(:q) %>
+
+  <%= label_tag(:q, "in:") %>
+  <%= text_field_tag(:loc) %>
   <%= submit_tag("Search") %>
 <% end %>

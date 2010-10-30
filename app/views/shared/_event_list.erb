@@ -1,7 +1,7 @@
 <table>
 <% @events.each do |event|  %>
   <tr>
-    <td><%= event.name %> </td>
+    <td><%=  link_to event.name, event_path(event.remote_source || "ep", event.remote_id || event.id) %> </td>
   </tr>
 <% end %>
 </table>
