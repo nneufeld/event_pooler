@@ -51,11 +51,14 @@ EventPooler::Application.routes.draw do
   root :controller => 'main', :action => 'index'
 
   match '/event/event_find', :to => 'event#event_find', :as => 'event_find'
+  match '/event/:source/:id', :to => 'event#event_page', :as => 'event'
 
   match '/user/signup', :to => 'user#signup', :as => 'signup'
   match '/user/login', :to => 'user#login', :as => 'login'
   match '/user/logout', :to => 'user#logout', :as => 'logout'
   match '/user/welcome', :to => 'user#welcome', :as => 'welcome'
+
+
 
   # See how all your routes lay out with "rake routes
   # This is a legacy wild controller route that's not recommended for RESTful applications.
