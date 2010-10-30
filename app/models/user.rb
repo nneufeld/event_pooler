@@ -7,28 +7,42 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :notifications
   has_many :group_invitations
+  has_attached_file :avatar, 
+                    :styles => { :medium => "100x100>",
+                                 :thumb => "40x40>" }
 
-  validates_length_of :password, :within => 6..40
-  validates_presence_of :name, :email, :password, :password_confirmation, :salt
+
+  validates_length_of :password, :within => 6..40, :if => :validate_password?
+  validates_presence_of :name, :email, :salt
+  validates_presence_of :password, :password_confirmation, :if => :validate_password?
   validates_uniqueness_of :email
-  validates_confirmation_of :password
+  validates_confirmation_of :password, :if => :validate_password?
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email"
 
   attr_protected :id, :salt
 
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :validate_password
 
   def password=(pass)
     @password=pass
-    self.salt = User.random_string(10) if !self.salt?
-    self.hashed_password = User.encrypt(@password, self.salt)
+    unless password.blank?
+		  self.salt = User.random_string(10) if !self.salt?
+		  self.hashed_password = User.encrypt(@password, self.salt)
+    end
   end
 
   def self.authenticate(email, password)
-    user = self.where({:email => email}).first
+    user = User.where(['email = ? AND token IS NULL', email]).first
     return nil if user.nil?
     return user if User.encrypt(password, user.salt) == user.hashed_password
     return nil
+  end
+
+  def generate_token
+    begin
+      t = User.random_string(20)
+    end while !User.where({:token => t}).first.nil?
+    self.token = t
   end
 
   protected
@@ -44,4 +58,8 @@ class User < ActiveRecord::Base
     1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
     return newpass
   end
+
+  def validate_password?
+		return true unless !self.new_record? && self.password.blank?
+	end
 end

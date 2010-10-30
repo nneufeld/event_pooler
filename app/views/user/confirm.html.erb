@@ -1,0 +1,5 @@
+<% unless @user.nil? %>
+  Your registration has been confirmed. You may now <%= link_to 'login', login_path %>.
+<% else %>
+  Invalid confirmation id
+<% end %>
