@@ -1,0 +1,11 @@
+What resources would you like to share? <br />
+<% form_tag update_sharables_path(@event.id), :remote => true do %>
+  <% Sharable.all.each do |sharable| %>
+    <% checked = @my_sharables.include?(sharable) %>
+    <%= check_box_tag(sharable.slug, '', checked, :class => 'submittable') %>
+    <%= label_tag(sharable.slug, sharable.name) %>
+  <% end %>
+<% end %>
+<div id="resources_sharing">
+  <%= render :partial => 'resources_sharing' %>
+</div>
