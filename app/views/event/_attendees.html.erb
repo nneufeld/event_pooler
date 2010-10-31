@@ -1,5 +1,12 @@
 <h3>Attendees</h3>
-<% @event.attendees.each do |attendee| %>
-  <% sharables = @event.event_group.memberships.for_user(attendee).first.sharables %>
-  <%= attendee.name %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
+Only show attendees sharing:<br />
+<% form_tag filter_attendees_path(@event.id), :remote => true do %>
+  <% Sharable.all.each do |sharable| %>
+    <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
+    <%= label_tag(sharable.slug, sharable.name) %>
+  <% end %>
 <% end %>
+<br />
+<div id="filtered_attendees">
+  <%= render :partial => 'filtered_attendees' %>
+</div>

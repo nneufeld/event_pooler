@@ -1,0 +1,4 @@
+<% @attendees.each do |attendee| %>
+  <% sharables = @event.event_group.memberships.for_user(attendee).first.sharables %>
+  <%= attendee.name %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
+<% end %>
