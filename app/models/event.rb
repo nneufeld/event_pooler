@@ -151,4 +151,36 @@ class Event < ActiveRecord::Base
     return_results
   end
 
+  def event_group
+    event_group_type = GroupType.where({:slug => 'event'}).first
+    event_group = self.groups.where({:group_type_id => event_group_type.id}).first
+
+    # this event doesn't have a main group yet, so create it
+    if event_group.nil?
+      event_group = Group.new
+      event_group.event = self
+      event_group.name = self.name
+      event_group.slug = Event.generate_slug(self.name)
+      event_group.description = 'Default event group'
+      event_group.group_type = event_group_type
+      event_group.save
+    end
+
+    return event_group
+  end
+
+  def attendees
+    return self.event_group.users
+  end
+
+
+  protected
+
+  def self.generate_slug(text)
+    text = text.gsub(/[&,'\(\):\.\?!\"\\;éàË™“�?Ã©Â¢â€œ�¦„‹\$\+#=…%\/]/, '')
+    text = text.gsub(' ', '-')
+    text = text.downcase
+    return text
+  end
+
 end
