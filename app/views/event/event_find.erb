@@ -1,2 +1,4 @@
 <%= render "shared/search_box" %>
+Can't find what you're looking for? <%=  link_to "Add a new event", event_create_path %>
+
 <%= render :partial => "shared/event_list", :locals => { :events => @events } %>
