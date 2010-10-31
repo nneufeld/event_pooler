@@ -6,4 +6,4 @@ nbproject/
 config/development.sphinx.conf
 db/sphinx/
 public/system
-environment/development.rb
+config/environments/development.rb
