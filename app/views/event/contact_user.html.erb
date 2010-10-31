@@ -1,0 +1,5 @@
+Send <%= @to_user.name %> a message about the event "<%= @event.name %>"<br />
+<% form_tag do %>
+  <%= text_area_tag(:message, "", :size => "50x6") %><br />
+  <%= submit_tag "Send" %>
+<% end %>
