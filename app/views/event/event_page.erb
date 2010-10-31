@@ -12,7 +12,7 @@
 <br />
 <br />
 
-<%= @event.description.html_safe %>
+<%= @event.description.html_safe unless @event.description.nil? %>
 
 <br/>
 <br/>
@@ -29,3 +29,6 @@
 <br/>
 <br/>
 <%= @event.remote_source %>
+
+
+<%=  link_to "back to search", event_find_path() %>

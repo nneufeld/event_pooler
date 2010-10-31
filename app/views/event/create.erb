@@ -1,0 +1,30 @@
+<h1>Create a new event</h1>
+
+<%= form_tag('/event/new', :method => "post") do %>
+<table>
+  <tr><td>
+  <%= label_tag(:name, "Name:") %></td><td> <%= text_field_tag(:name) %>
+  </td></tr>
+  <tr><td>
+  <%= label_tag(:name, "Description:") %> </td><td><%= text_field_tag(:description) %>
+  </td></tr>
+  <tr><td>
+  <%= label_tag(:name, "Address:") %> </td><td><%= text_field_tag(:address) %>
+  </td></tr>
+  <tr><td>
+  <%= label_tag(:name, "City:") %> </td><td><%= text_field_tag(:city) %>
+  </td></tr>
+  <tr><td>
+  <%= label_tag(:name, "Province/State:") %> </td><td><%= text_field_tag(:region) %>
+  </td></tr>
+  <tr><td>
+  <%= label_tag(:name, "Start Date/Time:") %> </td><td><%= text_field_tag(:start_time) %>
+  </td></tr>
+  <tr><td>
+  <%= label_tag(:name, "End Date/Time:") %> </td><td><%= text_field_tag(:end_time) %>
+  </td></tr>
+  <tr><td>
+  <%= submit_tag("Submit") %>
+  </td></tr>
+<% end %>
+</table>

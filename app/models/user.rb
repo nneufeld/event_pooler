@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :notifications
   has_many :group_invitations
+  has_many :events
   has_attached_file :avatar, 
                     :styles => { :medium => "100x100>",
                                  :thumb => "40x40>" }
