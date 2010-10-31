@@ -47,11 +47,11 @@ class Event < ActiveRecord::Base
   end
 
 
-  def self.native(q, lat = "", lng = "")
+  def self.native(q, location = "", lat = "", lng = "")
     if lat.blank? || lng.blank?
        Event.search q, :match_mode => :boolean
     else
-       Event.search q, :conditions => {:location => lat}, :match_mode => :boolean
+       Event.search q + :conditions => {:location => location}
     end
   end
 
@@ -123,13 +123,16 @@ class Event < ActiveRecord::Base
 
     results = []
 
+    
     events["events"].each do |event|
 
       next if event["event"].nil?
 
      results << Event.new(:name=> event['event']['title'],
                 :description => event['event']['description'],
-                :location => (event['event']['timezone'] rescue ""),
+                :location => (event['event']['venue']['city'] + ", " + event['event']['venue']['region'] rescue ""),
+                :latitude => event['event']['venue']['latitude'],
+                :longitude => event['event']['venue']['longitude'],
                 :starts_at => event['event']['start_date'],
                 :ends_at => event['event']['end_date'],
                 :remote_source => "eb",
@@ -141,6 +144,8 @@ class Event < ActiveRecord::Base
     results.each do |result|
       saved_result = Event.find_by_remote_id_and_remote_source(result[:remote_id], result[:remote_source])
       if !saved_result.nil?
+        saved_result = result
+        saved_result.save!
         return_results << saved_result
       else
         result.save!
