@@ -7,3 +7,4 @@ config/development.sphinx.conf
 db/sphinx/
 public/system
 config/environments/development.rb
+.DS_Store
