@@ -1,3 +1,6 @@
+require 'net/https'
+require 'net/http'
+
 class UserController < ApplicationController
 
 	before_filter :login_required, :only=>[:myaccount, :delete_account]
@@ -8,6 +11,7 @@ class UserController < ApplicationController
       @user.registered_on = DateTime.now
       if @user.save
         @user.generate_token
+        get_location
         @user.save
         UserMailer.welcome_email(@user).deliver
         redirect_to :action => "welcome" and return
@@ -17,6 +21,10 @@ class UserController < ApplicationController
 
   def welcome
     
+  end
+
+  def get_location
+     #TODO: get location stuff
   end
 
   def confirm

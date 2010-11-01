@@ -13,5 +13,10 @@
 		<%= file_field_tag :avatar %><br />
 	<% end %>
 	<br />
+
+Address: <%= f.text_field :address %><br/>
+City: <%= f.text_field :city %><br/>
+Province/State: <%=  f.text_field :region %><br/>
+Postal/Zip Code: <%= f.text_field :code %>
 	<%= submit_tag btnText %>
 <% end %>
