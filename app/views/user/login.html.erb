@@ -1,8 +1,31 @@
-<%= form_tag do %>
-<%= flash[:warning] %><br />
-Email Address: <%= text_field_tag :email %><br />
-Password: <%= password_field_tag :password %><br />
-<%= submit_tag "Login" %>
-<% end %>
-<br /><br />
-<%= link_to 'Forgot Password?', forgot_password_path %>
+        <div class="content content-two-columns">
+            <div class="banner-area">
+                <h1>User Account</h1>
+            </div>
+            <div class="column-wrapper">
+                <div class="left-column">
+                    <div class="form">
+                      <h2>Account Login</h2>
+                      <p class="information">All fields marked with an asterisk are required.</p>
+                      <%= form_tag do %>
+                      <%= render :partial => 'shared/flash_messages' %>
+                      <p><label id="email">Email Address: *</label><%= text_field_tag :email %></p>
+                      <p><label id="password">Password: *</label><%= password_field_tag :password %></p>
+                      <p class="form-submit"><%= submit_tag "Login" %></p>
+                      <% end %>
+                      <p class="small"><%= link_to 'Forgot Password', forgot_password_path %></p>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="block">
+                      &nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />
+                      &nbsp;<br />&nbsp;<br />&nbsp;<br />
+                    </div>
+                </div>
+                <div class="clear-fix">&nbsp;</div>
+                <div class="right-column-bg-bottom-fix">&nbsp;</div>
+            </div>
+        </div>
+
+
+

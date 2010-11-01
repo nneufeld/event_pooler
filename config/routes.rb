@@ -48,7 +48,7 @@ EventPooler::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :controller => 'main', :action => 'index'
+  root :controller => 'main', :action => 'index', :as => 'home'
 
   match '/event/event_find', :to => 'event#event_find', :as => 'event_find'
   match '/event/create', :to=> 'event#create', :as => 'event_create'
@@ -61,8 +61,6 @@ EventPooler::Application.routes.draw do
   match '/event/:id/update_sharables', :to => 'event#update_sharables', :as => 'update_sharables'
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
   
-  
-
 
   match '/user/signup', :to => 'user#signup', :as => 'signup'
   match '/user/login', :to => 'user#login', :as => 'login'
