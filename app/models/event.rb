@@ -120,7 +120,7 @@ class Event < ActiveRecord::Base
     results.each do |result|
       saved_result = Event.find_by_remote_id_and_remote_source(result[:remote_id], result[:remote_source])
       if !saved_result.nil?
-        saved_result = result
+        saved_result.attributes = result.attributes
         saved_result.save!
         return_results << saved_result
       else
@@ -156,7 +156,7 @@ class Event < ActiveRecord::Base
 
       next if event["event"].nil?
 
-     p event['event']['start_date']
+
      results << Event.new(
                 :name=> event['event']['title'],
                 :description => event['event']['description'],
@@ -181,7 +181,7 @@ class Event < ActiveRecord::Base
     results.each do |result|
       saved_result = Event.find_by_remote_id_and_remote_source(result[:remote_id], result[:remote_source])
       if !saved_result.nil?
-        saved_result = result
+        saved_result.attributes = result.attributes
         saved_result.save!
         return_results << saved_result
       else

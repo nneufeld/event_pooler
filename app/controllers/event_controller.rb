@@ -66,12 +66,25 @@ def filter_attendees
     end
   end
 
+  location_filter = []
+  if params['city']
+    location_filter = params['city'].split(", ")
+  end
+
+
+  p location_filter[0]
+  p location_filter[1]
+
   @event = Event.find(params[:id])
   
-  if sharables_filter.empty?
+  if sharables_filter.empty? && location_filter.empty?
     @attendees = @event.attendees
-  else
+  end
+  if !sharables_filter.empty?
     @attendees = User.sharing_with_group(sharables_filter, @event.event_group)
+  end
+  if !location_filter.empty?
+    @attendees = User.find_all_by_city_and_region(location_filter[0], location_filter[1])
   end
   
 end
