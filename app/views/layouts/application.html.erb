@@ -1,17 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>EventPooler</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %>
-  <%= javascript_include_tag 'jquery.rails.js' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tag %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html dir="ltr" lang="en-US"> 
+<head> 
+	<title>EventPooler</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+	<meta http-equiv="Content-Style-Type" content="text/css" /> 
+	<meta name="Author" content="Aaron McGowan - www.amcgowan.ca" /> 
+	<meta name="robots" content="index, follow" /> 
+    
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %>
+    <%= javascript_include_tag 'jquery.rails.js' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tag %>
 </head>
-<body>
-<%= render :partial => '/shared/user_info'  %>
-
-<%= yield %>
-
+<body id="top">
+    <div class="wrapper">
+        <div class="header">
+            <%= render :partial => '/shared/header_navigation' %>
+            <%= link_to image_tag('logo.png'), home_path, :class => 'logo' %>
+        </div>
+        <%= yield %>
+        <div class="footer">
+            <p>Copyright <a href="#" title="EventPooler">EventPooler</a> &copy; 2010. All Rights Reserved.</p>
+        </div>
+    </div>
 </body>
 </html>
