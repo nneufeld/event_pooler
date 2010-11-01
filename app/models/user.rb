@@ -3,7 +3,7 @@ require 'digest/sha1'
 # user authentication code based on http://www.aidanf.net/rails_user_authentication_tutorial
 
 class User < ActiveRecord::Base
-  has_many :memberships
+  has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
   has_many :comments
   has_many :notifications
@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
   attr_protected :id, :salt
 
   attr_accessor :password, :password_confirmation, :validate_password
+
+  scope :sharing_with_group, lambda{|sharables, group|
+    select('DISTINCT users.*').joins('INNER JOIN memberships m ON users.id = m.user_id INNER JOIN memberships_sharables ms ON ms.membership_id = m.id').where('m.group_id = ? AND ms.sharable_id IN (?)', group.id, sharables.map{|s| s.id})
+  }
 
   def password=(pass)
     @password=pass

@@ -8,6 +8,7 @@ end
 
 def event_page
     @event = Event.find_by_id(params[:id])
+    @attendees = @event.attendees
     unless current_user.nil?
       membership = @event.event_group.memberships.for_user(current_user).first
       @my_sharables = membership.sharables unless membership.nil?
@@ -55,6 +56,24 @@ def cancel_attendance
   end
   flash[:message] = 'Attendance has been removed'
   redirect_to event_path(event.id)
+end
+
+def filter_attendees
+  sharables_filter = []
+  Sharable.all.each do |sharable|
+    if params[sharable.slug]
+      sharables_filter << sharable
+    end
+  end
+
+  @event = Event.find(params[:id])
+  
+  if sharables_filter.empty?
+    @attendees = @event.attendees
+  else
+    @attendees = User.sharing_with_group(sharables_filter, @event.event_group)
+  end
+  
 end
 
 def new
