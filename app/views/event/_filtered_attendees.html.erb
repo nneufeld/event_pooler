@@ -1,4 +1,9 @@
 <% @attendees.each do |attendee| %>
   <% sharables = @event.event_group.memberships.for_user(attendee).first.sharables %>
+  <% if attendee.avatar.exists? %>
+    <%= image_tag attendee.avatar.url(:thumb) %>
+  <% else %>
+    <%= image_tag '/images/user-icon.jpg' %>
+  <% end %>
   <%= attendee.name %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
 <% end %>
