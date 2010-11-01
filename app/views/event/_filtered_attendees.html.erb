@@ -5,5 +5,5 @@
   <% else %>
     <%= image_tag '/images/user-icon.jpg' %>
   <% end %>
-  <%= attendee.name %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
+  <%= attendee.name %> - From <%= "#{attendee.city} #{attendee.region}" %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
 <% end %>
