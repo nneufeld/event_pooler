@@ -12,7 +12,8 @@ gem 'thinking-sphinx',
 
 gem 'ruby-mysql', '2.9.3'
 gem 'json', '1.4.6'
-
+gem 'nokogiri'
+gem 'chronic'
 # Use unicorn as the web server
 # gem 'unicorn'
 

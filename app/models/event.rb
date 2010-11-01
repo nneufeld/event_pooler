@@ -1,8 +1,9 @@
+require 'rubygems'
 require 'net/http'
 require 'net/https'
-require 'rubygems'
 require 'json'
 require 'uri'
+require 'nokogiri'
 
 class Event < ActiveRecord::Base
   has_many :groups
@@ -10,21 +11,23 @@ class Event < ActiveRecord::Base
     
 
    define_index do
+
+    # attributes
+    has created_at, updated_at, starts_at, ends_at
+
     # fields
     indexes :name, :sortable => true
     indexes :slug
     indexes :description
     indexes :location, :sortable => true
-
-    # attributes
-    has created_at, updated_at, starts_at, ends_at
   end
 
 
   def self.event_find(query, location = "")
 
-    sources = [:native, :meetup, :eventbrite]
+    sources = [:native]#, :meetup, :eventbrite]
     lat, lng = ""
+
     #get the latlong for the location passed in, this will make lookup a lot easier
     if !location.nil? && !location.blank?
       latlong_uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{URI.escape(location)}&sensor=false")
@@ -34,12 +37,18 @@ class Event < ActiveRecord::Base
 
       lng = location['results'].first['geometry']['location']['lng'] rescue ""
       lat = location['results'].first['geometry']['location']['lat'] rescue ""
+      wlat = location['results'].first['geometry']['viewport']['southwest']['lat']
+      elat = location['results'].first['geometry']['viewport']['northeast']['lat']
+      slng = location['results'].first['geometry']['viewport']['southwest']['lng']
+      nlng = location['results'].first['geometry']['viewport']['northeast']['lng']
     end
+
+
 
     @results = []
     if !query.to_s.strip.blank? || !location.to_s.strip.blank?
       sources.each do |source|
-       @results << (self.method( source ).call(query, lat, lng).collect{ |r| r }.collect{|result| result}) || []
+       @results << (self.method( source ).call(query, {:lat => lat, :lng => lng, :wlat => wlat, :elat => elat, :nlng => nlng, :slng => slng}).collect{ |r| r }.collect{|result| result}) || []
       end
     end
     @results.flatten.uniq.compact.flatten
@@ -47,25 +56,30 @@ class Event < ActiveRecord::Base
   end
 
 
-  def self.native(q, location = "", lat = "", lng = "")
-    if lat.blank? || lng.blank?
-       Event.search q, :match_mode => :boolean
+  def self.native(q = "", location = {})
+    results = []
+    if location[:lat].blank? || location[:lng].blank?
+       results = Event.search q, :match_mode => :boolean
     else
-       Event.search q + :conditions => {:location => location}
+      results = Event.search q,
+      :with => { :starts_at => Time.now().to_i...Time.now().to_i + 7952400, :latitude => location[:wlat]..location[:elat], :longitude => location[:nlng]..location[:slng] },
+      :match_mode => :boolean
     end
+
+    results
   end
 
   #TODO: Do we really need an API key for this?
   #TODO: Add a link here - this whole thing could be more robust re: info collected
-  def self.meetup(q, lat = "", lng = "")
+  def self.meetup(q, location = {})
 
     #get the latlong for the location passed in, this will make lookup a lot easier
-    if lat.blank? || lng.blank?
-      query_uri = URI.escape("https://api.meetup.com/2/open_events.json?text=#{q}&key=717541311e433f517204e38795d6f")
+    if location[:lat].blank? || location[:lng].blank?
+      query_uri = URI.escape("https://api.meetup.com/2/open_events.xml?text=#{q}&key=717541311e433f517204e38795d6f")
     elsif q.blank?
-      query_uri = URI.escape("https://api.meetup.com/2/open_events.json?lat=#{lat}&lon=#{lng}&radius=50&key=717541311e433f517204e38795d6f")
+      query_uri = URI.escape("https://api.meetup.com/2/open_events.xml?lat=#{location[:lat]}&lon=#{location[:lng]}&radius=50&key=717541311e433f517204e38795d6f")
     else
-      query_uri = URI.escape("https://api.meetup.com/2/open_events.json?text=#{q}&lat=#{lat}&lon=#{lng}&radius=50&key=717541311e433f517204e38795d6f")
+      query_uri = URI.escape("https://api.meetup.com/2/open_events.xml?text=#{q}&lat=#{location[:lat]}&lon=#{location[:lng]}&radius=50&key=717541311e433f517204e38795d6f")
     end
 
     url = URI.parse(query_uri);
@@ -75,18 +89,30 @@ class Event < ActiveRecord::Base
     request = Net::HTTP::Get.new(url.request_uri)
     response = http.request(request)
 
-    events = JSON.parse(response.body)
+    events = Nokogiri::XML.parse(response.body)
 
     results = []
 
-    events["results"].each do |event|
-     results << Event.new(:name=> event['name'],
-                :description => event['description'],
-                :location => (event['venue']['name'] rescue ""),
-                :starts_at => event['time'],
-                :ends_at => event['time'],
+    events.search('items').search('item').each do |item|
+
+     next if item.search('venue').blank? #don't show if we don't know where it is
+
+    results << Event.new(
+                :name=> item.search('group').search('name').inner_html,
+                :description => item.search('description').inner_html,
+                :starts_at => Time.at(item.search('time').text.to_i/1000),
+                :ends_at => "",
                 :remote_source => "meetup",
-                :remote_id => event['id'])
+                :remote_id => item.search('id').inner_html,
+                :address => (item.search('venue').search('address_1').inner_html rescue ""),
+                :city => (item.search('venue').search('city').inner_html rescue ""),
+                :region => (item.search('venue').search('state').inner_html rescue ""),
+                :code => (item.search('venue').search('zip').inner_html rescue ""),
+                :phone => "",
+                :email => "",
+                :url => (item.search('event_url').inner_html rescue ""),
+                :latitude => (item.search('venue').search('lat').text rescue location[:lat]),
+                :longitude => (item.search('venue').search('lon').text rescue location[:lng]))
     end
 
     return_results = []
@@ -94,6 +120,8 @@ class Event < ActiveRecord::Base
     results.each do |result|
       saved_result = Event.find_by_remote_id_and_remote_source(result[:remote_id], result[:remote_source])
       if !saved_result.nil?
+        saved_result = result
+        saved_result.save!
         return_results << saved_result
       else
         result.save!
@@ -104,12 +132,12 @@ class Event < ActiveRecord::Base
     return_results
   end
 
-  def self.eventbrite(q, lat = "", lng = "")
+  def self.eventbrite(q, location = {})
 
-    if lat.blank? || lng.blank?
+    if location[:lat].blank? || location[:lng].blank?
       query_uri = URI.escape("https://www.eventbrite.com/json/event_search?keywords=#{q}&app_key=ZDRiMTBjYWVkYjA4")
     else
-      query_uri = URI.escape("https://www.eventbrite.com/json/event_search?keywords=#{q}&latitude=#{lat}&longitude=#{lng}&within=50&within_unit=K&app_key=ZDRiMTBjYWVkYjA4")
+      query_uri = URI.escape("https://www.eventbrite.com/json/event_search?keywords=#{q}&latitude=#{location[:lat]}&longitude=#{location[:lng]}&within=50&within_unit=K&app_key=ZDRiMTBjYWVkYjA4")
     end
     
     url = URI.parse(query_uri)
@@ -128,15 +156,24 @@ class Event < ActiveRecord::Base
 
       next if event["event"].nil?
 
-     results << Event.new(:name=> event['event']['title'],
+     p event['event']['start_date']
+     results << Event.new(
+                :name=> event['event']['title'],
                 :description => event['event']['description'],
-                :location => (event['event']['venue']['city'] + ", " + event['event']['venue']['region'] rescue ""),
-                :latitude => event['event']['venue']['latitude'],
-                :longitude => event['event']['venue']['longitude'],
-                :starts_at => event['event']['start_date'],
-                :ends_at => event['event']['end_date'],
+                :starts_at => Time.parse(event['event']['start_date']),
+                :ends_at => Time.parse(event['event']['end_date']),
                 :remote_source => "eb",
-                :remote_id => event['event']['id'])
+                :address => event['event']['venue']['address'],
+                :city => event['event']['venue']['city'],
+                :region => event['event']['venue']['region'],
+                :code => event['event']['venue']['postal_code'],
+                :phone => "",
+                :email => "",
+                :url => event['event']['url'],
+                :remote_id => event['event']['id'],
+                :latitude => event['event']['venue']['latitude'],
+                :longitude => event['event']['venue']['longitude']
+                )
     end
 
     return_results = []

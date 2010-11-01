@@ -12,23 +12,22 @@
 <br />
 <br />
 
-<%= @event.description.html_safe unless @event.description.nil? %>
-
-<br/>
-<br/>
-<%= @event.location %>
-<br/>
-<br/>
-<%= @event.starts_at %>
-<br/>
-<br/>
-<%= @event.ends_at %>
-<br/>
-<br/>
-<%= @event.remote_id %>
-<br/>
-<br/>
-<%= @event.remote_source %>
-
-
-<%=  link_to "back to search", event_find_path() %>
+<table>
+  <tr>
+    <td colspan = "4">
+      <%= CGI.unescapeHTML(@event.description).html_safe unless @event.description.nil? %>
+    </td>
+  </tr>
+  <tr>
+    <td><%= CGI.unescapeHTML(@event.address).html_safe %></td><td><%= CGI.unescapeHTML(@event.city).html_safe %></td><td><%= CGI.unescapeHTML(@event.region).html_safe %></td><td><%= CGI.unescapeHTML(@event.code).html_safe %></td>
+  </tr>
+  <tr>
+    <td>Starts:</td><td><%=  Time.at(@event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %></td><td>Ends:</td><td><%=  @event.ends_at.to_i == 0 ? "":Time.at(@event.ends_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%></td>
+  </tr>
+  <tr>
+    <td>Phone:</td><td><%= CGI.unescapeHTML(@event.phone).html_safe %></td><td>Email:</td><td><%= CGI.unescapeHTML(@event.email).html_safe %></td>
+  </tr>
+  <tr>
+    <td>original source:</td><td><%= @event.remote_source %></td><td colspan="2"><a href="<%= @event.url %>" target="_blank"><%= @event.url %></a></td>
+  </tr>
+</tabl

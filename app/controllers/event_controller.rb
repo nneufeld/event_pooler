@@ -72,14 +72,20 @@ def new
   event = Event.create(
     :name=> params[:name],
     :description => params[:description],
-    :location => params[:address] + ", " + params[:city] + ", " + params[:region],
-    :latitude => lat,
-    :longitude => lng,
     :starts_at => params['start_time'],
     :ends_at => params['end_time'],
-    :remote_source => "native",
     :remote_id => nil,
-    :user_id => current_user
+    :remote_source => "native",
+    :user_id => current_user,
+    :address => params[:address],
+    :city => params[:city],
+    :region => params[:region],
+    :code => params[:code],
+    :phone => params[:phone],
+    :email => params[:email],
+    :url => params[:url],
+    :latitude => lat,
+    :longitude => lng
   )
 
   redirect_to event_path(:id => event.id)
