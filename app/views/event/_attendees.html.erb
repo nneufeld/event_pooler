@@ -5,12 +5,11 @@ Only show attendees sharing:<br />
     <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
     <%= label_tag(sharable.slug, sharable.name) %>
   <% end %>
-<% end %>
+<br />
 <br />
 Only show attendees travelling from:<br />
-<% form_tag filter_attendees_path(@event.id), :remote => true do %>
 
-  <% cities = @event.attendees.collect{|attendee| attendee.city + ", " + attendee.region}.flatten.uniq %>
+  <% cities = [""] + @event.attendees.collect{|attendee| attendee.city + ", " + attendee.region}.flatten.uniq %>
   <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
 
  <% end %>
