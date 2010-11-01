@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
 
   def self.event_find(query, location = "")
 
-    sources = [:native]#, :meetup, :eventbrite]
+    sources = [:native, :meetup, :eventbrite]
     lat, lng = ""
 
     #get the latlong for the location passed in, this will make lookup a lot easier
