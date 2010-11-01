@@ -1,13 +1,13 @@
             <ul class="navigation">
                 <li class="first"><a href="#" title="Find Events">Find Events</a></li>
-                <li><a href="#" title="Learn More">Learn More</a></li>
+                <li><%= link_to 'Learn More', learnmore_path, :class => is_active?("learn_more") %></li>
                 <% if current_user.nil? %>
-                <li><%= link_to 'Sign-up', signup_path %></li>
+                <li><%= link_to 'Sign-up', signup_path, :class => is_active?("signup") %></li>
                 <li><%= link_to 'Login', login_path, :class => is_active?("login") %></li>
                 <% else %>
                 <li><%= link_to 'My Account', myaccount_path %></li>
                 <li><%= link_to 'Logout', logout_path, :class => is_active?("logout") %></li>
                 <% end %>
                 <li class="sep">&nbsp;</li>
-                <li class="last highlight"><a href="#" title="About">About</a></li>
+                <li class="last highlight"><%= link_to 'About', about_path %></li>
             </ul>

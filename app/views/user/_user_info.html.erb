@@ -12,22 +12,14 @@
   <p><label id="email">Email Address: *</label><%= f.text_field :email %></p>
   <p><label id="password">Password: *</label><%= f.password_field :password, :value => '' %></p>
   <p><label id="password_confirmation">Confirm Password: *</label><%= f.password_field :password_confirmation, :value => '' %></p>
+  <p><label id="address">Address: *</label><%= f.text_field :address %></p>
+  <p><label id="city">City: *</label><%= f.text_field :city %></p>
+  <p><label id="region">Province/State: *</label><%= f.text_field :region %></p>
+  <p><label id="code">Postal/Zip Code:*</label><%= f.text_field :code %>
   
   <% unless @user.new_record? %>
   <p><label id="avatar">Account Avatar:</label>
 		<%= image_tag @user.avatar.url(:thumb) if @user.avatar.exists? %>
-<<<<<<< Updated upstream
-		<%= file_field_tag :avatar %><br />
-	<% end %>
-	<br />
-
-Address: <%= f.text_field :address %><br/>
-City: <%= f.text_field :city %><br/>
-Province/State: <%=  f.text_field :region %><br/>
-Postal/Zip Code: <%= f.text_field :code %>
-	<%= submit_tag btnText %>
-<% end %>
-=======
 		<%= file_field_tag :avatar %></p>
   <% end %>
   
@@ -35,4 +27,3 @@ Postal/Zip Code: <%= f.text_field :code %>
 </div>
 	
 <% end %>
->>>>>>> Stashed changes
