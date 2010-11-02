@@ -1,7 +1,11 @@
 <table>
 <% @events.each do |event|  %>
   <tr>
-    <td><%=  link_to event.name, event_path(event.id) %> </td>
+    <td><%=  link_to event.name, event_path(event.id) %> 
+      <% unless event.sphinx_attributes.nil? || event.sphinx_attributes['@geodist'].nil? %>
+        - <%= event.sphinx_attributes['@geodist'].round / 1000 %> km away
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>

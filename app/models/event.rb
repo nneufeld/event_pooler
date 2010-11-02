@@ -14,12 +14,14 @@ class Event < ActiveRecord::Base
 
     # attributes
     has created_at, updated_at, starts_at, ends_at
+    has "RADIANS(latitude)",  :as => :latitude,  :type => :float
+    has "RADIANS(longitude)", :as => :longitude, :type => :float
 
     # fields
     indexes :name, :sortable => true
     indexes :slug
     indexes :description
-    indexes :location, :sortable => true
+    #indexes :location, :sortable => true
   end
 
 
@@ -62,7 +64,9 @@ class Event < ActiveRecord::Base
        results = Event.search q, :match_mode => :boolean
     else
       results = Event.search q,
-      :with => { :starts_at => Time.now().to_i...Time.now().to_i + 7952400, :latitude => location[:wlat]..location[:elat], :longitude => location[:nlng]..location[:slng] },
+      :with => { :starts_at => Time.now().to_i...Time.now().to_i + 7952400, "@geodist" => 0.0..100000.0 },
+      :geo => [location[:lat] * Math::PI / 180, location[:lng] * Math::PI / 180], # thinking_sphinx expects lat and long in radians
+      :order => "@geodist ASC, @relevance DESC",
       :match_mode => :boolean
     end
 
