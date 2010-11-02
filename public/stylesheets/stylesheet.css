@@ -472,8 +472,8 @@ input[type="password"]
 }
 
 
-.wrapper .content-home .content-wrapper .search-form {
-	margin-bottom: 15px;
+.search-form {
+	margin-bottom: 5px;
 	padding: 15px 15px;
 	background: #f7f7f7;
 	-webkit-border-radius: 5px;
@@ -481,19 +481,29 @@ input[type="password"]
 	border-radius: 5px;
 }
 
-.wrapper .content-home .content-wrapper .search-form label, .wrapper .content-home .content-wrapper .search-form input {
+.search-form label,
+.search-form input {
 	display: inline;
 }
 
-.wrapper .content-home .content-wrapper .search-form label {
+.search-form label {
 	font-size: 12px;
 	font-weight: bold;
 	text-transform: uppercase;
 	color: #5b5b5b;
 }
 
+.wrapper .content-home .content-wrapper .search-form {
+	margin-bottom: 15px;
+}
+
 .wrapper .content-home .content-wrapper .search-form input[type="text"] {
 	width: 218px;
+	padding: 3px 2px;
+}
+
+.wrapper .content-two-columns .column-wrapper .left-column .search-form input[type="text"] {
+	width: 205px;
 	padding: 3px 2px;
 }
 
@@ -529,4 +539,12 @@ input[type="password"]
 
 .wrapper .content-home .content-wrapper .popular-events tr td.title {
 	width: 60%;
+}
+
+.wrapper .content-two-columns .column-wrapper .left-column p.cant-find {
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding: 2px 0px;
+	color: #5b5b5b;
 }
