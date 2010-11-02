@@ -3,7 +3,13 @@ class EventController < ApplicationController
   before_filter :login_required, :only=>[:attend, :cancel_attendance, :update_sharables, :contact_user, :new, :create]
   
 def event_find
-  @events = Event.event_find(params[:q], params[:loc])
+  location = params[:loc]
+  if location.blank?
+    unless current_user.nil? || current_user.latitude.blank?
+      location = "#{current_user.latitude}, #{current_user.longitude}"
+    end
+  end
+  @events = Event.event_find(params[:q], location)
 end
 
 def event_page
