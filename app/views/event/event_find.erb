@@ -1,11 +1,11 @@
         <div class="content content-two-columns">
             <div class="banner-area">
-                <h1>Event Search</h1>
+                <h1>Find Events</h1>
             </div>
             <div class="column-wrapper">
                 <div class="left-column">
                     <%= render "shared/search_box" %>
-                    Can't find what you're looking for? <%=  link_to "Add a new event", event_create_path %>
+                    <p class="cant-find">Can't find what you're looking for? <%= link_to "Add a new event", event_create_path %></p>
                     <%= render :partial => "shared/event_list", :locals => { :events => @events } %>
                 </div>
                 <div class="right-column">
