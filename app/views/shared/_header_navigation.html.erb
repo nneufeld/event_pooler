@@ -1,5 +1,5 @@
             <ul class="navigation">
-                <li class="first"><a href="#" title="Find Events">Find Events</a></li>
+                <li class="first"><%= link_to 'Find Events', event_find_path, :class => is_active?("event_find") %></li>
                 <li><%= link_to 'Learn More', learnmore_path, :class => is_active?("learn_more") %></li>
                 <% if current_user.nil? %>
                 <li><%= link_to 'Sign-up', signup_path, :class => is_active?("signup") %></li>

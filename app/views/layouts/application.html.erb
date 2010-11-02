@@ -13,7 +13,7 @@
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tag %>
 </head>
-<body id="top">
+<body id="top"<%= is_home?() ? ' class=home' : '' %>>
     <div class="wrapper">
         <div class="header">
             <%= render :partial => '/shared/header_navigation' %>
@@ -21,7 +21,9 @@
         </div>
         <%= yield %>
         <div class="footer">
-            <p>Copyright <a href="#" title="EventPooler">EventPooler</a> &copy; 2010. All Rights Reserved.</p>
+            <%= render :partial => '/shared/footer_navigation' %>
+            <p>Copyright <%= link_to 'EventPooler', root_path %> &copy; 2010. All Rights Reserved.</p>
+            <div class="clear-fix">&nbsp;</div>
         </div>
     </div>
 </body>

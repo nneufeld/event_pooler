@@ -73,7 +73,10 @@ EventPooler::Application.routes.draw do
   match '/user/reset_password/:token', :to => 'user#reset_password', :as => 'reset_password'
   
   match '/about', :to => 'content#about', :as => 'about'
+  match '/about/contact', :to => 'content#contact', :as => 'contact'
   match '/learn-more', :to => 'content#learn_more', :as => 'learnmore'
+  match '/legal/terms-of-use', :to => 'content#terms_of_use', :as => 'terms_of_use'
+  match '/legal/privacy-policy', :to => 'content#privacy_policy', :as => 'privacy_policy'
 
 
 
