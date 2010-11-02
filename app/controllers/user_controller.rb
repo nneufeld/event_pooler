@@ -11,7 +11,7 @@ class UserController < ApplicationController
       @user.registered_on = DateTime.now
       if @user.save
         @user.generate_token
-        get_location
+        @user.set_lat_lng
         @user.save
         UserMailer.welcome_email(@user).deliver
         redirect_to :action => "welcome" and return
@@ -21,10 +21,6 @@ class UserController < ApplicationController
 
   def welcome
     
-  end
-
-  def get_location
-     #TODO: get location stuff
   end
 
   def confirm
@@ -41,6 +37,7 @@ class UserController < ApplicationController
 			email_changed = params[:user][:email] != @user.email
 			@user.update_attributes(params[:user])
 			if @user.valid?
+        @user.set_lat_lng
 				@user.avatar = params[:avatar] unless params[:avatar].blank?
 				@user.save
 				flash[:message] = "Account successfully updated. "

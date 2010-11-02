@@ -51,6 +51,21 @@ class User < ActiveRecord::Base
     self.token = t
   end
 
+  def set_lat_lng
+    location = self.address + ", " + self.city + ", " + self.region
+    unless self.address.blank? && self.city.blank? && self.region.blank?
+      latlong_uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{URI.escape(location)}&sensor=false")
+      latlong = Net::HTTP.get_response(latlong_uri)
+
+      location = JSON.parse(latlong.body)
+
+      lng = location['results'].first['geometry']['location']['lng'] rescue ""
+      lat = location['results'].first['geometry']['location']['lat'] rescue ""
+      self.latitude = lat
+      self.longitude = lng
+    end
+  end
+
   protected
 
   def self.encrypt(password, salt)
