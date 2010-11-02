@@ -1,3 +1,47 @@
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-Event Search
-<%= render "shared/search_box" %>
+        <div class="content content-home">
+            <div class="banner-area">
+                <div class="left">
+                    <h1>Enabling event-goers to pool resources<br />for attending events effectively</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat faucibus sapien, nec varius elit mollis et. Etiam a velit libero.</p>
+                    
+                    <div class="event-tick">3,014,237 <span>event-goers sharing resources</span></div>
+                </div>
+                <div class="right">
+                    <h2>Make your event a success</h2>
+                    <ul class="feature-list">
+                        <li id="manage-events">
+                            <h3>Create & Manage Events</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat faucibus sapien.</p>
+                        </li>
+                        <li id="connect-with-others">
+                            <h3>Connect with other goers</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat.</p>
+                        </li>
+                    </ul>
+                    
+                    <%= link_to image_tag('create-an-event-home.png'), event_create_path, :class => 'create-event-button' %>
+                </div>
+                <div class="clear-fix">&nbsp;</div>
+            </div>
+            <div class="content-wrapper">
+                <div class="left-column">
+                    &nbsp;
+                </div>
+                <div class="right-column">
+                    <%= render "shared/search_box" %>
+                    <table width="100%" class="popular-events">
+                    <tr>
+                        <th colspan="3">Popular Events around the World</th>
+                    </tr>
+                    <% for i in (1..10) %>
+                    <tr>
+                        <td class="title"><a href="#" title="Event Name">Event Name Here</a></td>
+                        <td class="date">Nov 10, 2010</td>
+                        <td class="attend"><a href="#" title="Attend">Attend</a></td>
+                    </tr>
+                    <% end %>
+                    </table>
+                </div>
+                <div class="clear-fix">&nbsp;</div>
+            </div>
+        </div>
