@@ -24,8 +24,10 @@ end
 def attend
   event = Event.find(params[:id])
   event_group = event.event_group
-  membership = Membership.new(:user => current_user, :group => event_group, :approved => true)
-  membership.save
+  unless event_group.users.include?(current_user)
+    membership = Membership.new(:user => current_user, :group => event_group, :approved => true)
+    membership.save
+  end
   redirect_to event_path(event.id)
 end
 
