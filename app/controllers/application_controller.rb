@@ -24,5 +24,18 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :redirect_to_stored
+
+  def get_lat_lng(search_string)
+    latlong_uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{URI.escape(search_string)}&sensor=false")
+    latlong = Net::HTTP.get_response(latlong_uri)
+
+    location = JSON.parse(latlong.body)
+
+    lng = location['results'].first['geometry']['location']['lng'] rescue ""
+    lat = location['results'].first['geometry']['location']['lat'] rescue ""
+
+    return {:lat => lat, :lng => lng}
+  end
+  helper_method :get_lat_long
   
 end

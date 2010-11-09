@@ -1,0 +1,10 @@
+<h3>Groups</h3>
+<%= link_to 'Create Group', create_group_path(@event.id) %>
+<hr />
+<% @event.groups.user_groups.each do |group| %>
+  <%= link_to group.name, group_path(@event.id, group.id) %>
+  <% if group.administrator == current_user %>
+    - <%= link_to 'Edit', update_group_path(@event.id, group.id) %>
+  <% end %>
+  <br />
+<% end %>
