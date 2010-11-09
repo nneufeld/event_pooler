@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
 
     
 
-   define_index do
+  define_index do
 
     # attributes
     has created_at, updated_at, starts_at, ends_at
@@ -218,9 +218,6 @@ class Event < ActiveRecord::Base
   def attendees
     return self.event_group.users
   end
-
-
-  protected
 
   def self.generate_slug(text)
     text = text.gsub(/[&,'\(\):\.\?!\"\\;éàË™“�?Ã©Â¢â€œ�¦„‹\$\+#=…%\/]/, '')

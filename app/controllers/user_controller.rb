@@ -11,7 +11,12 @@ class UserController < ApplicationController
       @user.registered_on = DateTime.now
       if @user.save
         @user.generate_token
-        @user.set_lat_lng
+        location = @user.address + ", " + @user.city + ", " + @user.region
+        unless @user.address.blank? && @user.city.blank? && @user.region.blank?
+          lat_lng = get_lat_lng(location)
+          @user.latitude = lat_lng[:lat]
+          @user.longitude = lat_lng[:lng]
+        end
         @user.save
         UserMailer.welcome_email(@user).deliver
         redirect_to :action => "welcome" and return
@@ -37,7 +42,12 @@ class UserController < ApplicationController
 			email_changed = params[:user][:email] != @user.email
 			@user.update_attributes(params[:user])
 			if @user.valid?
-        @user.set_lat_lng
+        location = @user.address + ", " + @user.city + ", " + @user.region
+        unless @user.address.blank? && @user.city.blank? && @user.region.blank?
+          lat_lng = get_lat_lng(location)
+          @user.latitude = lat_lng[:lat]
+          @user.longitude = lat_lng[:lng]
+        end
 				@user.avatar = params[:avatar] unless params[:avatar].blank?
 				@user.save
 				flash[:message] = "Account successfully updated. "
