@@ -1,0 +1,12 @@
+<div style="background-color: #EEEEEE; padding: 5px; margin: 5px; border-color: #AAAAAA; border-style: solid;">
+<% user = User.find_by_id(comment.user_id) %>
+<%  if !user.nil? %>
+<%= image_tag user.avatar.url(:thumb) if user.avatar.exists? %>
+<% end %>
+<%= user.name rescue "anonymous"%>
+
+<%= user.city rescue "city" %> <%= user.region rescue "province"  %> <%=   %>
+<%= group.event.event_group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %>
+<br/>
+<%= comment.message %>
+</div>
