@@ -1,3 +1,4 @@
+require 'will_paginate'
 class EventController < ApplicationController
 
   before_filter :login_required, :only=>[:attend, :cancel_attendance, :update_sharables, :contact_user, :new, :create, :create_group, :update_group]
@@ -134,6 +135,7 @@ class EventController < ApplicationController
 
   def create
   end
+
 
   def create_group
     @group = Group.new(params[:group])

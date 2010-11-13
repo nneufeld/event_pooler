@@ -1,0 +1,8 @@
+<h2><%= @group.name %></h2>
+
+<h3>Members</h3>
+<% @group.memberships.each do |member| %>
+<%= member.user.name  %>
+<%end%>
+
+<%= render :partial => 'shared/message_board', :locals => {:group => @group} %>

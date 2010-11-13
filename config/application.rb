@@ -38,5 +38,8 @@ module EventPooler
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    config.secret_token = "1828bd4fb9d5b7e539685d88f7bdba5e"
   end
+
+
 end

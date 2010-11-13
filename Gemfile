@@ -15,6 +15,7 @@ gem 'json', '1.4.6'
 gem 'nokogiri'
 gem 'chronic'
 gem 'geokit-rails3'
+gem 'will_paginate'
 # Use unicorn as the web server
 # gem 'unicorn'
 

@@ -1,0 +1,4 @@
+<% form_for :comment, @comment, :html => { :multipart => true } do |f| %>
+ <%= f.text_area :message, :size => "60x12" %>
+ <%= submit_tag "Submit" %>
+<% end %>

@@ -5,6 +5,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
+  has_many :posts
   has_many :comments
   has_many :notifications
   has_many :group_invitations
