@@ -3,17 +3,9 @@
 <hr />
 <% @event.groups.user_groups.closest_to_user(current_user).each do |group| %>
   <%= link_to group.name, group_path(@event.id, group.id) %>
-
-  <%=  link_to "join", join_group_path(@event.id, group.id) %>
-
-  <% if group.administrator == current_user %>
-    - <%= link_to 'Edit', update_group_path(@event.id, group.id) %>
-  <% end %>
   <br />
   Based in - <%= group.city %>, <%= group.region %>
   <br />
   Sharing - <%= group.sharables.map{|s| s.name}.to_sentence %>
-  <br />
-  Type - <%= group.group_type.name %>
   <br /><br />
 <% end %>

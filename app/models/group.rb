@@ -26,4 +26,8 @@ class Group < ActiveRecord::Base
       geo_scope(:origin => [user.latitude, user.longitude]).order('distance')
     end
   }
+
+  def public?
+    return self.group_type.slug == 'public'
+  end
 end
