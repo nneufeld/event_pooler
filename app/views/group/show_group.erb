@@ -1,7 +1,18 @@
-<h2><%= @group.name %></h2>
-
+<% unless flash[:message].blank? %>
+  <%= flash[:message] %><br />
+<% end %>
+<%= link_to 'Back to Event', event_path(@group.event.id) %>
+<h2><%= @group.name %>
+  <% if @group.administrator == current_user %>
+    - <%= link_to 'Edit', update_group_path(@group.event.id, @group.id) %>
+  <% end %>
+</h2>
+<% unless @group.users.include?(current_user) %>
+  <% unless @group.public? %>This group is private, but you can<% end %>
+  <%= link_to @group.public? ? 'Join' : 'Request to Join', join_group_path(@group.event.id, @group.id) %>
+<% end %>
 <h3>Members</h3>
-<% @group.memberships.each do |member| %>
+<% @group.memberships.approved.each do |member| %>
 <%= member.user.name  %>
 Sharing: <%=  @group.event.event_group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %>
 <%end%>
