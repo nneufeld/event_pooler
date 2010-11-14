@@ -549,8 +549,21 @@ input[type="password"]
 	color: #5b5b5b;
 }
 
-.message{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px; padding: 5px; }
-.message .icon{ float: left; padding-right: 10px;}
-.message .info{ font-weight: bold; }
-.message .body{ }
-.message .subinfo{ font-size: 10px; font-style: italic; }
+.message{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px;}
+.message .icon{ float: left; padding-right: 10px; height: 40px; width: 40px; background-color: #FFFFFF; }
+.message .info{ background-color:#CCCCCC;
+font-size:15px;
+font-weight:bold;
+height:21px;
+margin-left:40px;
+padding-left:18px;
+padding-top:2px; }
+.message .body{ clear:both; padding: 5px; }
+.message .subinfo{ background-color:#CCCCCC;
+color:#666666;
+font-size:10px;
+font-style:italic;
+height:16px;
+margin-left:40px;
+padding-left:19px;
+padding-top:1px;}
