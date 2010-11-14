@@ -3,6 +3,7 @@
 <h3>Members</h3>
 <% @group.memberships.each do |member| %>
 <%= member.user.name  %>
+Sharing: <%=  @group.event.event_group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %>
 <%end%>
 
 <%= render :partial => 'shared/message_board', :locals => {:group => @group} %>
