@@ -38,7 +38,7 @@
                         <td>original source:</td><td><%= @event.remote_source %></td><td colspan="2"><a href="<%= @event.url %>" target="_blank"><%= @event.url %></a></td>
                       </tr>
                     </table>
-                    
+                   <%= render :partial => 'shared/message_board', :locals => {:group => @event.event_group} %>
                 </div>
                 <div class="right-column">
                     <div class="block">

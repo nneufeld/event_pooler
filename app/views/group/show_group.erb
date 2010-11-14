@@ -2,19 +2,23 @@
   <%= flash[:message] %><br />
 <% end %>
 <%= link_to 'Back to Event', event_path(@group.event.id) %>
-<h2><%= @group.name %>
+<h2><%= @group.name %><span style="font-size: small" />
   <% if @group.administrator == current_user %>
-    - <%= link_to 'Edit', update_group_path(@group.event.id, @group.id) %>
-  <% end %>
-</h2>
+   - <%= link_to 'Edit', update_group_path(@group.event.id, @group.id) %>
+  <% end %></span>
+  </h2>
+<%= @group.description %><br/>
+<%= @group.city %> <%= @group.region %>
+
 <% unless @group.users.include?(current_user) %>
   <% unless @group.public? %>This group is private, but you can<% end %>
   <%= link_to @group.public? ? 'Join' : 'Request to Join', join_group_path(@group.event.id, @group.id) %>
 <% end %>
+<br/>
 <h3>Members</h3>
 <% @group.memberships.approved.each do |member| %>
-<%= member.user.name  %>
-Sharing: <%=  @group.event.event_group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %>
+<%= image_tag member.user.avatar.url(:thumb) if member.user.avatar.exists? %> <strong><%= member.user.name %></strong><br/>
+<span style="font-size: small">Sharing: <%=  @group.event.event_group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %></span>
 <%end%>
-
+<br/>
 <%= render :partial => 'shared/message_board', :locals => {:group => @group} %>

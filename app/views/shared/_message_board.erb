@@ -1,5 +1,6 @@
 <h2>Messages</h2>
 <% group.comments.each do |comment|  %>
+<% p comment %>
 <%= render :partial => 'shared/comment', :locals => {:comment => comment, :group => group} %>
 <% end unless group.comments.nil?%>
 
