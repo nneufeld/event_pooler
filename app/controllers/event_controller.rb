@@ -77,6 +77,16 @@ class EventController < ApplicationController
   def cancel_attendance
     event = Event.find(params[:id])
     event_group = event.event_group
+
+    private_groups = Group.find_all_by_event_id(event.id)
+
+    #cancel private group memberships
+    private_groups.each do |group|
+      group.memberships.for_user(current_user).each do |membership|
+        membership.destroy
+      end
+    end
+
     event_group.memberships.for_user(current_user).each do |membership|
       membership.destroy
     end
