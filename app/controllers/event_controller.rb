@@ -1,7 +1,7 @@
 require 'will_paginate'
 class EventController < ApplicationController
 
-  before_filter :login_required, :only=>[:attend, :cancel_attendance, :update_sharables, :contact_user, :new, :create, :create_group, :update_group]
+  before_filter :login_required, :except=>[:event_find, :event_page]
   
   def event_find
     location = params[:loc]
@@ -134,62 +134,6 @@ class EventController < ApplicationController
   end
 
   def create
-  end
-
-
-  def create_group
-    @group = Group.new(params[:group])
-    if request.post?
-      @group.slug = Event.generate_slug(@group.name)
-      @group.event_id = params[:id]
-      @group.sharables.clear
-      Sharable.all.each do |sharable|
-        if params[sharable.slug]
-          @group.sharables << sharable
-        end
-      end
-      if @group.save
-        @group.administrator = current_user
-        unless @group.city.blank? && @group.region.blank?
-          lat_long = get_lat_lng(@group.city + ", " + @group.region)
-          @group.latitude = lat_long[:lat]
-          @group.longitude = lat_long[:lng]
-        end
-        @group.save
-        redirect_to event_path(params[:id]) and return # once we have the group page done, this should probably go there
-      end
-    end
-
-    render 'update_group'
-  end
-
-  def update_group
-    @group = Group.find(params[:group_id])
-
-    unless @group.administrator == current_user
-      flash[:message] = "You don't have access to update this group"
-      redirect_to event_path(params[:id]) and return
-    end
-
-    if request.post?
-      @group.update_attributes(params[:group])
-      @group.slug = Event.generate_slug(@group.name)
-      @group.sharables.clear
-      Sharable.all.each do |sharable|
-        if params[sharable.slug]
-          @group.sharables << sharable
-        end
-      end
-      if @group.valid?
-        unless @group.city.blank? && @group.region.blank?
-          lat_long = get_lat_lng(@group.city + ", " + @group.region)
-          @group.latitude = lat_long[:lat]
-          @group.longitude = lat_long[:lng]
-        end
-        @group.save
-        redirect_to event_path(params[:id]) and return # once we have the group page done, this should probably go there
-      end
-    end
   end
 
 end

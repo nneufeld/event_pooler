@@ -1,0 +1,5 @@
+Hello <%= @user.name %>,
+<br /><br />
+Your membership for the group '<%= @group.name %>' has been approved. You can view the group by clicking the following link:
+<br /><br />
+<%= group_url(@group.event.id, @group.id, :host => @host) %>
