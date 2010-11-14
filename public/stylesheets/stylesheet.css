@@ -548,3 +548,8 @@ input[type="password"]
 	padding: 2px 0px;
 	color: #5b5b5b;
 }
+
+.message .wrapper{ background-color: #EEEEEE; border: gray solid 1px; }
+.message .icon{ float: left; padding-right: 10px;}
+.message .info{ font-weight: bold; }
+.message .subinfo{ font-size: 10px; }
