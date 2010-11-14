@@ -21,9 +21,12 @@ class EventController < ApplicationController
         @my_sharables = membership.sharables unless membership.nil?
       end
 
+    if !current_user.nil? && @event.event_group.users.include?(current_user)
       @comment = Comment.new(params[:comment])
       @comment.group_id = @event.event_group.id
       @comment.user_id = current_user.id
+
+
       if !Comment.find_by_user_id_and_message_and_group_id(current_user.id, @comment.message, @comment.group_id).nil?
         @comment = Comment.new
       end
@@ -32,7 +35,7 @@ class EventController < ApplicationController
         @comment.save
         @comment = Comment.new
       end
-
+    end
       @group = @event.event_group
   end
 

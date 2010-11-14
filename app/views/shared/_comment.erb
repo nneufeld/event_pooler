@@ -1,15 +1,22 @@
-<div class="message wrapper">
+<div class="message">
 <% user = User.find_by_id(comment.user_id) %>
 <%  if !user.nil? %>
-<div class="icon"><%= image_tag user.avatar.url(:thumb) if user.avatar.exists? %></div>
+<div class="icon">
+    <% if user.avatar.exists? %>
+    <%= image_tag user.avatar.url(:thumb) %>
+  <% else %>
+    <%= image_tag '/images/user-icon.jpg' %>
+  <% end %>
+</div>
 <% end %>
 <div class="info">
 <%= user.name rescue "anonymous"%>
 </div>
 <div class="subinfo">
-<%= user.city rescue "city" %> <%= user.region rescue "province"  %> <%=   %>
-<%= group.event.event_group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %>
+<%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.event.event_group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>
 <br/>
+</div>
+<div class="body">
 <%= comment.message %>
 </div>
 </div>

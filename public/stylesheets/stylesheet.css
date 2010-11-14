@@ -549,7 +549,8 @@ input[type="password"]
 	color: #5b5b5b;
 }
 
-.message .wrapper{ background-color: #EEEEEE; border: gray solid 1px; }
+.message{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px; padding: 5px; }
 .message .icon{ float: left; padding-right: 10px;}
 .message .info{ font-weight: bold; }
-.message .subinfo{ font-size: 10px; }
+.message .body{ }
+.message .subinfo{ font-size: 10px; font-style: italic; }
