@@ -1,0 +1,6 @@
+Hello <%= @group.administrator.name %>,
+<br /><br />
+<%= @user.name %> has requested to join your group '<%= @group.name %>' for the event '<%= @group.event.name %>.
+<br /><br />
+Click the following link to approve the request:<br /><br />
+<%= approve_membership_url(@group.event.id, @group.id, @user.id, :host => @host) %>
