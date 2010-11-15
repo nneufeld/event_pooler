@@ -13,7 +13,7 @@
                       <%= link_to 'Attend', attend_event_path %>
                     <% else %>
                       <%= link_to 'Cancel Attendance', cancel_attendance_path %><br /><br />
-                      <%= render :partial => 'update_sharables' %>
+                      <%= render :partial => 'shared/update_sharables' %>
                       <%= render :partial => 'attendees' %>
                     <% end %>
                     <br />

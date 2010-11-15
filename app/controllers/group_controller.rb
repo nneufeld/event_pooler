@@ -71,6 +71,10 @@ class GroupController < ApplicationController
       @comment = Comment.new
     end
     @group = Group.find(params[:id], :include => [:comments, :memberships, :users])
+    unless current_user.nil?
+      membership = @group.memberships.for_user(current_user).first
+      @my_sharables = membership.sharables unless membership.nil?
+    end
   end
 
   #TODO: make this approval based
@@ -101,6 +105,18 @@ class GroupController < ApplicationController
       flash[:message] = "Only the group administrator can approve a user's membership"
     end
     redirect_to group_path(group.event.id, group.id) and return
+  end
+
+  def update_sharables
+    group = Group.find(params[:id])
+    membership = group.memberships.for_user(current_user).first
+    membership.sharables.clear
+    Sharable.all.each do |sharable|
+      if params[sharable.slug]
+        membership.sharables << sharable
+      end
+    end
+    @my_sharables = membership.sharables
   end
 
 end
