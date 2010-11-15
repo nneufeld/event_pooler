@@ -2,7 +2,7 @@
   <%= flash[:message] %><br />
 <% end %>
 <%= link_to 'Back to Event', event_path(@group.event.id) %>
-<h2><%= @group.name %><span style="font-size: small" />
+<h2><%= @group.name %><span style="font-size: small">
   <% if @group.administrator == current_user %>
    - <%= link_to 'Edit', update_group_path(@group.event.id, @group.id) %>
   <% end %></span>
@@ -16,6 +16,7 @@
 <% end %>
 <br/>
 <% if !@group.memberships.approved.for_user(current_user).blank? %>
+<%= render :partial => 'shared/update_sharables' %>
 <h3>Members</h3>
 <% @group.memberships.approved.each do |member| %>
 <div>

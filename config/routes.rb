@@ -58,7 +58,6 @@ EventPooler::Application.routes.draw do
   match '/event/:id/attend', :to => 'event#attend', :as => 'attend_event'
   match '/event/:id/cancel_attendance', :to => 'event#cancel_attendance', :as => 'cancel_attendance'
   match '/event/:id/filter_attendees', :to => 'event#filter_attendees', :as => 'filter_attendees'
-  match '/event/:id/update_sharables', :to => 'event#update_sharables', :as => 'update_sharables'
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
 
@@ -70,6 +69,7 @@ EventPooler::Application.routes.draw do
   match '/event/:event_id/group/:id', :to => 'group#show_group', :as => 'group'
   match '/event/:event_id/group/:id/join', :to => 'group#join', :as => 'join_group'
   match '/event/:event_id/group/:id/approve_membership/:user_id', :to => 'group#approve_membership', :as => 'approve_membership'
+  match '/group/:id/update_sharables', :to => 'group#update_sharables', :as => 'update_sharables'
   
   match '/user/signup', :to => 'user#signup', :as => 'signup'
   match '/user/login', :to => 'user#login', :as => 'login'

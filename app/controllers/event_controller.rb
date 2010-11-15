@@ -15,6 +15,7 @@ class EventController < ApplicationController
 
   def event_page
       @event = Event.find_by_id(params[:id])
+      @group = @event.event_group
       @attendees = @event.attendees
       unless current_user.nil?
         membership = @event.event_group.memberships.for_user(current_user).first
@@ -47,19 +48,6 @@ class EventController < ApplicationController
       membership.save
     end
     redirect_to event_path(event.id)
-  end
-
-  def update_sharables
-    event = Event.find(params[:id])
-    event_group = event.event_group
-    membership = event_group.memberships.for_user(current_user).first
-    membership.sharables.clear
-    Sharable.all.each do |sharable|
-      if params[sharable.slug]
-        membership.sharables << sharable
-      end
-    end
-    @my_sharables = membership.sharables
   end
 
   def contact_user
