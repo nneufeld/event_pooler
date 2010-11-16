@@ -31,6 +31,11 @@ class Group < ActiveRecord::Base
     select('DISTINCT groups.*').joins('INNER JOIN groups_sharables gs ON gs.group_id = groups.id').where(['gs.sharable_id IN (?)', sharables.map{|s| s.id}])
   }
 
+  scope :event_groups, lambda {
+    event_type = GroupType.where({:slug => 'event'}).first
+    where ({:group_type_id => event_type.id})
+  }
+
   def public?
     return self.group_type.slug == 'public'
   end

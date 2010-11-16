@@ -26,6 +26,7 @@
             <div class="content-wrapper">
                 <div class="left-column">
                     &nbsp;
+                    <%= render :partial => 'events_attending' unless current_user.nil? %>
                 </div>
                 <div class="right-column">
                     <%= render "shared/search_box" %>

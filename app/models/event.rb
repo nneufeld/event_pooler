@@ -8,7 +8,11 @@ require 'nokogiri'
 class Event < ActiveRecord::Base
   has_many :groups
 
-    
+  scope :attended_by, lambda {|user|
+    event_group_type = GroupType.find_by_slug('event')
+    joins('INNER JOIN groups g ON g.event_id = events.id INNER JOIN memberships m ON m.group_id = g.id').
+    where(['g.group_type_id = ? AND m.user_id = ?', event_group_type.id, user.id])
+  }
 
   define_index do
 
@@ -198,7 +202,7 @@ class Event < ActiveRecord::Base
   end
 
   def event_group
-    event_group_type = GroupType.where({:slug => 'event'}).first
+    event_group_type = GroupType.find_by_slug('event')
     event_group = self.groups.where({:group_type_id => event_group_type.id}).first
 
     # this event doesn't have a main group yet, so create it
