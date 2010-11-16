@@ -1,6 +1,5 @@
 class MainController < ApplicationController
   def index
-    @sharables = Sharable.all
-    @types = GroupType.all
+    @my_events = Event.attended_by(current_user).order(:starts_at)
   end
 end
