@@ -60,6 +60,7 @@ EventPooler::Application.routes.draw do
   match '/event/:id/filter_attendees', :to => 'event#filter_attendees', :as => 'filter_attendees'
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
+  match '/event/:id/filter_groups', :to => 'event#filter_groups', :as => 'filter_groups'
 
 
   match 'comment/:event_id/:group_id/new', :to => 'comment#new', :as => 'comment_new'

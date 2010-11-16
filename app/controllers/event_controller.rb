@@ -14,13 +14,14 @@ class EventController < ApplicationController
   end
 
   def event_page
-      @event = Event.find_by_id(params[:id])
-      @group = @event.event_group
-      @attendees = @event.attendees
-      unless current_user.nil?
-        membership = @event.event_group.memberships.for_user(current_user).first
-        @my_sharables = membership.sharables unless membership.nil?
-      end
+    @event = Event.find_by_id(params[:id])
+    @group = @event.event_group
+    @groups = @event.groups.user_groups
+    @attendees = @event.attendees
+    unless current_user.nil?
+      membership = @event.event_group.memberships.for_user(current_user).first
+      @my_sharables = membership.sharables unless membership.nil?
+    end
 
     if !current_user.nil? && @event.event_group.users.include?(current_user)
       @comment = Comment.new(params[:comment])
@@ -37,7 +38,6 @@ class EventController < ApplicationController
         @comment = Comment.new
       end
     end
-      @group = @event.event_group
   end
 
   def attend
@@ -109,6 +109,37 @@ class EventController < ApplicationController
     end
     if !location_filter.empty?
       @attendees = @attendees.find_all_by_city_and_region(location_filter[0], location_filter[1])
+    end
+
+  end
+
+  def filter_groups
+    sharables_filter = []
+    Sharable.all.each do |sharable|
+      if params[sharable.slug]
+        sharables_filter << sharable
+      end
+    end
+
+    location_filter = []
+    if params['city']
+      location_filter = params['city'].split(", ")
+    end
+
+
+    p location_filter[0]
+    p location_filter[1]
+
+    @event = Event.find(params[:id])
+
+
+    @groups = @event.groups.user_groups
+
+    if !sharables_filter.empty?
+      @groups = @groups.sharing(sharables_filter)
+    end
+    if !location_filter.empty?
+      @groups = @groups.where(['city = ? AND region = ?', location_filter[0], location_filter[1]])
     end
 
   end
