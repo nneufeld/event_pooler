@@ -10,7 +10,7 @@ Only show groups sharing:<br />
   <% end %>
 <br />
 <br />
-Only show attendees traveling from:<br />
+Only show groups based in:<br />
 
   <% cities = [""] + @groups.collect{|group| group.city + ", " + group.region}.flatten.uniq %>
   <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>

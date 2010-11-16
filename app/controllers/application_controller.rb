@@ -2,12 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def current_user
-    session[:user]
+    return nil if session[:user_id].nil?
+    User.find(session[:user_id])
   end
   helper_method :current_user
   
   def login_required
-  	if session[:user]
+  	if session[:user_id]
       return true
     end
     session[:return_to] = request.request_uri

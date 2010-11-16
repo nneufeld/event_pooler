@@ -64,7 +64,9 @@ class UserController < ApplicationController
 
   def login
     if request.post?
-      if session[:user] = User.authenticate(params[:email], params[:password])
+      user = User.authenticate(params[:email], params[:password])
+      unless user.nil?
+        session[:user_id] = user.id
 				current_user.last_login = DateTime.now
 				current_user.save
         redirect_to_stored
@@ -75,7 +77,7 @@ class UserController < ApplicationController
   end
   
   def logout
-    session[:user] = nil
+    session[:user_id] = nil
     flash[:message] = 'Logged out'
     redirect_to root_path
   end
