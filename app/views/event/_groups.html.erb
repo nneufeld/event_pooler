@@ -1,11 +1,22 @@
 <h3>Groups</h3>
 <%= link_to 'Create Group', create_group_path(@event.id) %>
 <hr />
-<% @event.groups.user_groups.closest_to_user(current_user).each do |group| %>
-  <%= link_to group.name, group_path(@event.id, group.id) %>
-  <br />
-  Based in - <%= group.city %>, <%= group.region %>
-  <br />
-  Sharing - <%= group.sharables.map{|s| s.name}.to_sentence %>
-  <br /><br />
-<% end %>
+
+Only show groups sharing:<br />
+<% form_tag filter_groups_path(@event.id), :remote => true do %>
+  <% Sharable.all.each do |sharable| %>
+    <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
+    <%= label_tag(sharable.slug, sharable.name) %>
+  <% end %>
+<br />
+<br />
+Only show attendees traveling from:<br />
+
+  <% cities = [""] + @groups.collect{|group| group.city + ", " + group.region}.flatten.uniq %>
+  <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
+
+ <% end %>
+<br />
+<div id="filtered_groups">
+  <%= render :partial => 'filtered_groups' %>
+</div>

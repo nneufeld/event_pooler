@@ -1,0 +1,8 @@
+<% @groups.closest_to_user(current_user).each do |group| %>
+  <%= link_to group.name, group_path(@event.id, group.id) %>
+  <br />
+  Based in - <%= group.city %>, <%= group.region %>
+  <br />
+  Sharing - <%= group.sharables.map{|s| s.name}.to_sentence %>
+  <br /><br />
+<% end %>
