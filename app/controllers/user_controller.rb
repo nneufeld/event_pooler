@@ -66,6 +66,9 @@ class UserController < ApplicationController
     if request.post?
       user = User.authenticate(params[:email], params[:password])
       unless user.nil?
+        return_to = session[:return_to]
+        reset_session
+        session[:return_to] = return_to
         session[:user_id] = user.id
 				current_user.last_login = DateTime.now
 				current_user.save
