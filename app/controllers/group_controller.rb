@@ -1,6 +1,6 @@
-#TODO: add beforefilter to make sure the user belongs to the group
 class GroupController < ApplicationController
   before_filter :login_required
+  before_filter :belongs_to_group, :only => [:update_sharables, :approve_membership]
   
   def create
     @group = Group.new(params[:group])
@@ -68,7 +68,6 @@ class GroupController < ApplicationController
     @comment = Comment.new
   end
 
-  #TODO: make this approval based
   def join
     group = Group.find(params[:id])
     unless group.users.include?(current_user)
@@ -110,9 +109,12 @@ class GroupController < ApplicationController
     @my_sharables = membership.sharables
   end
 
-
-  def reply_form
-    p "reply form hit"
+  def belongs_to_group
+    @group = Group.find(params[:id])
+    unless @group.users.include?(current_user)
+      flash[:message] = 'You are not a member of this group'
+      redirect_to event_path(@group.event.id) and return
+    end
   end
 
 end
