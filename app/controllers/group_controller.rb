@@ -60,21 +60,12 @@ class GroupController < ApplicationController
   end
   
   def show_group
-    @comment = Comment.new(params[:comment])
-    @comment.group_id = params[:id]
-    @comment.user_id = current_user.id
-    if !Comment.find_by_user_id_and_message_and_group_id(current_user.id, @comment.message, @comment.group_id).nil?
-      @comment = Comment.new
-    end
-    if request.post? && !@comment.message.blank?
-      @comment.save
-      @comment = Comment.new
-    end
     @group = Group.find(params[:id], :include => [:comments, :memberships, :users])
     unless current_user.nil?
       membership = @group.memberships.for_user(current_user).first
       @my_sharables = membership.sharables unless membership.nil?
     end
+    @comment = Comment.new
   end
 
   #TODO: make this approval based

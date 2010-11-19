@@ -1,15 +1,15 @@
 class CommentController < ApplicationController
-def comment_reply
-  @comment = Comment.new
-  respond_to do |format|
-        format.html { render 'shared/_comment_form' }
-        format.js
+  def reply
+    parent_comment = Comment.find(params[:comment_id])
+    @comment = Comment.new
+    @comment.parent_id = params[:comment_id]
+    @group = parent_comment.group
   end
-end
 
-def comment_reply
-  p params
-  p "HELLO THERE!"
-end
-
+  def new
+    @comment = Comment.new(params[:comment])
+    @comment.group_id = params[:group_id]
+    @comment.user_id = current_user.id
+    @comment.save
+  end
 end
