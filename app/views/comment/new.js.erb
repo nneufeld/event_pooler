@@ -1,0 +1,6 @@
+$("#new_comment_<%= @comment.parent.nil? ? '0' : @comment.parent.id %>").html("<%= escape_javascript(render :partial => 'shared/comment', :locals => {:comment => @comment, :group => @comment.group}) %>");
+<% if @comment.parent.nil? %>
+  $("#comment_message").val('');
+<% else %>
+  $("#comment_form_for_<%= @comment.parent_id %>").html("");
+<% end %>
