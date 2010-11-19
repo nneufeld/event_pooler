@@ -8,6 +8,7 @@
     <%= image_tag '/images/user-icon.jpg' %>
   <% end %>
 </div>
+
 <% end %>
 <div class="info">
 <%= user.name rescue "anonymous"%>
@@ -19,4 +20,9 @@
 <div class="body">
 <%= comment.message %>
 </div>
+
+<%= link_to 'reply', comment_reply_url(:comment_id => comment.id), :remote=> true, :class=>'reply_link' %>
+  <div id="reply">
+  </div>
+
 </div>

@@ -119,4 +119,9 @@ class GroupController < ApplicationController
     @my_sharables = membership.sharables
   end
 
+
+  def reply_form
+    p "reply form hit"
+  end
+
 end

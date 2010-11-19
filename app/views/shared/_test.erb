@@ -1,0 +1,6 @@
+<% form_for(Comment.new, :url => comment_reply_path(:comment_id => 7)) do |f| %>
+ <%= f.text_area :message, :size => "60x12" %>
+ <%= submit_tag "Submit" %>
+<% end %>
+
+hello
