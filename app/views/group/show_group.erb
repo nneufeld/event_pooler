@@ -9,10 +9,13 @@
   </h2>
 <%= @group.description %><br/>
 <%= @group.city %> <%= @group.region %>
-
+<br />
 <% unless @group.users.include?(current_user) %>
   <% unless @group.public? %>This group is private, but you can<% end %>
   <%= link_to @group.public? ? 'Join' : 'Request to Join', join_group_path(@group.event.id, @group.id) %>
+<% end %>
+<% if @group.users.include?(current_user) && @group.memberships.approved.for_user(current_user).blank? %>
+  Your group membership is awaiting approval from the administrator.
 <% end %>
 <br/>
 <% if !@group.memberships.approved.for_user(current_user).blank? %>
@@ -31,4 +34,4 @@
 <%end%>
 <br/>
 <% end %>
-<%= render :partial => 'shared/message_board', :locals => {:group => @group} %>
+<%= render :partial => 'shared/message_board', :locals => {:group => @group} if !@group.memberships.approved.for_user(current_user).blank? || @group.public? %>
