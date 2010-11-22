@@ -28,6 +28,8 @@
   <% else %>
     <%= image_tag '/images/user-icon.jpg' %>
   <% end %>
+    <%= render :partial => 'shared/rating_stars', :locals => { :reviews => UserReview.find_all_by_user_id(member.user.id)} %>
+
   <strong><%= member.user.name %></strong>
 <span style="font-size: small; font-style:italic;"><%=  @group.event.event_group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %></span>
 </div>

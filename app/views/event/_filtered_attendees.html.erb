@@ -1,9 +1,12 @@
 <% @attendees.each do |attendee| %>
   <% sharables = @event.event_group.memberships.for_user(attendee).first.sharables %>
   <% if attendee.avatar.exists? %>
-    <%= image_tag attendee.avatar.url(:thumb) %>
+    <%= link_to (image_tag attendee.avatar.url(:thumb)), profile_url(attendee.id) %>
   <% else %>
-    <%= image_tag '/images/user-icon.jpg' %>
+    <%= link_to (image_tag '/images/user-icon.jpg'), profile_url(attendee.id) %>
   <% end %>
-  <%= attendee.name %> - From <%= "#{attendee.city} #{attendee.region}" %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
+
+  <%= render :partial => 'shared/rating_stars', :locals => { :reviews => UserReview.find_all_by_user_id(attendee.id)} %>
+
+  <%= link_to attendee.name, profile_url(attendee.id) %> - From <%= "#{attendee.city} #{attendee.region}" %> - Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %> - <%= link_to 'Contact User', contact_user_path(@event.id, attendee.id) %><br />
 <% end %>
