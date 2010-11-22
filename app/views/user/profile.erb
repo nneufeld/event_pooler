@@ -1,0 +1,71 @@
+<h2><%= @user.name %></h2>
+
+<% users_groups = Membership.find_all_by_user_id(@user.id, :include => :group).collect{|membership| membership.group} %>
+
+<% users_events = users_groups.collect{|group| group.event}.uniq.sort_by{|event| event.starts_at} %>
+
+<% my_groups =  Membership.find_all_by_user_id(current_user.id, :include => :group).collect{|membership| membership.group} %>
+<%  common_groups = users_groups & my_groups
+if !common_groups.blank?
+    #find the private groups we have in common
+    common_groups.delete_if{|group| group == group.event.event_group}
+
+    common_events = common_groups.collect{|group| group.event}
+
+    #remove the reviews I have already submitted
+    reviewed_events = UserReview.find_all_by_user_id_and_reviewer_id(@user.id, current_user.id, :include => :event).collect{|review| review.event}
+
+    common_events.delete_if{ |event| reviewed_events.include?(event) }
+end
+%>
+
+<% if !common_events.blank? && @user != current_user %>
+<%= link_to   %>
+<%= render :partial => 'shared/rating_form', :locals => {:events => common_events} %>
+<% end %>
+
+<div class="icon" style="float: left">
+    <% if @user.avatar.exists? %>
+    <%= image_tag @user.avatar.url(:thumb) %>
+  <% else %>
+    <%= image_tag '/images/user-icon.jpg' %>
+  <% end %>
+</div>
+<%= @user.city  %>, <%= @user.region  %>
+
+
+<%  reviews = UserReview.find_all_by_user_id(@user.id) %>
+<%= render :partial => 'shared/rating_stars', :locals => { :reviews => reviews} %>
+
+<div class="users_events" style="clear:both">
+<h3><%= @user.name %>'s Events</h3>
+<% users_events.each do |event| %>
+<%= link_to event.name, event_url(event.id) %> - <%= Time.at(event.starts_at.to_i).strftime("%b %d, %Y at %I:%M%p") %>
+<% end %>
+</div>
+
+<div class="reviews" style="clear:both">
+<% if !reviews.blank? %>
+<h3>What others say about <%= @user.name %></h3>
+<% reviews.each do |review| %>
+<div class="review">
+  <%= review.review %>
+  --<%=  link_to User.find(review.reviewer_id).name, profile_url(review.reviewer_id) %>
+</div>
+<% end %>
+<% end %>
+</div>
+
+<div class="given_reviews">
+<% reviews = UserReview.find_all_by_reviewer_id(@user.id) %>
+<% if !reviews.blank? %>
+<h3>What <%= @user.name %> says about others</h3>
+<% reviews.each do |review| %>
+<div class="review">
+-- <%=  link_to review.user.name, profile_url(review.user.id) %>
+<%= review.review %>
+</div>
+<% end %>
+<% end %>
+</div>
+

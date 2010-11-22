@@ -1,0 +1,23 @@
+<div id="user_ranking">
+
+  <% form_for :user_review, :url => review_new_path(@user.id), :remote => false, :html => { :multipart => true } do |f| %>
+<%= f.label "We pooled for:"%><br/>
+  <%= f.collection_select :event_id, events, :id, :name%>
+<br/>
+ <%= f.label "This pooler was:"%>
+<br/>
+<%= f.label "awful" %>
+   <%= f.radio_button :rank, 1 %>
+   <%= f.radio_button :rank, 2 %>
+   <%= f.radio_button :rank, 3 %>
+   <%= f.radio_button :rank, 4 %>
+   <%= f.radio_button :rank, 5 %>
+<%= f.label "awesome" %>
+<br/>
+<%= f.label "Comments:"%>
+<br/>
+  <%= f.text_area :review, :size => "60x12" %>
+<br/>
+   <%= submit_tag "Submit" %>
+<% end %>
+</div>

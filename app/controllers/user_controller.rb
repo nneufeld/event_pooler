@@ -111,4 +111,10 @@ class UserController < ApplicationController
       end
     end
   end
+  
+  def profile
+    @user = User.find(params[:id])
+  end
+
+
 end
