@@ -41,6 +41,14 @@ class UserController < ApplicationController
 		if request.post?
 			email_changed = params[:user][:email] != @user.email
 			@user.update_attributes(params[:user])
+			
+			@user.notification_types.clear
+			NotificationType.all.each do |notif_type|
+				if params['notifications'][notif_type.slug]
+					@user.notification_types << notif_type
+				end
+			end
+			
 			if @user.valid?
         location = @user.address + ", " + @user.city + ", " + @user.region
         unless @user.address.blank? && @user.city.blank? && @user.region.blank?
