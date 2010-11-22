@@ -36,7 +36,23 @@ class Group < ActiveRecord::Base
     where ({:group_type_id => event_type.id})
   }
 
+  scope :for_user, lambda {|user|
+    unless user.nil?
+      joins(:memberships).where(['memberships.user_id = ?', user.id])
+    end
+  }
+
+  scope :visible, lambda {
+    invite_only_type = GroupType.find_by_slug('invite-only')
+    where(['group_type_id != ?', invite_only_type.id])
+  }
+
   def public?
     return self.group_type.slug == 'public'
   end
+
+  def invite_only?
+    return self.group_type.slug == 'invite-only'
+  end
+
 end

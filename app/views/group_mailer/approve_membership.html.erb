@@ -4,3 +4,6 @@ Hello <%= @group.administrator.name %>,
 <br /><br />
 Click the following link to approve the request:<br /><br />
 <%= approve_membership_url(@group.event.id, @group.id, @user.id, :host => @host) %>
+<br /><br />
+Click the following link to reject the request:<br /><br />
+<%= reject_membership_url(@group.event.id, @group.id, @user.id, :host => @host) %>

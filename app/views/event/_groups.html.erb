@@ -1,7 +1,10 @@
 <h3>Groups</h3>
 <%= link_to 'Create Group', create_group_path(@event.id) %>
 <hr />
-
+<%= render :partial => 'my_groups'  %>
+<% unless current_user.nil? || @groups.for_user(current_user).empty? %>
+  <h4>Other Groups</h4>
+<% end %>
 Only show groups sharing:<br />
 <% form_tag filter_groups_path(@event.id), :remote => true do %>
   <% Sharable.all.each do |sharable| %>
