@@ -6,13 +6,19 @@
     <%= f.label :description, 'Description' %> <%= f.text_area :description, :size => "24x6" %><br />
     <%= f.label :city, 'City' %> <%= f.text_field :city %><br />
     <%= f.label :region, 'Province/State' %> <%= f.text_field :region %><br />
-    <%= f.label :group_type_id, 'Group Type' %> <%= f.collection_select :group_type_id, GroupType.user_selectable, :id, :name %><br />
     <%= f.label :sharables, 'Resources You Want This Group To Share' %><br />
     <% Sharable.all.each do |sharable| %>
       <% checked = @group.sharables.include?(sharable) %>
       <%= check_box_tag(sharable.slug, '', checked ) %>
       <%= label_tag(sharable.slug, sharable.name) %>
     <% end %><br />
-  <%= submit_tag btnText %>
+    <%= f.label :group_type_id, 'Group Type' %> <%= f.collection_select :group_type_id, GroupType.user_selectable, :id, :name %><br />
+  <%= submit_tag btnText %> 
   
+<% end %>
+
+<br /><br />
+<h4>GroupTypes:</h4>
+<% GroupType.user_selectable.each do |gt| %>
+  <strong><%= gt.name %></strong> - <%= gt.description %><br />
 <% end %>
