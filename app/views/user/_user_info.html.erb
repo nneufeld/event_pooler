@@ -25,7 +25,7 @@
   
   <% NotificationType.all.each do |notif_type| %>
   <% checked = @user.notification_types.include?(notif_type) %>
-  <p><%= check_box_tag(notif_type.slug, '', checked) %>
+  <p><%= check_box_tag('notifications[' + notif_type.slug + ']', '', checked) %>
 	 <%= label_tag(notif_type.slug, notif_type.form_description) %></p>
   <% end %>
   

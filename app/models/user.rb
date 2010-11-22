@@ -6,12 +6,7 @@ class User < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
   has_many :comments
-<<<<<<< Updated upstream
-  has_many :notifications
-  has_many :reviews
-=======
-  
->>>>>>> Stashed changes
+
   has_many :group_invitations
   has_attached_file :avatar, 
                     :styles => { :medium => "100x100>",
