@@ -15,7 +15,7 @@ Only show groups sharing:<br />
 <br />
 Only show groups based in:<br />
 
-  <% cities = [""] + @groups.collect{|group| group.city + ", " + group.region}.flatten.uniq %>
+  <% cities = [""] + @groups.collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
   <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
 
  <% end %>
