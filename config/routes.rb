@@ -79,9 +79,12 @@ EventPooler::Application.routes.draw do
 	match '/user/myaccount', :to => 'user#myaccount', :as => 'myaccount'
 	match '/user/delete_account', :to => 'user#delete_account', :as => 'delete_account'
   match '/user/welcome', :to => 'user#welcome', :as => 'welcome'
+  match '/user/profile/:id', :to => 'user#profile', :as => 'profile'
   match '/user/confirm/:token', :to => 'user#confirm', :as => 'confirm'
   match '/user/forgot_password', :to => 'user#forgot_password', :as => 'forgot_password'
   match '/user/reset_password/:token', :to => 'user#reset_password', :as => 'reset_password'
+  
+  match '/user/review/:id', :to => 'user_review#new', :as => 'review_new'
   
   match '/about', :to => 'content#about', :as => 'about'
   match '/about/contact', :to => 'content#contact', :as => 'contact'
