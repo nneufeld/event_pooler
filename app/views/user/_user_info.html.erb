@@ -1,7 +1,7 @@
 <% btnText = "Register"
   btnText = "Update" unless @user.new_record? %>
 <div class="form">
-  <h2>Account Registration</h2>
+  <h2>Account Information</h2>
   
   <%= render :partial => 'shared/flash_messages' %>
   
@@ -23,7 +23,13 @@
 		<%= file_field_tag :avatar %></p>
   <% end %>
   
+  <% NotificationType.all.each do |notif_type| %>
+  <% checked = @user.notification_types.include?(notif_type) %>
+  <p><%= check_box_tag(notif_type.slug, '', checked) %>
+	 <%= label_tag(notif_type.slug, notif_type.form_description) %></p>
+  <% end %>
+  
   <p class="submit"><%= submit_tag btnText %></p>
 </div>
-	
+
 <% end %>
