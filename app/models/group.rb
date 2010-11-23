@@ -51,6 +51,10 @@ class Group < ActiveRecord::Base
     return self.group_type.slug == 'public'
   end
 
+  def private?
+    return self.group_type.slug == 'private'
+  end
+
   def invite_only?
     return self.group_type.slug == 'invite-only'
   end

@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :notifications
   has_many :reviews
-  has_many :group_invitations
   has_attached_file :avatar, 
                     :styles => { :medium => "100x100>",
                                  :thumb => "40x40>" }
@@ -47,8 +46,12 @@ class User < ActiveRecord::Base
   def generate_token
     begin
       t = User.random_string(20)
-    end while !User.where({:token => t}).first.nil?
+    end while !User.find_by_token(t).nil?
     self.token = t
+  end
+
+  def group_invitations
+    return GroupInvitation.find_all_by_email(self.email)
   end
 
   protected

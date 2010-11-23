@@ -19,6 +19,8 @@
 <% end %>
 <br/>
 <% if !@group.memberships.approved.for_user(current_user).blank? %>
+<%= link_to 'Invite A Friend', group_invite_path(@group.event_id, @group.id) %><br /><br />
+<%= link_to 'Leave Group', group_leave_path(@group.event_id, @group.id), :confirm => 'Are you sure you want to remove yourself from this group?' unless current_user == @group.administrator %><br />
 <%= render :partial => 'shared/update_sharables' %>
 <h3>Members</h3>
 <% @group.memberships.approved.each do |member| %>
