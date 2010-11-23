@@ -1,0 +1,4 @@
+Hello<%= @user.nil? ? '' : " #{@user.name}" %>,<br /><br />
+<%= @invitation.from.name %> has invited you to the group '<%= @group.name %>' for the event '<%= @group.event.name %>' on EventPooler.
+To join the group, click the following link:<br /><br />
+<%= group_accept_invitation_url(@invitation.token, :host => @host) %>

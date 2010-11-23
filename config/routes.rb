@@ -73,6 +73,9 @@ EventPooler::Application.routes.draw do
   match '/event/:event_id/group/:id/approve_membership/:user_id', :to => 'group#approve_membership', :as => 'approve_membership'
   match '/event/:event_id/group/:id/reject_membership/:user_id', :to => 'group#reject_membership', :as => 'reject_membership'
   match '/group/:id/update_sharables', :to => 'group#update_sharables', :as => 'update_sharables'
+  match '/event/:event_id/group/:id/invite', :to => 'group#invite', :as => 'group_invite'
+  match '/group/accept_invitation/:token', :to => 'group#accept_invitation', :as => 'group_accept_invitation'
+  match '/event/:event_id/group/:id/leave', :to => 'group#leave', :as => 'group_leave'
   
   match '/user/signup', :to => 'user#signup', :as => 'signup'
   match '/user/login', :to => 'user#login', :as => 'login'

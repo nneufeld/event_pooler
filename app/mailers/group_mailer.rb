@@ -30,4 +30,15 @@ class GroupMailer < ActionMailer::Base
         :subject => "Membership Rejected For The Group '#{@group.name}'"
     )
   end
+
+  def group_invitation(invitation)
+    @invitation = invitation
+    @group = invitation.group
+    @user = User.find_by_email(@invitation.email)
+    @host = '0.0.0.0:3000' #TODO: host should be moved to some config file
+
+    mail(:to => @invitation.email,
+        :subject => "#{@invitation.from.name} Has Invited You To A Group On EventPooler"
+    )
+  end
 end

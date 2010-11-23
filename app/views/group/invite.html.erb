@@ -1,0 +1,6 @@
+Enter the email address of a friend to invite to this group:<br />
+To invite multiple friends, separate their email address with a comma<br />
+<% form_tag do %>
+  <%= text_field_tag :email_addresses %><br />
+  <%= submit_tag 'Send Invitation' %>
+<% end %>
