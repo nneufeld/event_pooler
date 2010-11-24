@@ -569,3 +569,6 @@ padding-left:19px;
 padding-top:1px;}
 
 img.rating_star{ height: 15px; width: 15px; }
+
+.search_result{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px; padding: 2px; }
+.search_result .date{ background-color:#CCCCCC; padding: 2px; }

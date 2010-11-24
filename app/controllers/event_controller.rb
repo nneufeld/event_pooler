@@ -12,7 +12,7 @@ class EventController < ApplicationController
         location = "#{current_user.latitude}, #{current_user.longitude}"
       end
     end
-    @events = Event.event_find(params[:q], location)
+    @events = Event.event_find(params[:q], location).sort_by{|event| event.starts_at}.paginate(:page => params[:page], :per_page => 10)
   end
 
   def event_page
@@ -176,6 +176,8 @@ class EventController < ApplicationController
       :latitude => lat,
       :longitude => lng
     )
+
+    call_rake "ts:index"
 
     redirect_to event_path(:id => event.id)
 
