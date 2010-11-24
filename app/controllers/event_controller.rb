@@ -1,4 +1,6 @@
 require 'will_paginate'
+require 'icalendar'
+
 class EventController < ApplicationController
 
   before_filter :login_required, :except=>[:event_find, :event_page]
@@ -180,6 +182,22 @@ class EventController < ApplicationController
   end
 
   def create
+  end
+
+  def export
+    @event = Event.find(params[:id])
+    @calendar = Icalendar::Calendar.new
+    event = Icalendar::Event.new
+    event.start = Time.at(@event.starts_at.to_i).strftime("%Y%m%dT%H%M%S")
+    event.end = Time.at(@event.starts_at.to_i).strftime("%Y%m%dT%H%M%S")
+    event.summary = @event.name
+    event.description = @event.description
+    event.location = @event.full_address
+    event.url = event_url(@event.id)
+    @calendar.add event
+    @calendar.publish
+    headers['Content-Type'] = "text/calendar; charset=UTF-8"
+    render :text => @calendar.to_ical
   end
 
 end

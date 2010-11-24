@@ -61,6 +61,7 @@ EventPooler::Application.routes.draw do
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
   match '/event/:id/contact_user/:user_id', :to => 'event#contact_user', :as => 'contact_user'
   match '/event/:id/filter_groups', :to => 'event#filter_groups', :as => 'filter_groups'
+  match '/event/:id/export', :to => 'event#export', :as => 'export_event'
 
   match 'comment/reply/:comment_id', :to => 'comment#reply', :as => 'comment_reply'
   match 'comment/:group_id/new', :to => 'comment#new', :as => 'comment_new'

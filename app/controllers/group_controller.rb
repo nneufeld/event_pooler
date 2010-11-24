@@ -23,6 +23,7 @@ class GroupController < ApplicationController
           @group.longitude = lat_long[:lng]
         end
         @group.save
+        redirect_to group_invite_path(params[:event_id], @group.id) and return if @group.invite_only?
         redirect_to group_path(params[:event_id], @group.id) and return
       end
     end
@@ -137,7 +138,7 @@ class GroupController < ApplicationController
     if request.post?
       addresses = params[:email_addresses].split(',')
       addresses.each do |address|
-        invite = GroupInvitation.new(:group_id => params[:id], :from => current_user, :email => address.strip)
+        invite = GroupInvitation.new(:group_id => params[:id], :from => current_user, :email => address.strip, :message => params[:message])
         invite.generate_token
         invite.save
         GroupMailer.group_invitation(invite).deliver

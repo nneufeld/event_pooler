@@ -231,4 +231,8 @@ class Event < ActiveRecord::Base
     return text
   end
 
+  def full_address
+    return "#{self.address}\n#{self.city}, #{self.region}\n#{self.code}"
+  end
+
 end

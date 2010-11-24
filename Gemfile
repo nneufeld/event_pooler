@@ -16,6 +16,7 @@ gem 'nokogiri'
 gem 'chronic'
 gem 'geokit-rails3'
 gem 'will_paginate'
+gem 'icalendar'
 # Use unicorn as the web server
 # gem 'unicorn'
 
