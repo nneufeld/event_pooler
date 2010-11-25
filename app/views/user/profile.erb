@@ -32,7 +32,7 @@ end
 <br/>
 <% end %>
 
-<% if current_user %>
+<% if current_user && @user != current_user %>
   <%= link_to "send a message", "#", :id=> "rate_link", :onclick=>"$('#send_message').toggle();"  %>
 <% end %>
 
