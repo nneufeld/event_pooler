@@ -1,11 +1,16 @@
-<table>
+<%= will_paginate(@events) %>
+<% prev_date = '' %>
 <% @events.each do |event|  %>
-  <tr>
-    <td><%=  link_to event.name, event_path(event.id) %> 
-      <% unless event.sphinx_attributes.nil? || event.sphinx_attributes['@geodist'].nil? %>
-        - <%= event.sphinx_attributes['@geodist'].round / 1000 %> km away
-      <% end %>
-    </td>
-  </tr>
+    <% date = Time.at(event.starts_at.to_i).strftime("%B %e, %Y")
+       if date == prev_date %><hr /><% else %>
+  <% unless prev_date == '' %></div><% end %><div class="search_result"><div class="date"><%= date %></div><% end %>
+    <div><%= link_to CGI.unescapeHTML(event.name).html_safe, event_path(event.id) %></div>
+    <div><%= event.city %>, <%= event.region %></div>
+    <div><%= Time.at(event.starts_at.to_i).strftime("%I:%M%p") %>
+        <%= " to #{Time.at(event.ends_at.to_i).strftime("%I:%M%p")}" if !event.ends_at.nil? && Time.at(event.ends_at.to_i).strftime("%B %e, %Y") == date %>
+    </div>
+    <div><%= CGI.unescapeHTML(event.description[0..200]).html_safe.gsub(/<\/?[^>]*>/, "") unless event.description.nil? %>...<%= link_to 'Read More', event_path(event.id) %></div>
+  <% prev_date = date %>
 <% end %>
-</table>
+<% unless @events.blank? %></div><% end %>
+<%= will_paginate(@events) %>

@@ -38,5 +38,12 @@ class ApplicationController < ActionController::Base
     return {:lat => lat, :lng => lng}
   end
   helper_method :get_lat_long
+
+  # Code from http://railscasts.com/episodes/127-rake-in-background
+  def call_rake(task, options = {})
+    options[:rails_env] ||= Rails.env
+    args = options.map { |n, v| "#n.to_s.upcase}='#{v}'" }
+    system "rake #{task} #{args.join(' ')} --trace 2>&1 >> #{Rails.root}/log/rake.log &"
+  end
   
 end
