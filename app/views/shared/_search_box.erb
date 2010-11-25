@@ -1,10 +1,10 @@
 <div class="search-form">
-    <%= form_tag('/event/event_find', :method => "post") do %>
-      <%= label_tag(:q, "Search for:") %>
-      <%= text_field_tag(:q) %>
-    
-      <%= label_tag(:q, "in:") %>
-      <%= text_field_tag(:loc) %>
-      <%= submit_tag("Search") %>
-    <% end %>
+  <form accept-charset="UTF-8" id="search_form" action="<%= event_find_path %>" method="get">
+    <%= label_tag(:q, "Search for:") %>
+    <%= text_field_tag(:q, params[:q]) %>
+
+    <%= label_tag(:q, "in:") %>
+    <%= text_field_tag(:loc, params[:loc]) %>
+    <button onclick="javascript: document.search_form.submit();">Search</button>
+  </form>
 </div>

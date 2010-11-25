@@ -71,7 +71,6 @@ class Event < ActiveRecord::Base
       results = Event.search q,
       :with => { :starts_at => Time.now().to_i...Time.now().to_i + 7952400, "@geodist" => 0.0..100000.0 },
       :geo => [location[:lat] * Math::PI / 180, location[:lng] * Math::PI / 180], # thinking_sphinx expects lat and long in radians
-      :order => "@geodist ASC, @relevance DESC",
       :match_mode => :boolean
     end
 
@@ -163,7 +162,7 @@ class Event < ActiveRecord::Base
     
     events["events"].each do |event|
 
-      next if event["event"].nil?
+      next if event["venue"].nil?
 
 
      results << Event.new(
@@ -172,16 +171,16 @@ class Event < ActiveRecord::Base
                 :starts_at => Time.parse(event['event']['start_date']),
                 :ends_at => Time.parse(event['event']['end_date']),
                 :remote_source => "eb",
-                :address => event['event']['venue']['address'],
-                :city => event['event']['venue']['city'],
-                :region => event['event']['venue']['region'],
-                :code => event['event']['venue']['postal_code'],
+                :address => (event['event']['venue']['address']),
+                :city => (event['event']['venue']['city']),
+                :region => (event['event']['venue']['region']),
+                :code => (event['event']['venue']['postal_code']),
                 :phone => "",
                 :email => "",
                 :url => event['event']['url'],
                 :remote_id => event['event']['id'],
-                :latitude => event['event']['venue']['latitude'],
-                :longitude => event['event']['venue']['longitude']
+                :latitude => (event['event']['venue']['latitude']),
+                :longitude => (event['event']['venue']['longitude'])
                 )
     end
 
