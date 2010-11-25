@@ -114,6 +114,12 @@ class UserController < ApplicationController
   
   def profile
     @user = User.find(params[:id])
+
+    if request.post?
+      message = params[:message]
+      EventMailer.contact_user(current_user, @user, message).deliver
+      flash[:message] = 'Message was sent to user'
+    end
   end
 
 

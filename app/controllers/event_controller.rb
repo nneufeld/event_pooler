@@ -52,17 +52,6 @@ class EventController < ApplicationController
     redirect_to event_path(event.id)
   end
 
-  def contact_user
-    @event = Event.find(params[:id])
-    @to_user = User.find(params[:user_id])
-
-    if request.post?
-      message = params[:message]
-      EventMailer.contact_user(@event, current_user, @to_user, message).deliver
-      flash[:message] = 'Message was sent to user'
-      redirect_to event_path(@event.id)
-    end
-  end
 
   def cancel_attendance
     event = Event.find(params[:id])

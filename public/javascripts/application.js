@@ -5,7 +5,7 @@ $('.submittable').live('change', function() {
   $(this).parents('form:first').submit();
 });
 
-
-$('.reply_link').bind('ajax:success', function(){
-    $(this).append("<%= render(:partial => 'shared/comment_form') %>");
+$(document).ready( function(){
+    $('#send_message').hide();
+    $('#user_ranking').hide();
 });
