@@ -4,3 +4,8 @@
 $('.submittable').live('change', function() {
   $(this).parents('form:first').submit();
 });
+
+$(document).ready( function(){
+    $('#send_message').hide();
+    $('#user_ranking').hide();
+});

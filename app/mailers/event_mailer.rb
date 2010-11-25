@@ -1,8 +1,7 @@
 class EventMailer < ActionMailer::Base
   default :from => "EventPooler<donotreply@eventpooler.com>"
 
-  def contact_user(event, from_user, to_user, message)
-    @event = event
+  def contact_user(from_user, to_user, message)
     @from_user = from_user
     @to_user = to_user
     @message = message
