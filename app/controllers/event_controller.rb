@@ -161,8 +161,8 @@ class EventController < ApplicationController
     event = Event.create(
       :name=> params[:name],
       :description => params[:description],
-      :starts_at => Chronic.parse(params['start_time']),
-      :ends_at => Chronic.parse(params['end_time']),
+      :starts_at => Chronic.parse(params[:start_time]),
+      :ends_at => Chronic.parse(params[:end_time]),
       :remote_id => nil,
       :remote_source => "native",
       :user_id => current_user,
