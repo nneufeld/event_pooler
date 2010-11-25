@@ -24,17 +24,11 @@
 <%= render :partial => 'shared/update_sharables' %>
 <h3>Members</h3>
 <% @group.memberships.approved.each do |member| %>
-<div>
-  <% if member.user.avatar.exists? %>
-    <%= image_tag member.user.avatar.url(:thumb) %>
-  <% else %>
-    <%= image_tag '/images/user-icon.jpg' %>
-  <% end %>
-    <%= render :partial => 'shared/rating_stars', :locals => { :reviews => UserReview.find_all_by_user_id(member.user.id)} %>
-
-  <strong><%= member.user.name %></strong>
-<span style="font-size: small; font-style:italic;"><%=  @group.event.event_group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "" %></span>
-</div>
+  <%= render :partial => 'shared/user_snapshot', :locals => { :user => member.user } %>
+  <div class="group_attendee">
+    Sharing: <% sharing = @group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "nothing" %>
+    <%= !sharing.blank? ? sharing : "nothing"  %>
+  </div>
 <%end%>
 <br/>
 <% end %>
