@@ -5,7 +5,7 @@
             <div class="column-wrapper">
                 <div class="left-column">
                     
-                    <h3><%= @event.name %></h3>
+                    <h3><%= CGI.unescapeHTML(@event.name).html_safe %></h3>
                     <% unless flash[:message].nil? %>
                       <%= flash[:message] %><br /><br />
                     <% end %>

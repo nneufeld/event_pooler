@@ -1,6 +1,6 @@
 <h3>My Events</h3>
 <% @my_events.each do |event| %>
-  <%= link_to event.name, event_path(event.id) %><br />
+  <%= link_to CGI.unescapeHTML(event.name).html_safe, event_path(event.id) %><br />
   <%=  Time.at(event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %><br />
   <%= event.city %>, <%= event.region %><br />
 <% end %>

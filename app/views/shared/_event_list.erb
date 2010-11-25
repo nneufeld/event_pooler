@@ -9,7 +9,7 @@
     <div><%= Time.at(event.starts_at.to_i).strftime("%I:%M%p") %>
         <%= " to #{Time.at(event.ends_at.to_i).strftime("%I:%M%p")}" if !event.ends_at.nil? && Time.at(event.ends_at.to_i).strftime("%B %e, %Y") == date %>
     </div>
-    <div><%= CGI.unescapeHTML(event.description[0..200]).html_safe.gsub(/<\/?[^>]*>/, "") unless event.description.nil? %>...<%= link_to 'Read More', event_path(event.id) %></div>
+    <div><%= CGI.unescapeHTML(event.description).html_safe.gsub(/<\/?[^>]*>/, "")[0..200] unless event.description.nil? %>...<%= link_to 'Read More', event_path(event.id) %></div>
   <% prev_date = date %>
 <% end %>
 <% unless @events.blank? %></div><% end %>
