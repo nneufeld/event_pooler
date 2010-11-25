@@ -3,18 +3,18 @@
 <%  if !user.nil? %>
 <div class="icon">
     <% if user.avatar.exists? %>
-    <%= image_tag user.avatar.url(:thumb) %>
+    <%= link_to image_tag(user.avatar.url(:thumb)), profile_path(user.id) %>
   <% else %>
-    <%= image_tag '/images/user-icon.jpg' %>
+    <%= link_to image_tag('/images/user-icon.jpg'), profile_path(user.id) %>
   <% end %>
 </div>
 
 <% end %>
 <div class="info">
-<%= user.name rescue "anonymous"%>
+ <%= link_to user.name, profile_path(user.id) %>
 </div>
 <div class="subinfo">
-<%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.event.event_group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>
+<%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>
 <br/>
 </div>
 <div class="body">
