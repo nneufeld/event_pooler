@@ -570,5 +570,15 @@ padding-top:1px;}
 
 img.rating_star{ height: 15px; width: 15px; }
 
+
+.user_profile{ background-color: #EEEEEE; padding: 5px;}
+.user_profile .icon{ float: left; padding-top: 5px; height: 40px; width: 40px; }
+.user_profile .icon img{ max-height: 40px; max-width: 40px;}
+.user_profile .name, .user_profile .location, .user_profile .stars{ margin-left: 50px;}
+.user_profile .summary { font-size: small; font-style: italic;}
+
+.group_attendee{ background-color: #DDDDDD; margin-bottom: 10px; padding-left: 5px;}
+
 .search_result{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px; padding: 2px; }
 .search_result .date{ background-color:#CCCCCC; padding: 2px; }
+

@@ -1,5 +1,7 @@
 <h2><%= @user.name %></h2>
 
+<%= render :partial => 'shared/user_snapshot', :locals => {:user => @user} %>
+
 <% users_groups = Membership.find_all_by_user_id(@user.id, :include => :group).collect{|membership| membership.group} %>
 
 <% users_events = users_groups.collect{|group| group.event}.uniq.sort_by{|event| event.starts_at} %>
@@ -20,22 +22,30 @@ end
 %>
 
 <% if !common_events.blank? && @user != current_user %>
-<%= link_to   %>
+    <%= link_to "rate this user", "#", :id=> "rate_link", :onclick=>"$('#user_ranking').toggle();"  %>
+<%  end %>
+
+
+
+<% if !common_events.blank? && @user != current_user %>
 <%= render :partial => 'shared/rating_form', :locals => {:events => common_events} %>
+<br/>
 <% end %>
 
-<div class="icon" style="float: left">
-    <% if @user.avatar.exists? %>
-    <%= image_tag @user.avatar.url(:thumb) %>
-  <% else %>
-    <%= image_tag '/images/user-icon.jpg' %>
+<% if current_user && @user != current_user %>
+  <%= link_to "send a message", "#", :id=> "rate_link", :onclick=>"$('#send_message').toggle();"  %>
+<% end %>
+
+<% if current_user %>
+<div id="send_message">
+  Send <%= @user.name %> a message<br />
+  <% form_tag do %>
+    <%= text_area_tag(:message, "", :size => "50x6") %><br />
+    <%= submit_tag "Send" %>
   <% end %>
 </div>
-<%= @user.city  %>, <%= @user.region  %>
+<% end %>
 
-
-<%  reviews = UserReview.find_all_by_user_id(@user.id) %>
-<%= render :partial => 'shared/rating_stars', :locals => { :reviews => reviews} %>
 
 <div class="users_events" style="clear:both">
 <h3><%= @user.name %>'s Events</h3>
@@ -45,6 +55,7 @@ end
 </div>
 
 <div class="reviews" style="clear:both">
+<% reviews = UserReview.find_all_by_user_id(@user.id) %>
 <% if !reviews.blank? %>
 <h3>What others say about <%= @user.name %></h3>
 <% reviews.each do |review| %>
