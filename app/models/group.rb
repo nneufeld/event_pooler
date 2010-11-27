@@ -22,10 +22,21 @@ class Group < ActiveRecord::Base
   }
 
   scope :closest_to_user, lambda {|user|
-    unless user.nil? || user.latitude.nil? || user.longitude.nil?
-      select('DISTINCT groups.*').geo_scope(:origin => [user.latitude, user.longitude]).order('distance')
+    unless user.nil?
+      latitude = user.latitude
+      longitude = user.longitude
+      if latitude.nil? || longitude.nil?
+        ip_addr = request.env['REMOTE_ADDR']
+        geo = Geokit::Geocoders::IpGeocoder.geocode(ip_addr)
+        latitude = geo.lat
+        longitude = geo.long
+      end
+      unless latitude.nil? || longitude.nil?
+        select('DISTINCT groups.*').geo_scope(:origin => [user.latitude, user.longitude]).order('distance')
+      end
     end
   }
+  
 
   scope :sharing, lambda {|sharables|
     select('DISTINCT groups.*').joins('INNER JOIN groups_sharables gs ON gs.group_id = groups.id').where(['gs.sharable_id IN (?)', sharables.map{|s| s.id}])

@@ -1,0 +1,6 @@
+<h3>My Groups</h3>
+<% @my_groups.each do |group| %>
+<% group_name = group.event.name %>
+<% group_name = (group == group.event.event_group) ? group_name : group_name + ":" + group.name%>
+<div><%= link_to group_name, group_path(group.event.id, group.id) %></div>
+<% end %>
