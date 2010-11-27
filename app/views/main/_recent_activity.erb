@@ -1,0 +1,30 @@
+
+    <h3>Recent activity from my groups</h3>
+
+  <% @recent_activity.each do |comment| %>
+
+  <div class="message">
+    <% user = User.find_by_id(comment.user_id) %>
+    <%  if !user.nil? %>
+    <div class="icon">
+        <% if user.avatar.exists? %>
+        <%= link_to image_tag(user.avatar.url(:thumb)), profile_path(user.id) %>
+      <% else %>
+        <%= link_to image_tag('/images/user-icon.jpg'), profile_path(user.id) %>
+      <% end %>
+    </div>
+
+    <% end %>
+    <div class="info">
+     <%= link_to user.name, profile_path(user.id) %> in <%= link_to (comment.group.event.name + ":" + comment.group.name), group_path(comment.group.event.id, comment.group.id) %>
+    </div>
+    <div class="subinfo">
+    <%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>
+    <br/>
+    </div>
+    <div class="body">
+    <%= comment.message %>
+    </div>
+  </div>
+<% end unless @recent_activity.nil? %>
+    

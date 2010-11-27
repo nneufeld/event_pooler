@@ -1,0 +1,12 @@
+<table class="popular-events">
+  <tr>
+    <th colspan="3">Popular Events</th>
+  </tr>
+  <% @popular_events.each do |event| %>
+  <tr>
+    <td class="title"><%= link_to CGI.unescapeHTML(event.name).html_safe, event_path(event.id) %></td>
+    <td class="location"><%= event.city || event.region %></td>
+    <td class="date"><%=  Time.at(event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %></td>
+  </tr>
+<% end %>
+</table>

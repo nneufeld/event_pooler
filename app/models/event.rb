@@ -15,6 +15,24 @@ class Event < ActiveRecord::Base
     where(['g.group_type_id = ? AND m.user_id = ?', event_group_type.id, user.id])
   }
 
+
+   scope :closest_to_user, lambda {|user|
+    unless user.nil?
+      latitude = user.latitude
+      longitude = user.longitude
+      if latitude.nil? || longitude.nil?
+        ip_addr = request.env['REMOTE_ADDR']
+        geo = Geokit::Geocoders::IpGeocoder.geocode(ip_addr)
+        latitude = geo.lat
+        longitude = geo.long
+      end
+      unless latitude.nil? || longitude.nil?
+        select('DISTINCT events.*').geo_scope(:origin => [user.latitude, user.longitude]).order('distance')
+      end
+    end
+  }
+
+
   define_index do
 
     # attributes

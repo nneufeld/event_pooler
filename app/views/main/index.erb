@@ -1,47 +1,41 @@
         <div class="content content-home">
             <div class="banner-area">
                 <div class="left">
-                    <h1>Enabling event-goers to pool resources<br />for attending events effectively</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat faucibus sapien, nec varius elit mollis et. Etiam a velit libero.</p>
+                    <h1>Connecting event-goers with event-goers and group deals!</h1>
+                    <p>Meet others attending your event from your regionConnect with event-goers from your region and get deals doing it. Search for an event or create a new one to get started!</p>
                     
-                    <div class="event-tick">3,014,237 <span>event-goers sharing resources</span></div>
+                    <div class="event-tick"><%= User.all.size %><span> event-goers sharing resources</span></div>
                 </div>
                 <div class="right">
-                    <h2>Make your event a success</h2>
+                    <h2>Events made easy</h2>
                     <ul class="feature-list">
                         <li id="manage-events">
-                            <h3>Create & Manage Events</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat faucibus sapien.</p>
+                            <h3>Find & Create Events</h3>
+                            <p>Find events from popular event planning sites or create your own.</p>
                         </li>
                         <li id="connect-with-others">
-                            <h3>Connect with other goers</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat.</p>
+                            <h3>Connect with others</h3>
+                            <p>Find groups of attendees from your region or event to connect.</p>
                         </li>
                     </ul>
-                    
                     <%= link_to image_tag('create-an-event-home.png'), event_create_path, :class => 'create-event-button' %>
                 </div>
                 <div class="clear-fix">&nbsp;</div>
+            </div>
+            <div>
+              <%= render "shared/search_box" %>
             </div>
             <div class="content-wrapper">
                 <div class="left-column">
                     &nbsp;
                     <%= render :partial => 'events_attending' unless current_user.nil? %>
+                    <%= render :partial => "group_membership" unless current_user.nil? %>
+                    
                 </div>
                 <div class="right-column">
-                    <%= render "shared/search_box" %>
-                    <table width="100%" class="popular-events">
-                    <tr>
-                        <th colspan="3">Popular Events around the World</th>
-                    </tr>
-                    <% for i in (1..10) %>
-                    <tr>
-                        <td class="title"><a href="#" title="Event Name">Event Name Here</a></td>
-                        <td class="date">Nov 10, 2010</td>
-                        <td class="attend"><a href="#" title="Attend">Attend</a></td>
-                    </tr>
-                    <% end %>
-                    </table>
+                    
+                    <%= render :partial => 'popular_events' %>
+                    <%= render :partial => "recent_activity" unless current_user.nil? %>
                 </div>
                 <div class="clear-fix">&nbsp;</div>
             </div>
