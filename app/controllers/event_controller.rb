@@ -135,44 +135,58 @@ class EventController < ApplicationController
 
   end
 
-  def new
-      location = params[:address] + ", " + params[:city] + ", " + params[:region]
-      unless params[:address].blank? && params[:city].blank? && params[:region].blank?
-        latlong_uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{URI.escape(location)}&sensor=false")
-        latlong = Net::HTTP.get_response(latlong_uri)
+  def create
+    @event = Event.new(params[:event])
+    if request.post?
+      @event.starts_at = Chronic.parse(params[:event][:start_time])
+      @event.ends_at = Chronic.parse(params[:event][:end_time])
+      @event.remote_id = nil
+      @event.remote_source = "native"
+      @event.administrator = current_user
 
-        location = JSON.parse(latlong.body)
-
-        lng = location['results'].first['geometry']['location']['lng'] rescue ""
-        lat = location['results'].first['geometry']['location']['lat'] rescue ""
+      location = "#{@event.address}, #{@event.city}, #{@event.region}"
+      unless location == ", , "
+        lat_long = get_lat_lng(location)
+        @event.latitude = lat_long[:lat]
+        @event.longitude = lat_long[:lng]
       end
 
-    event = Event.create(
-      :name=> params[:name],
-      :description => params[:description],
-      :starts_at => Chronic.parse(params[:start_time]),
-      :ends_at => Chronic.parse(params[:end_time]),
-      :remote_id => nil,
-      :remote_source => "native",
-      :user_id => current_user,
-      :address => params[:address],
-      :city => params[:city],
-      :region => params[:region],
-      :code => params[:code],
-      :phone => params[:phone],
-      :email => params[:email],
-      :url => params[:url],
-      :latitude => lat,
-      :longitude => lng
-    )
+      @event.save
 
-    call_rake "ts:index"
+      call_rake "ts:index"
 
-    redirect_to event_path(:id => event.id)
+      redirect_to event_path(:id => @event.id) and return
+    end
 
+    render 'update'
   end
 
-  def create
+  def update
+    @event = Event.find(params[:id])
+
+    unless @event.administrator == current_user
+      flash[:message] = "You don't have access to update this event"
+      redirect_to event_path(params[:id]) and return
+    end
+
+    if request.post?
+      @event.update_attributes(params[:event])
+      @event.starts_at = Chronic.parse(params[:event][:starts_at])
+      @event.ends_at = Chronic.parse(params[:event][:ends_at])
+
+      location = "#{@event.address}, #{@event.city}, #{@event.region}"
+      unless location == ", , "
+        lat_long = get_lat_lng(location)
+        @event.latitude = lat_long[:lat]
+        @event.longitude = lat_long[:lng]
+      end
+
+      @event.save
+
+      call_rake "ts:index"
+
+      redirect_to event_path(:id => @event.id) and return
+    end
   end
 
   def export
