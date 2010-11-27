@@ -3,4 +3,4 @@ Hello<%= @user.nil? ? '' : " #{@user.name}" %>,<br /><br />
 Message:<br />
 <%= @invitation.message %><br /><br />
 To join the group, click the following link:<br /><br />
-<%= group_accept_invitation_url(@invitation.token, :host => @host) %>
+<%= group_accept_invitation_url(@invitation.token, :host => current_request.host_with_port) %>
