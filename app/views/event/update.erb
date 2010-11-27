@@ -1,0 +1,42 @@
+<h1>Create a new event</h1>
+
+<%= form_for :event do |f| %>
+<table>
+  <tr><td>
+  <%= f.label(:name, "Name:") %></td><td> <%= f.text_field(:name) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Description:") %> </td><td><%= f.text_field(:description) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Address:") %> </td><td><%= f.text_field(:address) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "City:") %> </td><td><%= f.text_field(:city) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Province/State:") %> </td><td><%= f.text_field(:region) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Postal/Zip Code:") %> </td><td><%= f.text_field(:code) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Phone:") %> </td><td><%= f.text_field(:phone) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Email:") %> </td><td><%= f.text_field(:email) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Url:") %> </td><td><%= f.text_field(:url) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "Start Date/Time:") %> </td><td><%= f.text_field(:starts_at) %>
+  </td></tr>
+  <tr><td>
+  <%= f.label(:name, "End Date/Time:") %> </td><td><%= f.text_field(:ends_at) %>
+  </td></tr>
+  <tr><td>
+  <%= submit_tag("Submit") %>
+  </td></tr>
+<% end %>
+</table>

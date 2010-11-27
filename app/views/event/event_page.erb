@@ -5,7 +5,11 @@
             <div class="column-wrapper">
                 <div class="left-column">
                     
-                    <h3><%= CGI.unescapeHTML(@event.name).html_safe %></h3>
+                    <h3><%= CGI.unescapeHTML(@event.name).html_safe %><span style="font-size: small">
+                      <% if !current_user.nil? && @event.administrator == current_user %>
+                       - <%= link_to 'Edit', event_update_path(@event.id) %>
+                      <% end %></span>
+                    </h3>
                     <% unless flash[:message].nil? %>
                       <%= flash[:message] %><br /><br />
                     <% end %>

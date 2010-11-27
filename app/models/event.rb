@@ -8,6 +8,7 @@ require 'nokogiri'
 class Event < ActiveRecord::Base
   has_many :groups
   has_many :user_review
+  belongs_to :administrator, :class_name => 'User'
 
   scope :attended_by, lambda {|user|
     event_group_type = GroupType.find_by_slug('event')
