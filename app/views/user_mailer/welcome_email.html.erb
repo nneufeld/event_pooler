@@ -2,4 +2,4 @@ Hello <%= @user.name %>,<br /><br />
 
 Please confirm your registration with EventPooler by clicking the link below. <br /><br />
 
-<%= confirm_url(@user.token, :host => @host) %>
+<%= confirm_url(@user.token, :host => current_request.host_with_port) %>
