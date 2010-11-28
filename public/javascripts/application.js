@@ -9,3 +9,8 @@ $(document).ready( function(){
     $('#send_message').hide();
     $('#user_ranking').hide();
 });
+
+$('#event_ends_at').live('focus', function() {
+    if (this.value == '')
+        this.value = $('#event_starts_at').val();
+});
