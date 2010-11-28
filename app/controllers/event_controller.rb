@@ -138,8 +138,8 @@ class EventController < ApplicationController
   def create
     @event = Event.new(params[:event])
     if request.post?
-      @event.starts_at = Chronic.parse(params[:event][:start_time])
-      @event.ends_at = Chronic.parse(params[:event][:end_time])
+      @event.starts_at = Chronic.parse(params[:event][:starts_at])
+      @event.ends_at = Chronic.parse(params[:event][:ends_at])
       @event.remote_id = nil
       @event.remote_source = "native"
       @event.administrator = current_user
