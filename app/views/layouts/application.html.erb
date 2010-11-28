@@ -1,31 +1,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html dir="ltr" lang="en-US"> 
-<head> 
-	<title>EventPooler</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-	<meta http-equiv="Content-Style-Type" content="text/css" /> 
-	<meta name="Author" content="Aaron McGowan - www.amcgowan.ca" /> 
-	<meta name="robots" content="index, follow" /> 
-    
-    <%= stylesheet_link_tag :all %>
-    <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %>
-    <%= javascript_include_tag 'jquery.rails.js' %>
-    <%= javascript_include_tag 'rails' %>
-    <%= javascript_include_tag 'application' %>
-    <%= csrf_meta_tag %>
-</head>
+<%= render :partial => 'layouts/head' %>
 <body id="top"<%= is_home?() ? ' class=home' : '' %>>
     <div class="wrapper">
-        <div class="header">
-            <%= render :partial => '/shared/header_navigation' %>
-            <%= link_to image_tag('logo.png'), root_path, :class => 'logo' %>
-        </div>
-        <%= yield %>
-        <div class="footer">
-            <%= render :partial => '/shared/footer_navigation' %>
-            <p>Copyright <%= link_to 'EventPooler', root_path %> &copy; 2010. All Rights Reserved.</p>
+        <%= render :partial => 'layouts/nav_bar'  %>
+        <div class="content content-two-columns">
+          <div class="banner-area">
+            <h1><%= @content_for_title %></h1>
             <div class="clear-fix">&nbsp;</div>
+          </div>
+          <div class="column-wrapper">
+            <div class="left-column">
+              <%= yield %>
+            </div>
+            <div class="right-column">
+              <div class="block">
+                <% unless content_for?(:right_column) %>
+                  &nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />
+                  &nbsp;<br />&nbsp;<br />&nbsp;<br />
+                <% else %>
+                  <%= yield :right_column %>
+                <% end %>
+              </div>
+            </div>
+            <div class="clear-fix">&nbsp;</div>
+            <div class="right-column-bg-bottom-fix">&nbsp;</div>
+          </div>
         </div>
+        <%= render :partial => 'layouts/footer' %>
     </div>
 </body>
 </html>

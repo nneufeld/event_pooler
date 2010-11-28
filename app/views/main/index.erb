@@ -1,42 +1,32 @@
-        <div class="content content-home">
-            <div class="banner-area">
-                <div class="left">
-                    <h1>Connecting event-goers with event-goers and group deals!</h1>
-                    <p>Meet others attending your event from your regionConnect with event-goers from your region and get deals doing it. Search for an event or create a new one to get started!</p>
+<% content_for :banner do %>
+  <div class="left">
+      <h1>Connecting event-goers with event-goers and group deals!</h1>
+      <p>Meet others attending your event from your regionConnect with event-goers from your region and get deals doing it. Search for an event or create a new one to get started!</p>
+
+      <div class="event-tick"><%= User.all.size %><span> event-goers sharing resources</span></div>
+  </div>
+  <div class="right">
+      <h2>Events made easy</h2>
+      <ul class="feature-list">
+          <li id="manage-events">
+              <h3>Find & Create Events</h3>
+              <p>Find events from popular event planning sites or create your own.</p>
+          </li>
+          <li id="connect-with-others">
+              <h3>Connect with others</h3>
+              <p>Find groups of attendees from your region or event to connect.</p>
+          </li>
+      </ul>
+      <%= link_to image_tag('create-an-event-home.png'), event_create_path, :class => 'create-event-button' %>
+  </div>
+  <div class="clear-fix">&nbsp;</div>
+<% end %>
+
+&nbsp;
+<%= render :partial => 'events_attending' unless current_user.nil? %>
+<%= render :partial => "group_membership" unless current_user.nil? %>
                     
-                    <div class="event-tick"><%= User.all.size %><span> event-goers sharing resources</span></div>
-                </div>
-                <div class="right">
-                    <h2>Events made easy</h2>
-                    <ul class="feature-list">
-                        <li id="manage-events">
-                            <h3>Find & Create Events</h3>
-                            <p>Find events from popular event planning sites or create your own.</p>
-                        </li>
-                        <li id="connect-with-others">
-                            <h3>Connect with others</h3>
-                            <p>Find groups of attendees from your region or event to connect.</p>
-                        </li>
-                    </ul>
-                    <%= link_to image_tag('create-an-event-home.png'), event_create_path, :class => 'create-event-button' %>
-                </div>
-                <div class="clear-fix">&nbsp;</div>
-            </div>
-            <div>
-              <%= render "shared/search_box" %>
-            </div>
-            <div class="content-wrapper">
-                <div class="left-column">
-                    &nbsp;
-                    <%= render :partial => 'events_attending' unless current_user.nil? %>
-                    <%= render :partial => "group_membership" unless current_user.nil? %>
-                    
-                </div>
-                <div class="right-column">
-                    
-                    <%= render :partial => 'popular_events' %>
-                    <%= render :partial => "recent_activity" unless current_user.nil? %>
-                </div>
-                <div class="clear-fix">&nbsp;</div>
-            </div>
-        </div>
+<% content_for :right_column do %>
+  <%= render :partial => 'popular_events' %>
+  <%= render :partial => "recent_activity" unless current_user.nil? %>
+<% end %>

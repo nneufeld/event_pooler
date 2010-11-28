@@ -155,7 +155,7 @@ class EventController < ApplicationController
 
       call_rake "ts:index"
 
-      redirect_to event_path(:id => @event.id) and return
+      redirect_to attend_event_path(:id => @event.id) and return
     end
 
     render 'update'

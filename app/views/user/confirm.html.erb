@@ -1,24 +1,8 @@
-        <div class="content content-two-columns">
-            <div class="banner-area">
-                <h1>User Account</h1>
-            </div>
-            <div class="column-wrapper">
-                <div class="left-column">
-                    <% unless @user.nil? %>
-                    <h1>Thank You</h1>
-                    <p>Your registration has been confirmed. You may now <%= link_to 'login', login_path %>.</p>
-                    <% else %>
-                    <h1>Yikes! Something went wrong.</h1>
-                    <p>The specified confirmation token is invalid. If the problem continues, please contact the administrator.</p>
-                    <% end %>
-                </div>
-                <div class="right-column">
-                    <div class="block">
-                      &nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />
-                      &nbsp;<br />&nbsp;<br />&nbsp;<br />
-                    </div>
-                </div>
-                <div class="clear-fix">&nbsp;</div>
-                <div class="right-column-bg-bottom-fix">&nbsp;</div>
-            </div>
-        </div>
+<% set_title 'User Account' %>
+<% unless @user.nil? %>
+<h1>Thank You</h1>
+<p>Your registration has been confirmed. You may now <%= link_to 'login', login_path %>.</p>
+<% else %>
+<h1>Yikes! Something went wrong.</h1>
+<p>The specified confirmation token is invalid. If the problem continues, please contact the administrator.</p>
+<% end %>

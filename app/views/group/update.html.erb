@@ -1,5 +1,10 @@
-<% btnText = "Create Group"
-  btnText = "Update Group" unless @group.new_record? %>
+<% action = "Create"
+  action = "Update" unless @group.new_record? %>
+<% if action == 'Create' %>
+  <% set_title 'Create Group' %>
+<% else %>
+  <% set_title "Edit '#{@group.name}'" %>
+<% end %>
 <% form_for :group do |f| %>
 <%= f.error_messages %>
     <%= f.label :name, 'Group Name' %> <%= f.text_field :name  %><br />
@@ -13,7 +18,7 @@
       <%= label_tag(sharable.slug, sharable.name) %>
     <% end %><br />
     <%= f.label :group_type_id, 'Group Type' %> <%= f.collection_select :group_type_id, GroupType.user_selectable, :id, :name %><br />
-  <%= submit_tag btnText %> 
+  <%= submit_tag "#{action} Group" %>
   
 <% end %>
 
