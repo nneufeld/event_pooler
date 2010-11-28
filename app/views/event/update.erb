@@ -1,4 +1,10 @@
-<h1>Create a new event</h1>
+<% action = 'Update' %>
+<% action = 'Create' if @event.new_record? %>
+<% if action == 'Create' %>
+  <% set_title 'Create Event' %>
+<% else %>
+  <% set_title "Edit '#{@event.safe_name}'" %>
+<% end %>
 
 <%= form_for :event do |f| %>
 <table>
@@ -36,7 +42,7 @@
   <%= f.label(:name, "End Date/Time:") %> </td><td><%= f.text_field(:ends_at) %>
   </td></tr>
   <tr><td>
-  <%= submit_tag("Submit") %>
+  <%= submit_tag("#{action} Event") %>
   </td></tr>
 <% end %>
 </table>

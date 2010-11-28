@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir="ltr" lang="en-US">
+<%= render :partial => 'layouts/head' %>
+<body id="top"<%= is_home?() ? ' class=home' : '' %>>
+    <div class="wrapper">
+        <%= render :partial => 'layouts/nav_bar'  %>
+        <div class="content content-home">
+            <div class="banner-area">
+              <%= yield :banner %>
+            </div>
+            <div>
+              <%= render "shared/search_box" %>
+            </div>
+            <div class="content-wrapper">
+                <div class="left-column">
+                  <%= yield %>
+                </div>
+                <div class="right-column">
+                  <%= yield :right_column %>
+                </div>
+                <div class="clear-fix">&nbsp;</div>
+            </div>
+        </div>
+        <%= render :partial => 'layouts/footer' %>
+    </div>
+</body>
+</html>

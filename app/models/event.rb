@@ -253,4 +253,8 @@ class Event < ActiveRecord::Base
     return "#{self.address}\n#{self.city}, #{self.region}\n#{self.code}"
   end
 
+  def safe_name
+    CGI.unescapeHTML(self.name).html_safe
+  end
+
 end

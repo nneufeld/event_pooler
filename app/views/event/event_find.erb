@@ -1,20 +1,4 @@
-        <div class="content content-two-columns">
-            <div class="banner-area">
-                <h1>Find Events</h1>
-            </div>
-            <div class="column-wrapper">
-                <div class="left-column">
-                    <%= render "shared/search_box" %>
-                    <p class="cant-find">Can't find what you're looking for? <%= link_to "Add a new event", event_create_path %></p>
-                    <%= render :partial => "shared/event_list", :locals => { :events => @events } %>
-                </div>
-                <div class="right-column">
-                    <div class="block">
-                      &nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />
-                      &nbsp;<br />&nbsp;<br />&nbsp;<br />
-                    </div>
-                </div>
-                <div class="clear-fix">&nbsp;</div>
-                <div class="right-column-bg-bottom-fix">&nbsp;</div>
-            </div>
-        </div>
+<% set_title 'Find Events' %>
+<%= render "shared/search_box" %>
+<p class="cant-find">Can't find what you're looking for? <%= link_to "Add a new event", event_create_path %></p>
+<%= render :partial => "shared/event_list", :locals => { :events => @events } %>

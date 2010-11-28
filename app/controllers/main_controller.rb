@@ -1,4 +1,6 @@
 class MainController < ApplicationController
+  layout 'home'
+  
   def index
     @my_events = Event.attended_by(current_user).order(:starts_at) unless current_user.nil?
 
@@ -13,6 +15,5 @@ class MainController < ApplicationController
 
       @my_groups = current_user.groups
     end
-
   end
 end

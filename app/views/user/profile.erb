@@ -1,3 +1,4 @@
+<% set_title "#{@user.name}'s Profile" %>
 <h2><%= @user.name %></h2>
 
 <%= render :partial => 'shared/user_snapshot', :locals => {:user => @user} %>
