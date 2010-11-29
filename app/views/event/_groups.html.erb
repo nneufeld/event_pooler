@@ -2,7 +2,8 @@
 <%= link_to 'Create Group', create_group_path(@event.id) %>
 <hr />
 <%= render :partial => 'my_groups'  %>
-<% unless current_user.nil? || (@groups - @groups.for_user(current_user)).empty? %>
+
+<% unless (@groups - @groups.for_user(current_user)).empty? %>
   <h4>Other Groups</h4>
   
 Only show groups sharing:<br />
