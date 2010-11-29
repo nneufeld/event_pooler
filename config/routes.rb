@@ -94,10 +94,10 @@ EventPooler::Application.routes.draw do
   match '/legal/privacy-policy', :to => 'content#privacy_policy', :as => 'privacy_policy'
   
   
-  match '/notifications/deliver', :to => 'notifications#deliver_all', :as => 'notifications_deliver_all'
-  match '/notifications/deliver-general', :to => 'notifications#deliver_general', :as => 'notifications_deliver_general'
-  match '/notifications/deliver-events', :to => 'notifications#deliver_events', :as => 'notifications_deliver_events'
-  match '/notifications/deliver-sharepref', :to => 'notifications#deliver_sharepref', :as => 'notifications_deliver_sharepref'
+  # match '/notifications/deliver', :to => 'notifications#deliver_all', :as => 'notifications_deliver_all'
+  # match '/notifications/deliver-general', :to => 'notifications#deliver_general', :as => 'notifications_deliver_general'
+  # match '/notifications/deliver-events', :to => 'notifications#deliver_events', :as => 'notifications_deliver_events'
+  # match '/notifications/deliver-sharepref', :to => 'notifications#deliver_sharepref', :as => 'notifications_deliver_sharepref'
 
 
   # See how all your routes lay out with "rake routes
