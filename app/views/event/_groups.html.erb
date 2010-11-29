@@ -2,24 +2,33 @@
 <%= link_to 'Create Group', create_group_path(@event.id) %>
 <hr />
 <%= render :partial => 'my_groups'  %>
-<% unless current_user.nil? || @groups.for_user(current_user).empty? %>
+<% unless current_user.nil? || (@groups - @groups.for_user(current_user)).empty? %>
   <h4>Other Groups</h4>
-<% end %>
+  
 Only show groups sharing:<br />
+
 <% form_tag filter_groups_path(@event.id), :remote => true do %>
   <% Sharable.all.each do |sharable| %>
     <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
     <%= label_tag(sharable.slug, sharable.name) %>
   <% end %>
+
 <br />
 <br />
-Only show groups based in:<br />
+
+
 
   <% cities = [""] + @groups.collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
-  <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
 
- <% end %>
+   <% if !cities.blank? %>
+    Only show groups based in:<br />
+  <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
+  <% end %>
+<% end %>
+ 
 <br />
 <div id="filtered_groups">
   <%= render :partial => 'filtered_groups' %>
 </div>
+<% end %>
+
