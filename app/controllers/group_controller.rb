@@ -81,7 +81,7 @@ class GroupController < ApplicationController
     end
     unless group.users.include?(current_user)
       membership = Membership.new(:user => current_user, :group => group, :approved => false)
-      membership.approved = true unless group.private?
+      membership.approved = true if group.public? || (!invite.nil? && invite.from = group.administrator)
       membership.save
       invite.destroy unless invite.nil?
       if group.private?
