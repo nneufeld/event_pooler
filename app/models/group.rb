@@ -26,10 +26,10 @@ class Group < ActiveRecord::Base
       latitude = user.latitude
       longitude = user.longitude
       if latitude.nil? || longitude.nil?
-        ip_addr = request.env['REMOTE_ADDR']
+        ip_addr = ENV['REMOTE_ADDR']
         geo = Geokit::Geocoders::IpGeocoder.geocode(ip_addr)
         latitude = geo.lat
-        longitude = geo.long
+        longitude = geo.lng
       end
       unless latitude.nil? || longitude.nil?
         select('DISTINCT groups.*').geo_scope(:origin => [user.latitude, user.longitude]).order('distance')
