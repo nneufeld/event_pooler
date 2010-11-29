@@ -22,9 +22,7 @@
   <div class="clear-fix">&nbsp;</div>
 <% end %>
 
-&nbsp;
 <%= render :partial => 'events_attending' unless current_user.nil? %>
-<%= render :partial => "group_membership" unless current_user.nil? %>
                     
 <% content_for :right_column do %>
   <%= render :partial => 'popular_events' %>

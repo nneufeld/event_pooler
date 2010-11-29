@@ -1,19 +1,23 @@
 <h3>Attendees</h3>
-Only show attendees sharing:<br />
-<% form_tag filter_attendees_path(@event.id), :remote => true do %>
-  <% Sharable.all.each do |sharable| %>
-    <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
-    <%= label_tag(sharable.slug, sharable.name) %>
-  <% end %>
-<br />
-<br />
-Only show attendees traveling from:<br />
+<% if @event.attendees.blank? %>
+  There are currently no attendees for this event.
+<% else %>
+  Only show attendees sharing:<br />
+  <% form_tag filter_attendees_path(@event.id), :remote => true do %>
+    <% Sharable.all.each do |sharable| %>
+      <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
+      <%= label_tag(sharable.slug, sharable.name) %>
+    <% end %>
+  <br />
+  <br />
+  Only show attendees traveling from:<br />
 
-  <% cities = [""] + @event.attendees.collect{|attendee| attendee.city + ", " + attendee.region unless attendee.city.blank? || attendee.region.blank?}.flatten.uniq %>
-  <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
+    <% cities = [""] + @event.attendees.collect{|attendee| attendee.city + ", " + attendee.region unless attendee.city.blank? || attendee.region.blank?}.flatten.uniq %>
+    <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
 
- <% end %>
-<br />
-<div id="filtered_attendees">
-  <%= render :partial => 'filtered_attendees' %>
-</div>
+   <% end %>
+  <br />
+  <div id="filtered_attendees">
+    <%= render :partial => 'filtered_attendees' %>
+  </div>
+<% end %>

@@ -9,7 +9,7 @@ class UserController < ApplicationController
     @user = User.new(params[:user])
     if request.post?
       @user.registered_on = DateTime.now
-      if @user.save
+      if @user.valid?
         @user.generate_token
         location = @user.address + ", " + @user.city + ", " + @user.region
         unless @user.address.blank? && @user.city.blank? && @user.region.blank?
@@ -17,9 +17,13 @@ class UserController < ApplicationController
           @user.latitude = lat_lng[:lat]
           @user.longitude = lat_lng[:lng]
         end
-        @user.save
-        UserMailer.welcome_email(@user).deliver
-        redirect_to :action => "welcome" and return
+        begin
+          UserMailer.welcome_email(@user).deliver
+          @user.save
+          redirect_to :action => "welcome" and return
+        rescue
+          flash[:message] = 'Error sending email.'
+        end
       end
     end
   end
@@ -57,8 +61,9 @@ class UserController < ApplicationController
   end
   
   def delete_account
+    #TODO: when delete, fix issue with comments
     current_user.destroy
-    session[:user] = nil
+    session[:user_id] = nil
     redirect_to root_path
   end
 
