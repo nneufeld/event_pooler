@@ -1,0 +1,4 @@
+Tasks for Notifications which require CRON:
+
+One Day Reminder: Should be ran at midnight each day, so 00:00:01
+- "rake notification_event_oneday_reminder" 
