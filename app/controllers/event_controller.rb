@@ -48,6 +48,7 @@ class EventController < ApplicationController
     unless event_group.users.include?(current_user)
       membership = Membership.new(:user => current_user, :group => event_group, :approved => true)
       membership.save
+	  call_rake :notification_event_new_registrant, {:event_id => event.id, :registrant_id => current_user.id}
     end
     redirect_to event_path(event.id)
   end
@@ -184,6 +185,7 @@ class EventController < ApplicationController
 
       @event.save
 
+	  call_rake :notification_event_details_updated, {:event_id => @event.id}
       call_rake "ts:index"
 
       redirect_to event_path(:id => @event.id) and return

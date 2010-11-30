@@ -35,6 +35,18 @@ class User < ActiveRecord::Base
 	return true unless Notification.where({:notification_type_id => notiftype.id, :user_id => self.id}).first.nil?
 	return false
   end
+  
+  def accepts_event_notifications
+	notiftype = NotificationType.where({:slug => 'event'}).first
+	return true unless Notification.where({:notification_type_id => notiftype.id, :user_id => self.id}).first.nil?
+	return false
+  end
+  
+  def accepts_general_notifications
+	notiftype = NotificationType.where({:slug => 'general'}).first
+	return true unless Notification.where({:notification_type_id => notiftype.id, :user_id => self.id}).first.nil?
+	return false
+  end
 
   def password=(pass)
     @password=pass
