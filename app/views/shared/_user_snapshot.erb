@@ -25,10 +25,10 @@
      else
        (5-rank.floor).times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}
      end%>
-     out of <%= reviews.size %> review(s) <%
-  end
+     <%= link_to("out of #{reviews.size} review(s)", profile_path(user.id)) %> <%
+   end
   %>
 </div>
-    <div class="summary">member since: <%= user.registered_on %>, attended <%= Event.attended_by(current_user).count %> events </div>
+    <div class="summary">member since: <%= user.registered_on %>, attended <%= Event.attended_by(user).count %> events </div>
 
 </div>

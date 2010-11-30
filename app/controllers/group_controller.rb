@@ -78,6 +78,7 @@ class GroupController < ApplicationController
   end
 
   def join
+    #TODO: if they don't belong to the event, add them
     group = Group.find(params[:id])
     invite = GroupInvitation.find_by_group_id_and_email(group.id, current_user.email)
     if group.invite_only?

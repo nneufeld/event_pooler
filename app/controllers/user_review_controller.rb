@@ -1,4 +1,5 @@
 class UserReviewController < ApplicationController
+  before_filter :login_required
 
   def new
     @review = UserReview.new(params[:user_review])
