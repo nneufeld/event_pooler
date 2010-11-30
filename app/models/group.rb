@@ -69,5 +69,4 @@ class Group < ActiveRecord::Base
   def event_type?
     return self.group_type.slug == 'event'
   end
-
 end

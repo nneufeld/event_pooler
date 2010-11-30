@@ -45,4 +45,12 @@ class GroupMailer < ActionMailer::Base
   
 	mail(:to => ruser.email, :subject => "#{@ruser.name} has updated their sharing preferences")
   end
+  
+  def group_sharingpref_similar(group, user)
+	@user = user
+	@group = group
+	@event = group.event
+	
+	mail(:to => user.email, :subject => "#{group.event.name} has a new group with similar sharing preferences")
+  end
 end

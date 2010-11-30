@@ -23,6 +23,9 @@ class GroupController < ApplicationController
           @group.longitude = lat_long[:lng]
         end
         @group.save
+		
+		call_rake :notification_group_similar_sharingprefs, {:group_id => @group.id}
+		
         redirect_to group_invite_path(params[:event_id], @group.id) and return if @group.invite_only?
         redirect_to group_path(params[:event_id], @group.id) and return
       end
@@ -54,6 +57,7 @@ class GroupController < ApplicationController
           @group.latitude = lat_long[:lat]
           @group.longitude = lat_long[:lng]
         end
+		call_rake :notification_group_similar_sharingprefs, {:group_id => @group.id}
         @group.save
         redirect_to group_path(params[:event_id], @group.id) and return
       end
