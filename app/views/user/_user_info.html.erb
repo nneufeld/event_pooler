@@ -21,7 +21,18 @@
   <p><label id="avatar">Account Avatar:</label>
 		<%= image_tag @user.avatar.url(:thumb) if @user.avatar.exists? %>
 		<%= file_field_tag :avatar %></p>
+  
+  
+  
   <% end %>
+  
+  
+  <% unless @user.new_record?
+	NotificationType.all.each do |notif_type| %>
+  <% checked = @user.notification_types.include?(notif_type) %>
+  <p><%= check_box_tag("notifications[#{notif_type.slug}]", '', checked) %>
+	 <%= label_tag("notifications_#{notif_type.slug}", notif_type.form_description) %></p>
+  <% end end %>
   
   <p class="submit"><%= submit_tag btnText %></p>
 </div>

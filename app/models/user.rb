@@ -6,11 +6,13 @@ class User < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
   has_many :comments
-  has_many :notifications
   has_many :reviews
   has_attached_file :avatar, 
                     :styles => { :medium => "100x100>",
                                  :thumb => "40x40>" }
+
+	  has_many :notifications, :dependent => :destroy
+	  has_many :notification_types, :through => :notifications
 
 
   validates_length_of :password, :within => 6..40, :if => :validate_password?
@@ -27,6 +29,12 @@ class User < ActiveRecord::Base
   scope :sharing_with_group, lambda{|sharables, group|
     select('DISTINCT users.*').joins('INNER JOIN memberships m ON users.id = m.user_id INNER JOIN memberships_sharables ms ON ms.membership_id = m.id').where('m.group_id = ? AND ms.sharable_id IN (?)', group.id, sharables.map{|s| s.id})
   }
+  
+  def accepts_sharepref_notifications
+	notiftype = NotificationType.where({:slug => 'share_pref'}).first
+	return true unless Notification.where({:notification_type_id => notiftype.id, :user_id => self.id}).first.nil?
+	return false
+  end
 
   def password=(pass)
     @password=pass
