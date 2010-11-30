@@ -31,9 +31,7 @@
   <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="<%= request.url %>" layout="button_count" show_faces="true" width="450" font="arial"></fb:like>
   </div>
   
-<% if @event.attendees.include?(current_user) %>
-  <div style="float: right"><%= render :partial => 'attendees' %></div>
-<% end %>
+<div style="float: right"><%= render :partial => 'groups' %></div>
 <div class="clear-fix">
 </div>
 <div style="float: left">
@@ -43,5 +41,7 @@
   <br/>
 <%= render :partial => 'shared/message_board', :locals => {:group => @event.event_group} %>
 <% content_for :right_column do %>
-  <%= render :partial => 'groups' %>
+  <% if @event.attendees.include?(current_user) %>
+    <%= render :partial => 'attendees' %>
+  <% end %>
 <% end %>
