@@ -71,7 +71,14 @@ class UserController < ApplicationController
   
   def delete_account
     #TODO: when delete, fix issue with comments
-    current_user.destroy
+    current_user.comments.each do |comment|
+      comment.children.each do |child|
+        child.parent = comment.parent
+        child.save
+      end
+      comment.delete
+    end
+    current_user.destroy 
     session[:user_id] = nil
     redirect_to root_path
   end

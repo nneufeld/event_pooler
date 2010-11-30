@@ -2,5 +2,5 @@
 <% if @event.native? %>
   <%= link_to(@event.url, @event.url) unless @event.url.blank? %>
 <% else %>
-  <%= link_to(image_tag("#{@event.remote_source}_logo.gif", :alt => 'View source event.'), @event.url) unless @event.url.blank? %>
+  <%= link_to(image_tag("#{@event.remote_source}_logo.gif", :alt => 'View source event.'), @event.url, :target => '_blank') unless @event.url.blank? %>
 <% end %>
