@@ -151,11 +151,12 @@ class EventController < ApplicationController
         @event.longitude = lat_long[:lng]
       end
 
-      @event.save
+      if @event.save
 
-      call_rake "ts:index"
+        call_rake "ts:index"
 
-      redirect_to attend_event_path(:id => @event.id) and return
+        redirect_to attend_event_path(:id => @event.id) and return
+      end
     end
 
     render 'update'

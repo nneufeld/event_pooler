@@ -33,6 +33,8 @@
 <div style="float: left">
       <br /><%= CGI.unescapeHTML(@event.description).html_safe unless @event.description.nil? %>
 </div>
+  <div class="clear-fix"></div>
+  <br/>
 <%= render :partial => 'shared/message_board', :locals => {:group => @event.event_group} %>
 <% content_for :right_column do %>
   <%= render :partial => 'groups' %>
