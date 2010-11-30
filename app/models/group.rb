@@ -36,7 +36,6 @@ class Group < ActiveRecord::Base
     end
   }
   
-
   scope :sharing, lambda {|sharables|
     select('DISTINCT groups.*').joins('INNER JOIN groups_sharables gs ON gs.group_id = groups.id').where(['gs.sharable_id IN (?)', sharables.map{|s| s.id}])
   }
