@@ -81,7 +81,7 @@ class Event < ActiveRecord::Base
           Timeout::timeout(20) do
             @results << (self.method( source ).call(query, {:lat => lat, :lng => lng, :wlat => wlat, :elat => elat, :nlng => nlng, :slng => slng}).collect{ |r| r }.collect{|result| result}) || []
           end
-        rescue Exception => ex
+        rescue
           puts "Error getting results from #{source.to_s}"
         end
       end
@@ -131,9 +131,9 @@ class Event < ActiveRecord::Base
 
     events.search('items').search('item').each do |item|
 
-    next if item.search('venue').blank? #don't show if we don't know where it is
+      next if item.search('venue').blank? #don't show if we don't know where it is
 
-    results << Event.new(
+      event = Event.new(
                 :name=> item.search('group').search('name').inner_html,
                 :description => item.search('description').inner_html,
                 :starts_at => Time.at(item.search('time').text.to_i/1000),
@@ -149,6 +149,9 @@ class Event < ActiveRecord::Base
                 :url => (item.search('event_url').inner_html rescue ""),
                 :latitude => (item.search('venue').search('lat').text rescue location[:lat]),
                 :longitude => (item.search('venue').search('lon').text rescue location[:lng]))
+
+      next unless event.valid?
+      results << event;
     end
 
     return_results = []
