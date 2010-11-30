@@ -10,6 +10,8 @@ class Event < ActiveRecord::Base
   has_many :user_review
   belongs_to :administrator, :class_name => 'User'
 
+  validates_presence_of :name, :city, :region, :starts_at
+
   scope :attended_by, lambda {|user|
     event_group_type = GroupType.find_by_slug('event')
     joins('INNER JOIN groups g ON g.event_id = events.id INNER JOIN memberships m ON m.group_id = g.id').
@@ -128,7 +130,7 @@ class Event < ActiveRecord::Base
 
     events.search('items').search('item').each do |item|
 
-     next if item.search('venue').blank? #don't show if we don't know where it is
+    next if item.search('venue').blank? #don't show if we don't know where it is
 
     results << Event.new(
                 :name=> item.search('group').search('name').inner_html,
@@ -187,7 +189,7 @@ class Event < ActiveRecord::Base
     
     events["events"].each do |event|
 
-      next if event["venue"].nil?
+    next if event["venue"].nil?
 
 
      results << Event.new(
