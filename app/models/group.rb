@@ -1,10 +1,9 @@
 class Group < ActiveRecord::Base
   belongs_to :event
   has_many :comments
-  has_many :memberships
+  has_many :memberships, :dependent => :destroy
   has_many :users, :through => :memberships
   has_many :notifications
-  has_many :posts
   has_many :group_invitations
   belongs_to :group_type
   belongs_to :administrator, :class_name => 'User'
@@ -48,9 +47,7 @@ class Group < ActiveRecord::Base
   }
 
   scope :for_user, lambda {|user|
-    unless user.nil?
-      joins(:memberships).where(['memberships.user_id = ?', user.id])
-    end
+    joins(:memberships).where(['memberships.user_id = ?', user.nil? ? 0 : user.id])
   }
 
   scope :visible, lambda {

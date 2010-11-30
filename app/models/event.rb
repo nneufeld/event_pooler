@@ -263,4 +263,8 @@ class Event < ActiveRecord::Base
     CGI.unescapeHTML(self.name).html_safe
   end
 
+  def native?
+    return self.remote_source == 'native'
+  end
+
 end
