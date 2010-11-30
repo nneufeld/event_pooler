@@ -163,6 +163,7 @@ class GroupController < ApplicationController
       flash[:message] = 'Invitations have been successfully sent.'
       redirect_to group_path(params[:event_id], params[:id]) and return
     end
+    @group = Group.find(params[:id])
   end
 
   def accept_invitation

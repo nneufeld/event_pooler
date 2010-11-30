@@ -5,22 +5,24 @@
 <% else %>
   <% set_title "Edit '#{@group.name}'" %>
 <% end %>
-<% form_for :group do |f| %>
-<%= f.error_messages %>
-    <%= f.label :name, 'Group Name' %> <%= f.text_field :name  %><br />
-    <%= f.label :description, 'Description' %> <%= f.text_area :description, :size => "24x6" %><br />
-    <%= f.label :city, 'City' %> <%= f.text_field :city %><br />
-    <%= f.label :region, 'Province/State' %> <%= f.text_field :region %><br />
-    <%= f.label :sharables, 'Resources You Want This Group To Share' %><br />
-    <% Sharable.all.each do |sharable| %>
-      <% checked = @group.sharables.include?(sharable) %>
-      <%= check_box_tag(sharable.slug, '', checked ) %>
-      <%= label_tag(sharable.slug, sharable.name) %>
-    <% end %><br />
-    <%= f.label :group_type_id, 'Group Type' %> <%= f.collection_select :group_type_id, GroupType.user_selectable, :id, :name %><br />
-  <%= submit_tag "#{action} Group" %>
-  
-<% end %>
+<div class="form">
+  <h2>Group Details</h2>
+  <% form_for :group do |f| %>
+    <%= f.error_messages %>
+      <p><%= f.label :name, 'Group Name: *' %> <%= f.text_field :name  %></p>
+        <p><%= f.label :description, 'Description: ' %> <%= f.text_area :description, :size => "24x6" %></p>
+        <p><%= f.label :city, 'City: ' %> <%= f.text_field :city %></p>
+        <p><%= f.label :region, 'Province/State: ' %> <%= f.text_field :region %></p>
+        <br /><span style="font-weight: bold; text-transform: uppercase;"><%= f.label :sharables, 'Resources You Want This Group To Share: ' %><br />
+        <% Sharable.all.each do |sharable| %>
+          <% checked = @group.sharables.include?(sharable) %>
+          <%= check_box_tag(sharable.slug, '', checked ) %>
+          <%= label_tag(sharable.slug, sharable.name) %>
+        <% end %></span><br /><br />
+        <p><%= f.label :group_type_id, 'Group Type: *' %><br /><%= f.collection_select :group_type_id, GroupType.user_selectable, :id, :name %></p>
+      <p class="submit"><%= submit_tag "#{action} Group" %></p>
+    <% end %>
+</div>
 
 <br /><br />
 <h4>GroupTypes:</h4>

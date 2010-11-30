@@ -1,9 +1,11 @@
-<% set_title 'Invite Friends' %>
-Enter the email address of a friend to invite to this group:<br />
-To invite multiple friends, separate their email address with a comma<br />
-<% form_tag do %>
-  <%= label_tag(:email_addresses, "Email Address(es)") %><%= text_field_tag :email_addresses %><br />
-  <%= label_tag(:message, "Message:") %>
-  <%= text_area_tag :message, '', :size => "24x6" %><br />
-  <%= submit_tag 'Send Invitation' %>
-<% end %>
+<% set_title "Invite Friends to '#{@group.name}'" %>
+<div class="form">
+  <h2>Invite Friends</h2>
+  <p>To invite multiple friends, separate each email address with a comma</p>
+  <% form_tag do %>
+    <p><%= label_tag(:email_addresses, "Email Address(es)") %><%= text_field_tag :email_addresses %></p>
+    <p><%= label_tag(:message, "Message:") %>
+    <%= text_area_tag :message, '', :size => "24x6" %></p>
+    <p class="submit"><%= submit_tag 'Send Invitation' %></p>
+  <% end %>
+</div>

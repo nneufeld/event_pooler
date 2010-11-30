@@ -2,8 +2,8 @@
 <br />
 <%  unless group.city.blank? && group.region.blank? %>
 Based in - <%= group.city %> <%= group.region %>
-<% end %>
 <br />
+<% end %>
 <% sharing = group.sharables.map{|s| s.name}.to_sentence %>
 <% unless sharing.blank? %>
 Sharing - <%= sharing %>

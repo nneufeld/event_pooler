@@ -458,7 +458,8 @@ p.small {
 }
 
 input[type="text"],
-input[type="password"]
+input[type="password"],
+textarea
 {
     padding: 6px 5px;
     border: 1px solid #e2e2e2;
