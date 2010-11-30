@@ -1,6 +1,5 @@
 desc "Notification to let other's know that a user has updated his or her sharing preferences that are similar to theres"
 task :notification_event_user_sharepref_update => :environment do
-	# event = Event.find(ENV["EVENT_ID"]);
 	@group = Group.find(ENV["GROUP_ID"]);
 	@user = User.find(ENV["USER_ID"]);
 	@user_membership = @user.memberships.for_group(@group).first

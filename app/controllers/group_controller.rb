@@ -133,7 +133,10 @@ class GroupController < ApplicationController
     end
     @my_sharables = membership.sharables
 	
-	
+	call_rake :notification_event_user_sharepref_update, {
+		:group_id => params[:id],
+		:user_id => current_user.id
+	}
   end
 
   def invite
