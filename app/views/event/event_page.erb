@@ -1,42 +1,38 @@
 <% set_title(@event.name) %>
-<h3><%= CGI.unescapeHTML(@event.name).html_safe %><span style="font-size: small">
+<% unless flash[:message].nil? %>
+  <%= flash[:message] %><br /><br />
+<% end %>
+<h3><%= @event.safe_name %><span style="font-size: small">
   <% if !current_user.nil? && @event.administrator == current_user %>
    - <%= link_to 'Edit', event_update_path(@event.id) %>
   <% end %></span>
 </h3>
-<% unless flash[:message].nil? %>
-  <%= flash[:message] %><br /><br />
-<% end %>
 <% unless @event.attendees.include?(current_user) %>
   <%= link_to 'Attend', attend_event_path %>
 <% else %>
-  <%= link_to 'Export to Calendar', export_event_path(@event.id) %><br />
+  <%= link_to 'Export to Calendar', export_event_path(@event.id) %>  -  
   <%= link_to 'Cancel Attendance', cancel_attendance_path, :confirm => 'Are you sure you want to cancel your attendance of this event?' %><br /><br />
-  <%= render :partial => 'shared/update_sharables' %>
-  <%= render :partial => 'attendees' %>
 <% end %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <td colspan = "4">
-      <%= CGI.unescapeHTML(@event.description).html_safe unless @event.description.nil? %>
-    </td>
-  </tr>
-  <tr>
-    <td><%= CGI.unescapeHTML(@event.address).html_safe %></td><td><%= CGI.unescapeHTML(@event.city).html_safe %></td><td><%= CGI.unescapeHTML(@event.region).html_safe %></td><td><%= CGI.unescapeHTML(@event.code).html_safe %></td>
-  </tr>
-  <tr>
-    <td>Starts:</td><td><%=  Time.at(@event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %></td><td>Ends:</td><td><%=  @event.ends_at.to_i == 0 ? "":Time.at(@event.ends_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%></td>
-  </tr>
-  <tr>
-    <td>Phone:</td><td><%= CGI.unescapeHTML(@event.phone).html_safe %></td><td>Email:</td><td><%= CGI.unescapeHTML(@event.email).html_safe %></td>
-  </tr>
-  <tr>
-    <td>original source:</td><td><%= @event.remote_source %></td><td colspan="2"><a href="<%= @event.url %>" target="_blank"><%= @event.url %></a></td>
-  </tr>
-</table>
+  <div class="clear-fix"></div>
+  
+  <div style="float:left">
+   
+    <% if @event.attendees.include?(current_user) %><%= render :partial => 'shared/update_sharables' %><br /><br /><% end %>
+    <strong>Starts:</strong> <%=  Time.at(@event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %><br />
+    <strong>Ends: </strong><%=  @event.ends_at.to_i == 0 ? "":Time.at(@event.ends_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%><br />
+    <strong>Location:</strong><br /><%= CGI.unescapeHTML(@event.address).html_safe %><br /><%= CGI.unescapeHTML(@event.city).html_safe %>, <%= CGI.unescapeHTML(@event.region).html_safe %><br /><%= CGI.unescapeHTML(@event.code).html_safe %><br />
+    <strong>Phone:</strong> <%= CGI.unescapeHTML(@event.phone).html_safe %><br />
+    <strong>Email:</strong> <%= CGI.unescapeHTML(@event.email).html_safe %><br />
+    <%= render :partial => 'event_url' %>
+  </div>
+<% if @event.attendees.include?(current_user) %>
+  <div style="float: right"><%= render :partial => 'attendees' %></div>
+<% end %>
+<div class="clear-fix">
+</div>
+<div style="float: left">
+      <br /><%= CGI.unescapeHTML(@event.description).html_safe unless @event.description.nil? %>
+</div>
 <%= render :partial => 'shared/message_board', :locals => {:group => @event.event_group} %>
 <% content_for :right_column do %>
   <%= render :partial => 'groups' %>

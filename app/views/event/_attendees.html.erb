@@ -9,12 +9,13 @@
       <%= label_tag(sharable.slug, sharable.name) %>
     <% end %>
   <br />
-  <br />
-  Only show attendees traveling from:<br />
 
     <% cities = [""] + @event.attendees.collect{|attendee| attendee.city + ", " + attendee.region unless attendee.city.blank? || attendee.region.blank?}.flatten.uniq %>
-    <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
+    <% unless cities.count <= 2 %>
+  Only show attendees traveling from:<br />
 
+    <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
+    <% end %>
    <% end %>
   <br />
   <div id="filtered_attendees">

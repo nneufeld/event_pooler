@@ -53,7 +53,6 @@ EventPooler::Application.routes.draw do
   match '/event/event_find', :to => 'event#event_find', :as => 'event_find'
   match '/event/create', :to=> 'event#create', :as => 'event_create'
   match '/event/update/:id', :to=> 'event#update', :as => 'event_update'
-  match '/event/page/:id', :to => 'event#event_page', :as => 'event'
   match '/event/:id', :to => 'event#event_page', :as => 'event'
   match '/event/:id/attend', :to => 'event#attend', :as => 'attend_event'
   match '/event/:id/cancel_attendance', :to => 'event#cancel_attendance', :as => 'cancel_attendance'

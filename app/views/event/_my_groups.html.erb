@@ -3,5 +3,4 @@
   <% @groups.for_user(current_user).each do |group| %>
     <%= render :partial => 'group', :locals => {:group => group} %>
   <% end %>
-  <hr />
 <% end %>

@@ -4,6 +4,7 @@
 <%= render :partial => 'my_groups'  %>
 
 <% unless (@groups - @groups.for_user(current_user)).empty? %>
+  <hr />
   <h4>Other Groups</h4>
   
 Only show groups sharing:<br />
@@ -15,13 +16,13 @@ Only show groups sharing:<br />
   <% end %>
 
 <br />
-<br />
 
 
 
-  <% cities = [""] + @groups.collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
+  <% cities = [""] + (@groups - @groups.for_user(current_user)).collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
 
-   <% if !cities.blank? %>
+   <% unless cities.count <= 2 %>
+    <br />
     Only show groups based in:<br />
   <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
   <% end %>
