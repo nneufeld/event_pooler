@@ -1,0 +1,15 @@
+<% unless current_user.nil? || current_user.group_invitations.empty? %>
+  <table style="width: 100%" class="popular-events">
+    <tr>
+      <th colspan="3">Group Invitations</th>
+    </tr>
+    <% current_user.group_invitations.each do |invite| %>
+      <tr><td colspan="2"><%= link_to invite.group.name, group_path(invite.group.event_id, invite.group_id) %>(Event: <%= link_to invite.group.event.safe_name, event_path(invite.group.event_id) %>)<br />
+          From <%= link_to invite.from.name, profile_path(invite.from_id) %><br />
+          "<%= invite.message %>"
+      </td>
+      <td><%= link_to 'Accept', group_accept_invitation_path(invite.token) %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

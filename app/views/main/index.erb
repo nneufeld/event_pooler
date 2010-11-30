@@ -25,6 +25,7 @@
 <%= render :partial => 'events_attending' unless current_user.nil? %>
                     
 <% content_for :right_column do %>
+  <%= render :partial => 'my_invitations' unless current_user.nil? %><br />
   <%= render :partial => 'popular_events' %>
   <%= render :partial => "recent_activity" unless current_user.nil? %>
 <% end %>

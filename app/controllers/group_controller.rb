@@ -77,7 +77,10 @@ class GroupController < ApplicationController
     group = Group.find(params[:id])
     invite = GroupInvitation.find_by_group_id_and_email(group.id, current_user.email)
     if group.invite_only?
-      flash[:message] = 'You must be invited to this group in order to join.' unless invite.nil?
+      if invite.nil?
+        flash[:message] = 'You must be invited to this group in order to join.'
+        redirect_to event_path(group.event_id) and return
+      end
     end
     unless group.users.include?(current_user)
       membership = Membership.new(:user => current_user, :group => group, :approved => false)
