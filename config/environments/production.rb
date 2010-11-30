@@ -46,4 +46,17 @@ EventPooler::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  
+  config.action_mailer.delivery_methd = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.smtp_settings = {
+	:address => "dphost.dewpixel.com",
+ 	:port => 465,
+	:domain => "eventpooler.com"
+ 	:user_name => "me+amcgowan.ca"
+ 	:password => "crypto",
+ 	:authentication => "plain",
+ 	:enable_starttls_auto => true
+   }
 end

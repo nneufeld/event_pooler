@@ -45,13 +45,22 @@ class UserController < ApplicationController
 		if request.post?
 			email_changed = params[:user][:email] != @user.email
 			@user.update_attributes(params[:user])
+			
+			@user.notification_types.clear
+			NotificationType.all.each do |notiftype|
+				if params['notifications'][notiftype.slug]
+					@user.notification_types << notiftype
+				end
+			end
+			
 			if @user.valid?
-        location = @user.address + ", " + @user.city + ", " + @user.region
-        unless @user.address.blank? && @user.city.blank? && @user.region.blank?
-          lat_lng = get_lat_lng(location)
-          @user.latitude = lat_lng[:lat]
-          @user.longitude = lat_lng[:lng]
-        end
+				location = @user.address + ", " + @user.city + ", " + @user.region
+				unless @user.address.blank? && @user.city.blank? && @user.region.blank?
+					lat_lng = get_lat_lng(location)
+					@user.latitude = lat_lng[:lat]
+					@user.longitude = lat_lng[:lng]
+				end
+		
 				@user.avatar = params[:avatar] unless params[:avatar].blank?
 				@user.save
 				flash[:message] = "Account successfully updated. "
