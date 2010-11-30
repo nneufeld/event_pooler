@@ -16,7 +16,7 @@ class EventMailer < ActionMailer::Base
 	@event = event
 	@user = user
 	
-	mail(:to => user.email, :subject => "Reminder: Less then 24 hours until #{event.title}")
+	mail(:to => user.email, :subject => "Reminder: Less then 24 hours until #{event.name}")
   end
   
   def new_registrant(event, registrant)
