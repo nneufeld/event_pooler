@@ -7,7 +7,7 @@
 
 <% users_events = users_groups.collect{|group| group.event}.uniq.sort_by{|event| event.starts_at} %>
 
-<% my_groups =  Membership.find_all_by_user_id(current_user.id, :include => :group).collect{|membership| membership.group} %>
+<% my_groups =  Membership.find_all_by_user_id(current_user.id, :include => :group).collect{|membership| membership.group} rescue [] %>
 <%  common_groups = users_groups & my_groups
 if !common_groups.blank?
     #find the private groups we have in common
