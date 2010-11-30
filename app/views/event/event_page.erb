@@ -26,8 +26,8 @@
     <%= render :partial => 'event_url' %>
     
     <br /><br />
-    <!--// Problem: Since we are running localhost, and not an actual domain - Twitter does not like the data-url "0.0.0.0:3000" //-->
-    <a href="http://twitter.com/share" class="twitter-share-button" data-url="<%= request.url %>" data-text="Check out <%= @event.safe_name %>!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <!--// Problem: Since we are running localhost, and not an actual domain - Twitter does not like the data-url "<%= request.url %>" //-->
+    <a href="http://twitter.com/share" class="twitter-share-button" data-url="eventpooler.com" data-text="Check out the event <%= @event.safe_name %> at eventpooler.com!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="<%= request.url %>" layout="button_count" show_faces="true" width="450" font="arial"></fb:like>
   </div>
   
