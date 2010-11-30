@@ -9,3 +9,5 @@ public/system
 config/environments/development.rb
 .DS_Store?
 config/initializers/secret_token.rb
+lib/tasks/.DS_Store
+lib/.DS_Store

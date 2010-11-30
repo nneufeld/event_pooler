@@ -37,4 +37,12 @@ class GroupMailer < ActionMailer::Base
         :subject => "#{@invitation.from.name} Has Invited You To A Group On EventPooler"
     )
   end
+  
+  def membership_sharingpref_similar(user, ruser, group)
+	@user = user
+	@ruser = ruser
+	@group = group
+  
+	mail(:to => ruser.email, :subject => "#{@ruser.name} has updated their sharing preferences")
+  end
 end

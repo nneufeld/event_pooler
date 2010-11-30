@@ -11,4 +11,11 @@ class EventMailer < ActionMailer::Base
         :reply_to => from_user.email,
         :subject => "#{@from_user.name} sent you a message on EventPooler")
   end
+  
+  def oneday_reminder(event, user)
+	@event = event
+	@user = user
+	
+	mail(:to => user.email, :subject => "Reminder: Less then 24 hours until #{event.title}")
+  end
 end

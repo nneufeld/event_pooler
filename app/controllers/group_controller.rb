@@ -132,6 +132,8 @@ class GroupController < ApplicationController
       end
     end
     @my_sharables = membership.sharables
+	
+	
   end
 
   def invite

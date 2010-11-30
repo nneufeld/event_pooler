@@ -10,7 +10,7 @@ task :notification_event_user_sharepref_update => :environment do
 			unless @user.id == gmember.user.id
 				# test if user wants to receive notifications
 				if gmember.user.accepts_sharepref_notifications && gmember.has_similar_sharables(@user_membership)
-					# email = GroupMailer.membership_sharingpref_similar(@user, gmember.user, @group).deliver
+					email = GroupMailer.membership_sharingpref_similar(@user, gmember.user, @group).deliver
 					puts "Sending notification to: #{gmember.user.email} ... #{email}"
 				end
 			end
