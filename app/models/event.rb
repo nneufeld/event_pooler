@@ -8,6 +8,7 @@ require 'nokogiri'
 class Event < ActiveRecord::Base
   has_many :groups
   has_many :user_review
+  has_many :group_invitations, :through => :groups
   belongs_to :administrator, :class_name => 'User'
 
   validates_presence_of :name, :city, :region, :starts_at

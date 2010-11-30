@@ -1,7 +1,7 @@
 <h3>Groups</h3>
 <%= link_to 'Create Group', create_group_path(@event.id) %>
-<hr />
-<%= render :partial => 'my_groups'  %>
+<%= render :partial => 'invitations_listing'  %>
+<%= render :partial => 'my_groups' %>
 
 <% unless (@groups - @groups.for_user(current_user)).empty? %>
   <hr />

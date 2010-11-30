@@ -75,6 +75,7 @@ EventPooler::Application.routes.draw do
   match '/group/:id/update_sharables', :to => 'group#update_sharables', :as => 'update_sharables'
   match '/event/:event_id/group/:id/invite', :to => 'group#invite', :as => 'group_invite'
   match '/group/accept_invitation/:token', :to => 'group#accept_invitation', :as => 'group_accept_invitation'
+  match '/group/ignore_invitation/:token', :to => 'group#ignore_invitation', :as => 'group_ignore_invitation'
   match '/event/:event_id/group/:id/leave', :to => 'group#leave', :as => 'group_leave'
   
   match '/user/signup', :to => 'user#signup', :as => 'signup'

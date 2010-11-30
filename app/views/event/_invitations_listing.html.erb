@@ -1,0 +1,12 @@
+<% unless current_user.nil? %>
+  <% invitations = @event.group_invitations.where({:email => current_user.email}) %>
+  <% unless invitations.empty? %>
+    <hr />
+    <h4>Group Invitations</h4>
+    <% invitations.each do |invite| %>
+      <%= link_to invite.group.name, group_path(invite.group.event_id, invite.group_id) %> - From <%= invite.from.name %><br />
+      "<%= invite.message %>"<br />
+      <%= link_to 'Accept', group_accept_invitation_path(invite.token) %> - <%= link_to 'Ignore', group_ignore_invitation_path(invite.token) %><br />
+    <% end %>
+  <% end %>
+<% end %>

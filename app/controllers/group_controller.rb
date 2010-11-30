@@ -62,7 +62,7 @@ class GroupController < ApplicationController
   
   def show_group
     @group = Group.find(params[:id], :include => [:comments, :memberships, :users])
-    if @group.invite_only? && !@group.users.include?(current_user)
+    if @group.invite_only? && !@group.users.include?(current_user) && !current_user.group_invitations.map{|i| i.group}.include?(@group)
       flash[:message] = "You do not have access to this group"
       redirect_to event_path(@group.event_id) and return
     end
@@ -86,7 +86,10 @@ class GroupController < ApplicationController
       membership = Membership.new(:user => current_user, :group => group, :approved => false)
       membership.approved = true if group.public? || (!invite.nil? && invite.from = group.administrator)
       membership.save
-      invite.destroy unless invite.nil?
+      unless invite.nil?
+        invite.destroy
+        puts 'Just destroyed the invitations'
+      end
       if group.private?
         # send the admin an approval email
         GroupMailer.approve_membership(group, current_user).deliver
@@ -153,7 +156,7 @@ class GroupController < ApplicationController
       end
 
       flash[:message] = 'Invitations have been successfully sent.'
-      redirect_to group_path(params[:id]) and return
+      redirect_to group_path(params[:event_id], params[:id]) and return
     end
   end
 
@@ -165,6 +168,16 @@ class GroupController < ApplicationController
       invite.email = current_user.email
       invite.save
       redirect_to join_group_path(invite.group.event_id, invite.group_id) and return
+    end
+    flash[:message] = 'Invalid token'
+    redirect_to root_path
+  end
+
+  def ignore_invitation
+    invite = GroupInvitation.find_by_token(params[:token])
+    unless invite.nil?
+      invite.destroy
+      redirect_to request.referer and return
     end
     flash[:message] = 'Invalid token'
     redirect_to root_path

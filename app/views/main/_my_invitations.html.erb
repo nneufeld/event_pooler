@@ -8,7 +8,7 @@
           From <%= link_to invite.from.name, profile_path(invite.from_id) %><br />
           "<%= invite.message %>"
       </td>
-      <td><%= link_to 'Accept', group_accept_invitation_path(invite.token) %></td>
+      <td><%= link_to 'Accept', group_accept_invitation_path(invite.token) %> - <%= link_to 'Ignore', group_ignore_invitation_path(invite.token) %></td>
       </tr>
     <% end %>
   </table>
