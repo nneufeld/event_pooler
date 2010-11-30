@@ -16,7 +16,9 @@
 
     <% end %>
     <div class="info">
-     <%= link_to user.name, profile_path(user.id) %> in <%= link_to (comment.group.event.name + ":" + comment.group.name), group_path(comment.group.event.id, comment.group.id) %>
+      <% link = link_to(comment.group.event.safe_name, event_path(comment.group.event.id)) if comment.group.event_type? %>
+      <% link = "#{link_to(comment.group.event.safe_name, event_path(comment.group.event.id))}(Group: #{link_to comment.group.name, group_path(comment.group.event.id, comment.group.id)})" unless comment.group.event_type? %>
+      <%= link_to user.name, profile_path(user.id) %> in <%= link_to(comment.group.event.safe_name, event_path(comment.group.event.id)) %><% unless comment.group.event_type? %>(Group: <%= link_to comment.group.name, group_path(comment.group.event_id, comment.group.id) %>)<% end %>
     </div>
     <div class="subinfo">
     <%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>

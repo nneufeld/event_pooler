@@ -74,7 +74,13 @@ class Event < ActiveRecord::Base
     @results = []
     if !query.to_s.strip.blank? || !location.to_s.strip.blank?
       sources.each do |source|
-       @results << (self.method( source ).call(query, {:lat => lat, :lng => lng, :wlat => wlat, :elat => elat, :nlng => nlng, :slng => slng}).collect{ |r| r }.collect{|result| result}) || []
+        begin
+          Timeout::timeout(20) do
+            @results << (self.method( source ).call(query, {:lat => lat, :lng => lng, :wlat => wlat, :elat => elat, :nlng => nlng, :slng => slng}).collect{ |r| r }.collect{|result| result}) || []
+          end
+        rescue Exception => ex
+          puts "Error getting results from #{source.to_s}"
+        end
       end
     end
     @results.flatten.uniq.compact.flatten
