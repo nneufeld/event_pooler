@@ -70,4 +70,8 @@ class Group < ActiveRecord::Base
     return self.group_type.slug == 'invite-only'
   end
 
+  def event_type?
+    return self.group_type.slug == 'event'
+  end
+
 end
