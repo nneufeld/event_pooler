@@ -11,7 +11,7 @@
 <%  common_groups = users_groups & my_groups
 if !common_groups.blank?
     #find the private groups we have in common
-    common_groups.delete_if{|group| group == group.event.event_group || group.public?}
+    common_groups.delete_if{|group| group.event.nil? || group == group.event.event_group || group.public?}
 
     common_events = common_groups.collect{|group| group.event}.uniq!
 
