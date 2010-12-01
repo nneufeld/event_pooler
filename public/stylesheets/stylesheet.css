@@ -943,3 +943,16 @@ img.rating_star{ height: 15px; width: 15px; }
 .search_result{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px; padding: 2px; }
 .search_result .date{ background-color:#CCCCCC; padding: 2px; }
 
+
+.comments { }
+.comment-list { }
+.comment-list li {
+    padding: 10px 0px 10px;
+}
+.comment-list li .comment {
+    margin-left: 25px;
+}
+
+.comment-list li .comment .comment .comment .comment {
+    margin-left: 0px;
+}
