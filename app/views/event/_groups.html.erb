@@ -1,36 +1,27 @@
-<h3>Groups</h3>
-<%= link_to 'Create Group', create_group_path(@event.id) %>
-<%= render :partial => 'invitations_listing'  %>
-<%= render :partial => 'my_groups' %>
+<h2 class="heading">Groups <span class="qlink"><%= link_to 'Create Group', create_group_path(@event.id) %></span></h3>
+  <!--// <%= render :partial => 'invitations_listing'  %> -->
+  <%= render :partial => 'my_groups' %>
 
 <% unless (@groups - @groups.for_user(current_user)).empty? %>
-  <hr />
-  <h4>Other Groups</h4>
-  
-Only show groups sharing:<br />
-
-<% form_tag filter_groups_path(@event.id), :remote => true do %>
-  <% Sharable.all.each do |sharable| %>
-    <%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %>
-    <%= label_tag(sharable.slug, sharable.name) %>
-  <% end %>
-
-<br />
-
-
-
-  <% cities = [""] + (@groups - @groups.for_user(current_user)).collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
-
-   <% unless cities.count <= 2 %>
-    <br />
-    Only show groups based in:<br />
-  <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
-  <% end %>
-<% end %>
- 
-<br />
-<div id="filtered_groups">
-  <%= render :partial => 'filtered_groups' %>
-</div>
+  <h4 class="subheading">Other Groups</h4>
+  <div class="filter">
+    <p>Show only groups sharing:</p>
+    <% form_tag filter_groups_path(@event.id), :remote => true do %>
+    <ul>
+    <% Sharable.all.each do |sharable| %>
+      <li><%= check_box_tag(sharable.slug, '', false, :class => 'submittable') %><%= label_tag(sharable.slug, sharable.name) %></li>
+    <% end %>
+    </ul>
+    
+    <% cities = [""] + (@groups - @groups.for_user(current_user)).collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
+    <% unless cities.count <= 2 %>
+    <p>Show only groups in:</p>
+    <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>
+    <% end %>
+    <% end %>
+  </div>
+  <div id="filtered_groups">
+    <%= render :partial => 'filtered_groups' %>
+  </div>
 <% end %>
 

@@ -1,11 +1,10 @@
-<%= link_to group.name, group_path(group.event.id, group.id) %>
-<br />
-<%  unless group.city.blank? && group.region.blank? %>
-Based in - <%= group.city %> <%= group.region %>
-<br />
-<% end %>
-<% sharing = group.sharables.map{|s| s.name}.to_sentence %>
-<% unless sharing.blank? %>
-Sharing - <%= sharing %>
-<% end %>
-<br /><br />
+<div class="group">
+  <div class="group-name"><%= link_to group.name, group_path(group.event.id, group.id) %></div>
+  <%  unless group.city.blank? && group.region.blank? %>
+  <div class="group-locality"><%= group.city %>, <%= group.region %></div>
+  <% end %>
+  <% sharing = group.sharables.map{|s| s.name}.to_sentence %>
+  <% unless sharing.blank? %>
+  <div class="group-sharing">Sharing: <%= sharing %></div>
+  <% end %>
+</div>

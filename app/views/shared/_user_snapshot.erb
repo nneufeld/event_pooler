@@ -1,4 +1,5 @@
 <div class="user_profile">
+  <!--// <div class="summary">member since: <%= user.registered_on %>, attended <%= Event.attended_by(user).count %> events </div> //-->
   <div class="icon">
     <% if user.avatar.exists? %>
       <%= link_to (image_tag user.avatar.url(:thumb)), profile_url(user.id) %>
@@ -6,29 +7,30 @@
       <%= link_to (image_tag '/images/user-icon.jpg'), profile_url(user.id) %>
     <% end %>
   </div>
-<div class="name"><%= link_to user.name, profile_url(user.id) %></div>
-
+  <div class="name"><%= link_to user.name, profile_url(user.id) %></div>
   <div class="location"><%= user.city %> <%=  user.region%></div>
 
   <div class="stars">
-  <% reviews = UserReview.find_all_by_user_id(user.id) %>
-  <% if reviews.blank?
-     5.times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}%>
-     no reviews yet
-     <%
-     else
-     rank = reviews.sum{|review| review.rank} / reviews.size
-     rank.floor.times{ |i| %><%=image_tag "star.png", :class => "rating_star" %><%}
-     if rank - rank.floor > 0.49%>
-       <%= image_tag "star_half.png" %><%
-       (5 - rank.floor + 1).times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}
-     else
-       (5-rank.floor).times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}
-     end%>
-     <%= link_to("out of #{reviews.size} review(s)", profile_path(user.id)) %> <%
-   end
-  %>
-</div>
-    <div class="summary">member since: <%= user.registered_on %>, attended <%= Event.attended_by(user).count %> events </div>
-
+    <% reviews = UserReview.find_all_by_user_id(user.id) %>
+    <% if reviews.blank?
+       5.times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}%>
+       <span class="text">No reviews yet</span>
+       <%
+       else
+       rank = reviews.sum{|review| review.rank} / reviews.size
+       rank.floor.times{ |i| %><%=image_tag "star.png", :class => "rating_star" %><%}
+       if rank - rank.floor > 0.49%>
+         <%= image_tag "star_half.png" %><%
+         (5 - rank.floor + 1).times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}
+       else
+         (5-rank.floor).times{ |i| %><%=image_tag "star_empty.png", :class => "rating_star"%><%}
+       end%>
+       <span class="text"><%= link_to("Out of #{reviews.size} review(s)", profile_path(user.id)) %></span><% end %>
+  </div>
+  
+  <% if defined? sharables %>
+    <% unless sharables.nil? %>
+      <div class="sharingpref"><strong>Sharing Preferences:</strong> <%= sharables.empty? ? 'None' : sharables.map{|s| s.name}.to_sentence %></div>
+    <% end %>
+  <% end %>
 </div>

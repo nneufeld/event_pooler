@@ -1,11 +1,17 @@
 <div id="resources_sharing">
   <%= render :partial => 'shared/resources_sharing' %>
 </div>
-I would like to share: <br />
-<% form_tag update_sharables_path(@group.id), :remote => true do %>
-  <% Sharable.all.each do |sharable| %>
-    <% checked = @my_sharables.include?(sharable) %>
-    <%= check_box_tag(sharable.slug, '', checked, :class => 'submittable') %>
-    <%= label_tag(sharable.slug, sharable.name) %>
+<div id="resources_sharable_iwould">
+  <p>I would like to share:</p>
+  <% form_tag update_sharables_path(@group.id), :remote => true do %>
+  <ul class="sharable-list">
+    <% Sharable.all.each do |sharable| %>
+    <li>
+      <% checked = @my_sharables.include?(sharable) %>
+      <%= check_box_tag(sharable.slug, '', checked, :class => 'submittable') %>
+      <%= label_tag(sharable.slug, sharable.name) %>
+    </li>
+    <% end %>
+  </ul>
   <% end %>
-<% end %>
+</div>
