@@ -1,1 +1,51 @@
 EventPooler installation instructions.
+---------------------------------------------
+
+I'm assuming you will be installing this on Mac OS X, as I tried installing it on Windows once without luck.
+
+Dependencies
+--------------------
+ - Ruby 1.8.7(should come pre-installed on Mac OS X)
+ - Rails 3( run 'sudo gem update rails' if you're still running Rails 2, which I think Mac OS X comes installed with)
+ - MySQL
+ - Git(instead of using 'git clone', you can also just download the source from the GitHub page)
+
+The easiest way to install the following 2 applications is to use a Package Manager such as HomeBrew(https://github.com/mxcl/homebrew) or MacPorts(http://www.macports.org/). Then you can simply run:
+    'sudo brew install sphinx' or 'sudo port install sphinx'
+
+Sphinx Search (http://sphinxsearch.com/)
+
+ImageMagick (http://www.imagemagick.org)
+ - This isn't really needed, the only place it's used right now is to upload a user image. So unless that's something you want to try out, I wouldn't bother installing this
+
+Installation
+---------------------------------------------
+
+Checkout the code from GitHub by running:
+    'git clone git@github.com:neufelni/event_pooler.git'
+
+Install the required gems by running
+    'sudo bundle install'
+
+Rename the following "example" files
+    - config/environments/development.rb
+    - config/initializers/secret_token.rb
+    - config/database.yml
+
+Specify an e-mail server to use in config/environments/development.rb(We've just been using GMail)
+
+Create a new MySQL database, and provide the connection information in config/database.yml
+
+Populate the database by running
+    'rake db:migrate'
+
+Index sphinx search by running
+    'rake ts:index'
+
+Start the sphinx search server by running
+    'rake ts:start'
+
+Start the Rails server by running
+    'rails server'
+
+You should now be able to access the application by browsing to '0.0.0.0:3000'

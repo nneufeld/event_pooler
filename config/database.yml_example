@@ -1,0 +1,9 @@
+development:
+  adapter: mysql
+  encoding: utf8
+  database: 
+  pool: 5
+  username: 
+  password: 
+  socket: /tmp/mysql.sock
+  host: localhost
