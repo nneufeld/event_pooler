@@ -14,3 +14,15 @@ $('#event_ends_at').live('focus', function() {
     if (this.value == '')
         this.value = $('#event_starts_at').val();
 });
+
+$(function(){
+    $('#event_starts_at').datetimepicker({
+	ampm: true
+    });
+});
+
+$(function(){
+    $('#event_ends_at').datetimepicker({
+	ampm: true
+    });
+});
