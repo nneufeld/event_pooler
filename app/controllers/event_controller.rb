@@ -139,8 +139,8 @@ class EventController < ApplicationController
   def create
     @event = Event.new(params[:event])
     if request.post?
-      @event.starts_at += 5.hours
-      @event.ends_at += 5.hours
+      @event.starts_at += 5.hours unless @event.starts_at.nil?
+      @event.ends_at += 5.hours unless @event.ends_at.nil?
       @event.remote_id = nil
       @event.remote_source = "native"
       @event.administrator = current_user
@@ -173,8 +173,8 @@ class EventController < ApplicationController
 
     if request.post?
       @event.update_attributes(params[:event])
-      @event.starts_at += 5.hours
-      @event.ends_at += 5.hours
+      @event.starts_at += 5.hours unless @event.starts_at.nil?
+      @event.ends_at += 5.hours unless @event.ends_at.nil?
 
       location = "#{@event.address}, #{@event.city}, #{@event.region}"
       unless location == ", , "

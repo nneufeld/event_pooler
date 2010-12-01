@@ -18,7 +18,7 @@ if !common_groups.blank?
     #remove the reviews I have already submitted
     reviewed_events = UserReview.find_all_by_user_id_and_reviewer_id(@user.id, current_user.id, :include => :event).collect{|review| review.event}
 
-    common_events.delete_if{ |event| reviewed_events.include?(event) }
+    common_events.delete_if{ |event| reviewed_events.include?(event) } unless common_events.blank?
 end
 %>
 
