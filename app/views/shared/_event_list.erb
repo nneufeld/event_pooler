@@ -1,16 +1,25 @@
 <%= will_paginate(@events) %>
 <% prev_date = '' %>
-<% @events.each do |event|  %>
-    <% date = Time.at(event.starts_at.to_i).strftime("%B %e, %Y")
-       if date == prev_date %><hr /><% else %>
-  <% unless prev_date == '' %></div><% end %><div class="search_result"><div class="date"><%= date %></div><% end %>
-    <div><%= link_to CGI.unescapeHTML(event.name).html_safe, event_path(event.id) %></div>
-    <div><%= event.city %>, <%= event.region %></div>
-    <div><%= Time.at(event.starts_at.to_i).strftime("%I:%M%p") %>
-        <%= " to #{Time.at(event.ends_at.to_i).strftime("%I:%M%p")}" if !event.ends_at.nil? && Time.at(event.ends_at.to_i).strftime("%B %e, %Y") == date %>
+
+<% unless @events.empty? %>
+<table width="100%" class="search-result-set">
+<% @events.each do |event| %>
+<% date = Time.at(event.starts_at.to_i).strftime("%B %e, %Y") %>
+<tr>
+  <td>
+    <h2><%= link_to CGI.unescapeHTML(event.name).html_safe, event_path(event.id) %></h2>
+    <div class="location"><strong>Location:</strong> <%= event.city %>, <%= event.region %></div>
+    <div class="time"><strong>Date &amp; Time:</strong> <%= date %> at <%= Time.at(event.starts_at.to_i).strftime("%I:%M%p") %><%= " to #{Time.at(event.ends_at.to_i).strftime("%I:%M%p")}" if !event.ends_at.nil? && Time.at(event.ends_at.to_i).strftime("%B %e, %Y") == date %></div>
+    <% unless event.description.empty? %>
+    <div class="description">
+      <p><%= CGI.unescapeHTML(event.description).html_safe.gsub(/<\/?[^>]*>/, "")[0..230] %>...</p>
+      <div class="read-more"><%= link_to 'Read More', event_path(event.id) %></div>
     </div>
-    <div><%= CGI.unescapeHTML(event.description).html_safe.gsub(/<\/?[^>]*>/, "")[0..200] unless event.description.nil? %>...<%= link_to 'Read More', event_path(event.id) %></div>
-  <% prev_date = date %>
+    <% end %>
+  </td>
+</tr>
+<% prev_date = date %>
 <% end %>
-<% unless @events.blank? %></div><% end %>
+</table>
+<% end %>
 <%= will_paginate(@events) %>
