@@ -11,7 +11,7 @@
 <%= form_for :event do |f| %>
 <%= f.error_messages %>
   <p><%= f.label(:name, "Name: *") %><%= f.text_field(:name) %></p>
-  <p><%= f.label(:description, "Description: ") %><%= f.text_field(:description) %></p>
+  <p><%= f.label(:description, "Description: ") %><%= f.text_area(:description, :size => "24x6") %></p>
   <p><%= f.label(:address, "Address:") %> <%= f.text_field(:address) %></p>
   <p><%= f.label(:city, "City: *") %> <%= f.text_field(:city) %></p>
   <p><%= f.label(:region, "Province/State: *") %> <%= f.text_field(:region) %></p>

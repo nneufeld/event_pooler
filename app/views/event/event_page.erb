@@ -11,8 +11,9 @@
   <%= link_to 'Attend', attend_event_path %>
 <% else %>
   <%= link_to 'Export to Calendar', export_event_path(@event.id) %>  -  
-  <%= link_to 'Cancel Attendance', cancel_attendance_path, :confirm => 'Are you sure you want to cancel your attendance of this event?' %><br /><br />
+  <%= link_to 'Cancel Attendance', cancel_attendance_path, :confirm => 'Are you sure you want to cancel your attendance of this event?' %><br />
 <% end %>
+  <br />
   <div class="clear-fix"></div>
   
   <div style="float:left">
@@ -28,7 +29,7 @@
     <br /><br />
     <!--// Problem: Since we are running localhost, and not an actual domain - Twitter does not like the data-url "<%= request.url %>" //-->
     <a href="http://twitter.com/share" class="twitter-share-button" data-url="eventpooler.com" data-text="Check out the event <%= @event.safe_name %> at eventpooler.com!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-  <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="<%= request.url %>" layout="button_count" show_faces="true" width="450" font="arial"></fb:like>
+  <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="<%= request.url %>" layout="button_count" show_faces="true" width="150" font="arial"></fb:like>
   </div>
   
 <div style="float: right"><%= render :partial => 'groups' %></div>
