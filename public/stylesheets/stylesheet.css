@@ -529,9 +529,12 @@ table.search-result-set tr th {
 }
 
 .wrapper .content-home .content-wrapper table tr td,
-.wrapper .content-home .content-wrapper .popular-events tr td,
-table.search-result-set tr td {
+.wrapper .content-home .content-wrapper .popular-events tr td {
 	padding: 10px 15px;
+}
+
+table.search-result-set tr td {
+	padding: 15px;
 }
 
 .wrapper .content-home .content-wrapper table tr td.message {
