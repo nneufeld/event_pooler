@@ -13,7 +13,7 @@
     <% end %>
     </ul>
     
-    <% cities = [""] + (@groups - @groups.for_user(current_user)).collect{|group| group.city rescue "" + ", " + group.region rescue ""}.flatten.uniq %>
+    <% cities = [""] + (@groups - @groups.for_user(current_user)).collect{|group| group.city + ", " + group.region unless group.city.blank? || group.region.blank?}.flatten.uniq %>
     <% unless cities.count <= 2 %>
     <p>Show only groups in:</p>
     <%=  select_tag("city", options_for_select(cities), :class => 'submittable') %>

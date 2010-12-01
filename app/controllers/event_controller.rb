@@ -131,8 +131,7 @@ class EventController < ApplicationController
       @groups = @groups.sharing(sharables_filter)
     end
     if !location_filter.empty?
-      puts location_filter[0]
-      @groups = @groups.where(['city = ?', location_filter[0]])
+      @groups = @groups.where(['city = ? AND region = ?', location_filter[0], location_filter[1]])
     end
 
   end
