@@ -617,10 +617,7 @@ textarea
 	padding: 0px 0px 3px 0px;
 }
 
-.wrapper .content-home .content-wrapper .group-activity tr td .message {
-	padding-top: 10px;
-}
-
+.wrapper .content-home .content-wrapper .group-activity tr td .message,
 .wrapper .content-home .content-wrapper .group-invites tr td .message {
 	padding: 7px 7px;
 	background: #f7f7f7;
