@@ -2,7 +2,7 @@
 
   <% form_for :user_review, :url => review_new_path(@user.id), :remote => false, :html => { :multipart => true } do |f| %>
 <%= f.label "We pooled for:"%><br/>
-  <%= f.collection_select :event_id, events, :id, :name%>
+  <%= f.collection_select :event_id, events, :id, :safe_name%>
 <br/>
  <%= f.label "This pooler was:"%>
 <br/>

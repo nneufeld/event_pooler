@@ -88,6 +88,14 @@ class GroupController < ApplicationController
       end
     end
     unless group.users.include?(current_user)
+      unless group.event.attendees.include?(current_user)
+        # if the user is joining a group, let's add them to the event right away
+        event = group.event
+        event_group = event.event_group
+        membership = Membership.new(:user => current_user, :group => event_group, :approved => true)
+        membership.save
+        call_rake :notification_event_new_registrant, {:event_id => event.id, :registrant_id => current_user.id}
+      end
       membership = Membership.new(:user => current_user, :group => group, :approved => false)
       membership.approved = true if group.public? || (!invite.nil? && invite.from = group.administrator)
       membership.save

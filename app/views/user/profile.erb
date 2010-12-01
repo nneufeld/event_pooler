@@ -23,7 +23,7 @@ end
 %>
 
 <% if !common_events.blank? && @user != current_user %>
-    <%= link_to "rate this user", "#", :id=> "rate_link", :onclick=>"$('#user_ranking').toggle();"  %>
+    <%= link_to "Rate This User", "#", :id=> "rate_link", :onclick=>"$('#user_ranking').toggle();"  %>
 <%  end %>
 
 
@@ -34,7 +34,7 @@ end
 <% end %>
 
 <% if current_user && @user != current_user %>
-  <%= link_to "send a message", "#", :id=> "rate_link", :onclick=>"$('#send_message').toggle();"  %>
+  <%= link_to "Send a Message", "#", :id=> "rate_link", :onclick=>"$('#send_message').toggle();"  %>
 <% end %>
 
 <% if current_user %>
@@ -49,15 +49,18 @@ end
 
 
 <div class="users_events" style="clear:both">
+  <br />
 <h3><%= @user.name %>'s Events</h3>
 <% users_events.each do |event| %>
-<%= link_to event.name, event_url(event.id) %> - <%= Time.at(event.starts_at.to_i).strftime("%b %d, %Y at %I:%M%p") %>
+<%= link_to event.safe_name, event_url(event.id) %> - <%= Time.at(event.starts_at.to_i).strftime("%b %d, %Y at %I:%M%p") %><br />
 <% end %>
 </div>
 
 <div class="reviews" style="clear:both">
 <% reviews = UserReview.find_all_by_user_id(@user.id) %>
+<% reviews.reject!{|r| r.review.blank?} %>
 <% if !reviews.blank? %>
+  <br />
 <h3>What others say about <%= @user.name %></h3>
 <% reviews.each do |review| %>
 <div class="review">
@@ -70,7 +73,9 @@ end
 
 <div class="given_reviews">
 <% reviews = UserReview.find_all_by_reviewer_id(@user.id) %>
+<% reviews.reject!{|r| r.review.blank?} %>
 <% if !reviews.blank? %>
+  <br />
 <h3>What <%= @user.name %> says about others</h3>
 <% reviews.each do |review| %>
 <div class="review">

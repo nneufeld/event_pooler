@@ -1,18 +1,20 @@
-<table class="popular-events">
-  <tr>
-    <th colspan="3">My Events</th>
-  </tr>
-<% @my_events.each do |event| %>
-  <tr><td>
-  <%= link_to event.safe_name, event_path(event.id) %><br/>
-  <%= event.city ||event.region %> -
-  <%=  Time.at(event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%>
-  <% unless event.groups.user_groups.for_user(current_user).blank? %>
-    Groups:<br />
-    <% event.groups.user_groups.for_user(current_user).each do |group| %>
-      &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to group.name, group_path(group.event.id, group.id) %><br />
+<% unless @my_events.empty? %>
+  <table class="popular-events">
+    <tr>
+      <th colspan="3">My Events</th>
+    </tr>
+  <% @my_events.each do |event| %>
+    <tr><td>
+    <%= link_to event.safe_name, event_path(event.id) %><br/>
+    <%= event.city ||event.region %> -
+    <%=  Time.at(event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%>
+    <% unless event.groups.user_groups.for_user(current_user).blank? %>
+      Groups:<br />
+      <% event.groups.user_groups.for_user(current_user).each do |group| %>
+        &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to group.name, group_path(group.event.id, group.id) %><br />
+      <% end %>
     <% end %>
+      </td></tr>
   <% end %>
-    </td></tr>
+  </table>
 <% end %>
-</table>

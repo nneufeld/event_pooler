@@ -11,11 +11,13 @@
 <%= @group.description %><br/>
 <%= @group.city %> <%= @group.region %>
 <br />
+
+<% if @group.invite_only? %>
+  <br />
+  <%= render :partial => 'invitations' %>
+<% end %>
 <% unless @group.users.include?(current_user) %>
-  <% if @group.invite_only? %>
-    <br />
-    <%= render :partial => 'invitations' %>
-  <% else %>
+  <% unless @group.invite_only? %>
     <% unless @group.public? %>This group is private, but you can<% end %>
     <%= link_to @group.public? ? 'Join' : 'Request to Join', join_group_path(@group.event.id, @group.id) %>
   <% end %>
