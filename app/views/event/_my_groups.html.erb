@@ -1,7 +1,8 @@
 <% unless current_user.nil? || @groups.for_user(current_user).blank? %>
-  <hr />
-  <h4>My Groups</h4>
+  <h4 class="subheading">My Groups</h4>
+  <ul class="items-indent-15">
   <% @groups.for_user(current_user).each do |group| %>
-    <%= render :partial => 'group', :locals => {:group => group} %>
+    <li><div class="inner"><%= render :partial => 'group', :locals => {:group => group} %></div></li>
   <% end %>
+  </ul>
 <% end %>

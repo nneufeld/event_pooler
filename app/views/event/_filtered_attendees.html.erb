@@ -1,8 +1,4 @@
 <% @attendees.each do |attendee| %>
   <% sharables = @event.event_group.memberships.for_user(attendee).first.sharables %>
-
-  <%= render :partial => 'shared/user_snapshot', :locals => { :user => attendee } %>
-<div class="group_attendee">
-Sharing <%= sharables.empty? ? 'nothing' : sharables.map{|s| s.name}.to_sentence %><br />
-</div>
+  <%= render :partial => 'shared/user_snapshot', :locals => { :user => attendee, :sharables => sharables } %>
 <% end %>

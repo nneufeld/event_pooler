@@ -2,47 +2,83 @@
 <% unless flash[:message].nil? %>
   <%= flash[:message] %><br /><br />
 <% end %>
-<h3><%= @event.safe_name %><span style="font-size: small">
+
+<!--//
+<span style="font-size: small">
   <% if !current_user.nil? && @event.administrator == current_user %>
    - <%= link_to 'Edit', event_update_path(@event.id) %>
   <% end %></span>
-</h3>
+
+
 <% unless @event.attendees.include?(current_user) %>
   <%= link_to 'Attend', attend_event_path %>
 <% else %>
   <%= link_to 'Export to Calendar', export_event_path(@event.id) %>  -  
   <%= link_to 'Cancel Attendance', cancel_attendance_path, :confirm => 'Are you sure you want to cancel your attendance of this event?' %><br />
 <% end %>
-  <br />
-  <div class="clear-fix"></div>
-  
-  <div style="float:left">
-   
-    <% if @event.attendees.include?(current_user) %><%= render :partial => 'shared/update_sharables' %><br /><br /><% end %>
-    <strong>Starts:</strong> <%=  Time.at(@event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %><br />
-    <strong>Ends: </strong><%=  @event.ends_at.to_i == 0 ? "":Time.at(@event.ends_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%><br />
-    <strong>Location:</strong><br /><%= CGI.unescapeHTML(@event.address).html_safe %><br /><%= CGI.unescapeHTML(@event.city).html_safe %>, <%= CGI.unescapeHTML(@event.region).html_safe %><br /><%= CGI.unescapeHTML(@event.code).html_safe %><br />
-    <strong>Phone:</strong> <%= CGI.unescapeHTML(@event.phone).html_safe %><br />
-    <strong>Email:</strong> <%= CGI.unescapeHTML(@event.email).html_safe %><br />
-    <%= render :partial => 'event_url' %>
-    
-    <br /><br />
-    <!--// Problem: Since we are running localhost, and not an actual domain - Twitter does not like the data-url "<%= request.url %>" //-->
-    <a href="http://twitter.com/share" class="twitter-share-button" data-url="eventpooler.com" data-text="Check out the event <%= @event.safe_name %> at eventpooler.com!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-  <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="<%= request.url %>" layout="button_count" show_faces="true" width="150" font="arial"></fb:like>
-  </div>
-  
-<div style="float: right"><%= render :partial => 'groups' %></div>
-<div class="clear-fix">
+//-->
+
+<div class="event-page">
+
+<div class="float-right event-share-buttons">
+          <!--// Problem: Since we are running localhost, and not an actual domain - Twitter does not like the data-url "<%= request.url %>" //-->
+          <span class="float-left" style="margin-right: 15px;"><a href="http://twitter.com/share" class="twitter-share-button" data-url="eventpooler.com" data-text="Check out the event <%= @event.safe_name %> at eventpooler.com!" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>
+          <span class="float-left" style="width: 74px; overflow: hidden;"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="<%= request.url %>" layout="button_count" show_faces="true" width="150" font="arial"></fb:like></span>
 </div>
-<div style="float: left">
-      <br /><%= CGI.unescapeHTML(@event.description).html_safe unless @event.description.nil? %>
+<h2><%= @event.safe_name %></h2>
+<div class="clear-fix">&nbsp;</div>
+
+<% unless @event.description.nil? %>
+<div class="description">
+          <%= CGI.unescapeHTML(@event.description).html_safe %>
 </div>
-  <div class="clear-fix"></div>
-  <br/>
-<%= render :partial => 'shared/message_board', :locals => {:group => @event.event_group} %>
-<% content_for :right_column do %>
+<% end %>
+
+<h3>Contact Information</h3>
+<ul class="contact-info">
+          <li><strong>Phone:</strong> <% unless @event.phone.empty? %><%= CGI.unescapeHTML(@event.phone).html_safe %><% else %><span class="none">No phone number available</span><% end %></li>
+          <li><strong>Email:</strong> <% unless @event.email.empty? %><%= CGI.unescapeHTML(@event.email).html_safe %><% else %><span class="none">No email available</span><% end %></li>
+          <% unless @event.url.blank? %><li><strong>Source:</strong><%= link_to('View original event source', @event.url, :target => '_blank') %></li><% end %>
+</ul>
+
   <% if @event.attendees.include?(current_user) %>
     <%= render :partial => 'attendees' %>
   <% end %>
+
+  <%= render :partial => 'shared/message_board', :locals => {:group => @event.event_group} %>
+
+</div>
+
+<% content_for :right_column do %>
+          <!--// <% unless @event.native? %>
+          <div class="block">
+                    <%= link_to(image_tag("#{@event.remote_source}_logo_large.png", :alt => 'View source event.'), @event.url, :target => '_blank') unless @event.url.blank? %>  
+          </div>
+          <% end %> //-->
+          <div class="block">
+                    <h2 class="heading">When</h2>
+                    <ul class="event-time">
+                              <li><strong>Starts:</strong> <%=  Time.at(@event.starts_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue "" %></li>
+                              <% unless @event.ends_at.nil? %>
+                              <li><strong>Ends:</strong> <%=  @event.ends_at.to_i == 0 ? "":Time.at(@event.ends_at.to_i).strftime("%b %e, %Y at %l:%M%p") rescue ""%></li>
+                              <% end %>
+                    </ul>
+          </div>
+          <div class="block">
+                    <h2 class="heading">Where</h2>
+                    <div class="event-address">
+                              <div><%= CGI.unescapeHTML(@event.address).html_safe %></div>
+                              <div><%= CGI.unescapeHTML(@event.city).html_safe %>, <%= CGI.unescapeHTML(@event.region).html_safe %></div>
+                              <div><%= CGI.unescapeHTML(@event.code).html_safe %></div>
+                    </div>
+          </div>
+          <% if @event.attendees.include?(current_user) %>
+          <div class="block">
+                    <h2 class="heading">Sharing Preferences</h2>
+                    <%= render :partial => 'shared/update_sharables' %>
+          </div>
+          <% end %>
+          <div class="block">
+                    <%= render :partial => 'groups' %>
+          </div>
 <% end %>

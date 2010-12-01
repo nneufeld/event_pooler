@@ -1,3 +1,10 @@
-<%  @groups.closest_to_user(current_user).visible.reject{|g| g.users.include?(current_user)}.each do |group| %>
+<!--// <%  @groups.closest_to_user(current_user).visible.reject{|g| g.users.include?(current_user)}.each do |group| %>
   <%= render :partial => 'group', :locals => {:group => group} %>
-<% end unless @groups.blank? %>
+<% end unless @groups.blank? %> //-->
+<% unless @groups.blank? %>
+<ul class="items-indent-15">
+<%  @groups.closest_to_user(current_user).visible.reject{|g| g.users.include?(current_user)}.each do |group| %>
+  <li><div class="inner"><%= render :partial => 'group', :locals => {:group => group} %></div></li>
+<% end %>
+</ul>
+<% end %>

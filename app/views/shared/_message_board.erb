@@ -1,12 +1,18 @@
-<h2>Messages</h2>
-<% if group.comments.blank? %>
-  There are currently no messages.
-<% else %>
-  <% group.comments.original.each do |comment|  %>
-    <%= render :partial => 'shared/comment', :locals => {:comment => comment, :group => group} %>
-  <% end unless group.comments.nil?%>
-<% end %>
-
-<% if group.users.include?(current_user) %>
-  <%= render :partial => 'shared/comment_form' %>
-<% end %>
+<h3>Messages</h3>
+<div class="comments">
+  <% if group.comments.blank? %>
+  <p><strong>There are currently no messages.</strong></p>
+  <% else %>
+    <% unless group.comments.nil? %>
+    <ul class="comment-list">
+      <% group.comments.original.each do |comment|  %>
+        <li><%= render :partial => 'shared/comment', :locals => {:comment => comment, :group => group} %></li>
+      <% end %>
+    </ul>
+    <% end %>
+  <% end %>
+  
+  <% if group.users.include?(current_user) %>
+    <%= render :partial => 'shared/comment_form' %>
+  <% end %>
+</div>
