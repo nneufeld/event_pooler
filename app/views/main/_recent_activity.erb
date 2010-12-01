@@ -1,32 +1,37 @@
-
-    <h3>Recent activity from my groups</h3>
-
-  <% @recent_activity.each do |comment| %>
-
-  <div class="message">
-    <% user = User.find_by_id(comment.user_id) %>
-    <%  if !user.nil? %>
-    <div class="icon">
-        <% if user.avatar.exists? %>
-        <%= link_to image_tag(user.avatar.url(:thumb)), profile_path(user.id) %>
-      <% else %>
-        <%= link_to image_tag('/images/user-icon.jpg'), profile_path(user.id) %>
-      <% end %>
-    </div>
-
+    <% unless @recent_activity.empty? %>
+    <table width="100%" class="group-activity">
+        <tr>
+            <th>Recent Group Activity</th>
+        </tr>
+        <% @recent_activity.each do |comment| %>
+        <% user = User.find_by_id(comment.user_id) %>
+        <tr>
+            <td>
+            <div class="icon">
+                <% if user.avatar.exists? %>
+                    <%= link_to image_tag(user.avatar.url(:thumb)), profile_path(user.id) %>
+                <% else %>
+                    <%= link_to image_tag('/images/user-icon.jpg'), profile_path(user.id) %>
+                <% end %>
+            </div>
+            <div class="info">
+                <h2><%= link_to user.name, profile_path(user.id) %></h2>
+                <div class="in">in <%= link_to(comment.group.event.safe_name, event_path(comment.group.event.id)) %></div>
+            </div>
+            <div class="clear-fix">&nbsp;</div>
+            
+            <div class="message">
+                <%= comment.message %>
+            </div>
+            <!--//
+            <div class="posted-in">
+                <% link = link_to(comment.group.event.safe_name, event_path(comment.group.event.id)) if comment.group.event_type? %>
+                <% link = "#{link_to(comment.group.event.safe_name, event_path(comment.group.event.id))}(Group: #{link_to comment.group.name, group_path(comment.group.event.id, comment.group.id)})" unless comment.group.event_type? %>
+                Posted in: <% unless comment.group.event_type? %>(Group: <%= link_to comment.group.name, group_path(comment.group.event_id, comment.group.id) %>)<% end %>
+            </div>
+            //-->
+            </td>
+        </tr>
+        <% end %>
+    </table>
     <% end %>
-    <div class="info">
-      <% link = link_to(comment.group.event.safe_name, event_path(comment.group.event.id)) if comment.group.event_type? %>
-      <% link = "#{link_to(comment.group.event.safe_name, event_path(comment.group.event.id))}(Group: #{link_to comment.group.name, group_path(comment.group.event.id, comment.group.id)})" unless comment.group.event_type? %>
-      <%= link_to user.name, profile_path(user.id) %> in <%= link_to(comment.group.event.safe_name, event_path(comment.group.event.id)) %><% unless comment.group.event_type? %>(Group: <%= link_to comment.group.name, group_path(comment.group.event_id, comment.group.id) %>)<% end %>
-    </div>
-    <div class="subinfo">
-    <%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>
-    <br/>
-    </div>
-    <div class="body">
-    <%= comment.message %>
-    </div>
-  </div>
-<% end unless @recent_activity.nil? %>
-    

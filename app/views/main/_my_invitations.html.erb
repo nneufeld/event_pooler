@@ -1,16 +1,22 @@
 <% unless current_user.nil? || current_user.group_invitations.empty? %>
-  <table style="width: 100%" class="popular-events">
+  <table style="width: 100%" class="group-invites">
     <tr>
       <th colspan="3">Group Invitations</th>
     </tr>
     <% current_user.group_invitations.each do |invite| %>
-      <tr><td colspan="2"><%= link_to invite.group.name, group_path(invite.group.event_id, invite.group_id) %>(Event: <%= link_to invite.group.event.safe_name, event_path(invite.group.event_id) %>)<br />
-          From <%= link_to invite.from.name, profile_path(invite.from_id) %><br />
-          "<%= invite.message %>"
+      <tr>
+          <td>
+              <h2><%= link_to invite.group.name, group_path(invite.group.event_id, invite.group_id) %></h2>
+              <div class="desc"><strong>Event:</strong> <%= link_to invite.group.event.safe_name, event_path(invite.group.event_id) %></div>
+              
+              <div class="message">
+                <%= invite.message %>
+              </div>
+              <div class="message-from">From <%= link_to invite.from.name, profile_path(invite.from_id) %></div>
+              <div class="links"><%= link_to 'Accept', group_accept_invitation_path(invite.token) %> &nbsp; <%= link_to 'Ignore', group_ignore_invitation_path(invite.token) %></div>
+          </td>
       </td>
-      <td><%= link_to 'Accept', group_accept_invitation_path(invite.token) %> - <%= link_to 'Ignore', group_ignore_invitation_path(invite.token) %></td>
       </tr>
     <% end %>
   </table>
-  <br />
 <% end %>

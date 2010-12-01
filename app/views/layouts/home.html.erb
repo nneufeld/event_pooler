@@ -8,14 +8,12 @@
             <div class="banner-area">
               <%= yield :banner %>
             </div>
-            <div>
-              <%= render "shared/search_box" %>
-            </div>
             <div class="content-wrapper">
-                <div class="left-column">
-                  <%= yield %>
+                <div class="left_column">
+                  <%= yield :left_column %>
                 </div>
-                <div class="right-column">
+                <div class="right_column">
+                  <%= render "shared/search_box" %>
                   <%= yield :right_column %>
                 </div>
                 <div class="clear-fix">&nbsp;</div>
