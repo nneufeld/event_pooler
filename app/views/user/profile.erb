@@ -13,7 +13,8 @@ if !common_groups.blank?
     #find the private groups we have in common
     common_groups.delete_if{|group| group.event.nil? || group == group.event.event_group || group.public?}
 
-    common_events = common_groups.collect{|group| group.event}.uniq!
+
+    common_events = common_groups.collect{|group| Event.find_by_id(group.event_id)}.uniq
 
     #remove the reviews I have already submitted
     reviewed_events = UserReview.find_all_by_user_id_and_reviewer_id(@user.id, current_user.id, :include => :event).collect{|review| review.event}
