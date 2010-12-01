@@ -509,12 +509,19 @@ textarea
 }
 
 .wrapper .content-home .content-wrapper table,
-.wrapper .content-home .content-wrapper .popular-events,
+.wrapper .content-home .content-wrapper .popular-events {
+	padding: 1px 1px;
+	border: 1px solid #e6e6e6;
+	color: #5b5b5b;
+	width: 100%;
+}
+
 table.search-result-set {
 	padding: 1px 1px;
 	border: 1px solid #e6e6e6;
 	color: #5b5b5b;
 	width: 100%;
+	margin-top: 25px;
 }
 
 .wrapper .content-home .content-wrapper table tr th,
