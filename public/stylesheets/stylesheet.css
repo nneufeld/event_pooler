@@ -260,6 +260,8 @@ h4 {
 .wrapper .content-two-columns .left-column {
 	width: 625px;
 	float: left;
+    
+    min-height: 600px;
 	
 	margin-right: 35px;
 }
