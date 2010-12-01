@@ -48,7 +48,9 @@ class EventController < ApplicationController
     unless event_group.users.include?(current_user)
       membership = Membership.new(:user => current_user, :group => event_group, :approved => true)
       membership.save
-	  call_rake :notification_event_new_registrant, {:event_id => event.id, :registrant_id => current_user.id}
+      unless current_user == event.administrator
+        call_rake :notification_event_new_registrant, {:event_id => event.id, :registrant_id => current_user.id}
+      end
     end
     redirect_to event_path(event.id)
   end
@@ -197,7 +199,7 @@ class EventController < ApplicationController
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
     event.start = Time.at(@event.starts_at.to_i).strftime("%Y%m%dT%H%M%S")
-    event.end = Time.at(@event.starts_at.to_i).strftime("%Y%m%dT%H%M%S")
+    event.end = Time.at(@event.ends_at.to_i).strftime("%Y%m%dT%H%M%S")
     event.summary = @event.name
     event.description = @event.description
     event.location = @event.full_address
