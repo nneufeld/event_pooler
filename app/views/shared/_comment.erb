@@ -23,10 +23,10 @@
         <%= link_to 'reply', comment_reply_url(:comment_id => comment.id), :remote=> true, :class=>'reply_link' %>
       </div>
     </div>
-    <div id="reply_to_<%= comment.id %>">
-    </div>
-    <% unless comment.children.empty? %>
     <div class="comment-replies">
+      <div id="reply_to_<%= comment.id %>">
+      </div>
+      <% unless comment.children.empty? %>
         <% comment.children.each do |child| %>
           <%= render :partial => 'shared/comment', :locals => {:comment => child, :group => group} %>
         <% end %>

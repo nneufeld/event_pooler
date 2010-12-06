@@ -199,7 +199,7 @@ class EventController < ApplicationController
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
     event.start = Time.at(@event.starts_at.to_i).strftime("%Y%m%dT%H%M%S")
-    event.end = Time.at(@event.ends_at.to_i).strftime("%Y%m%dT%H%M%S")
+    event.end = Time.at(@event.ends_at.to_i).strftime("%Y%m%dT%H%M%S") unless @event.ends_at.nil?
     event.summary = @event.name
     event.description = @event.description
     event.location = @event.full_address
