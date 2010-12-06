@@ -2,49 +2,55 @@
 <% unless flash[:message].blank? %>
   <%= flash[:message] %><br />
 <% end %>
-<%= link_to 'Back to Event', event_path(@group.event.id) %><br />
-  <div style="float: left; width: 300px;">
-    <h2><%= @group.name %><span style="font-size: small">
-    <% if @group.administrator == current_user %>
-     - <%= link_to 'Edit', update_group_path(@group.event.id, @group.id) %>
-    <% end %></span>
-    </h2>
-    <% unless @group.users.include?(current_user) %>
-      <% unless @group.invite_only? %>
-        <% unless @group.public? %>This group is private, but you can<% end %>
-        <%= link_to @group.public? ? 'Join' : 'Request to Join', join_group_path(@group.event.id, @group.id) %><br />
-      <% end %>
-    <% end %>
-    <% if @group.users.include?(current_user) && @group.memberships.approved.for_user(current_user).blank? %>
-      Your group membership is awaiting approval from the administrator.<br />
-    <% end %>
-    <% if !@group.memberships.approved.for_user(current_user).blank? %>
-      <%= link_to 'Invite A Friend', group_invite_path(@group.event_id, @group.id) %>
-      <% unless current_user == @group.administrator %>  -  <%= link_to 'Leave Group', group_leave_path(@group.event_id, @group.id), :confirm => 'Are you sure you want to remove yourself from this group?' %><% end %><br />
-    <% end %>
-    <% if @group.invite_only? %>
-      <br /><%= render :partial => 'invitations' %>
-    <% end %>
 
-    <br />
+<div class="group-page">
+
+    <h2><%= @group.name %></h2>
+    
+    <div>
+      <% if @group.administrator == current_user %><span style="font-size: small"><%= link_to 'Edit', update_group_path(@group.event.id, @group.id) %></span> &nbsp; <% end %>
+      <% unless @group.users.include?(current_user) %>
+        <% unless @group.invite_only? %>
+          <% unless @group.public? %>This group is private, but you can<% end %>
+          <%= link_to @group.public? ? 'Join' : 'Request to Join', join_group_path(@group.event.id, @group.id) %><br />
+        <% end %>
+      <% end %>
+      <% if @group.users.include?(current_user) && @group.memberships.approved.for_user(current_user).blank? %>
+        Your group membership is awaiting approval from the administrator.<br />
+      <% end %>
+      <% if !@group.memberships.approved.for_user(current_user).blank? %>
+        <%= link_to 'Invite A Friend', group_invite_path(@group.event_id, @group.id) %>
+        <% unless current_user == @group.administrator %>  -  <%= link_to 'Leave Group', group_leave_path(@group.event_id, @group.id), :confirm => 'Are you sure you want to remove yourself from this group?' %><% end %><br />
+      <% end %>
+      <% if @group.invite_only? %>
+        <div class="invitations"><%= render :partial => 'invitations' %></div>
+      <% end %>
+    </div>
   
     <% unless @group.city.blank? && @group.region.blank? %>Based in - <%= @group.city %> <%= @group.region %><br /><% end %>
     <%= @group.description %><br/>
-    <br /><%= render :partial => 'shared/update_sharables' unless @group.memberships.approved.for_user(current_user).blank? %>
-    <br />
-  </div>
-<% if !@group.memberships.approved.for_user(current_user).blank? %>
-  <div style="float: right; width: 300px">
-    <h3>Members</h3>
-    <% @group.memberships.approved.each do |member| %>
-      <%= render :partial => 'shared/user_snapshot', :locals => { :user => member.user } %>
-      <div class="group_attendee">
-        Sharing: <% sharing = @group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "nothing" %>
-        <%= !sharing.blank? ? sharing : "nothing"  %>
-      </div>
-    <% end %>
-  </div>
+
+ 
+
+  <%= render :partial => 'shared/message_board', :locals => {:group => @group} if !@group.memberships.approved.for_user(current_user).blank? || @group.public? %>
+
+</div>
+
+<% content_for :right_column do %>
+  <div class="block"><%= link_to 'Back to Event', event_path(@group.event.id) %></div>
+  
+  <div class="block"><%= render :partial => 'shared/update_sharables' unless @group.memberships.approved.for_user(current_user).blank? %></div>
+  
+  <% if !@group.memberships.approved.for_user(current_user).blank? %>
+    <div class="block">
+      <h3>Members</h3>
+      <% @group.memberships.approved.each do |member| %>
+        <%= render :partial => 'shared/user_snapshot', :locals => { :user => member.user } %>
+        <div class="group_attendee">
+          Sharing: <% sharing = @group.memberships.for_user(member.user).first.sharables.collect{|share| share.name }.join(", ") rescue "nothing" %>
+          <%= !sharing.blank? ? sharing : "nothing"  %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
-<div class="clear-fix"></div>
-<br/>
-<%= render :partial => 'shared/message_board', :locals => {:group => @group} if !@group.memberships.approved.for_user(current_user).blank? || @group.public? %>
