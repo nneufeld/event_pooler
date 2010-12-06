@@ -1,31 +1,34 @@
-<div class="message">
 <% user = User.find_by_id(comment.user_id) %>
 <%  if !user.nil? %>
-<div class="icon">
-    <% if user.avatar.exists? %>
-    <%= link_to image_tag(user.avatar.url(:thumb)), profile_path(user.id) %>
-  <% else %>
-    <%= link_to image_tag('/images/user-icon.jpg'), profile_path(user.id) %>
-  <% end %>
-</div>
 
+<div class="comment-wrapper">
+    <div class="comment">
+      <!--// <div class="summary">member since: <%= user.registered_on %>, attended <%= Event.attended_by(user).count %> events </div> //-->
+      <div class="icon">
+        <% if user.avatar.exists? %>
+          <%= link_to (image_tag user.avatar.url(:thumb)), profile_url(user.id) %>
+        <% else %>
+          <%= link_to (image_tag '/images/user-icon.jpg'), profile_url(user.id) %>
+        <% end %>
+      </div>
+      <div class="name"><%= link_to user.name, profile_url(user.id) %></div>
+      <div class="location"><%= user.city %> <%=  user.region%></div>
+      <div class="clear-fix">&nbsp;</div>
+      
+      <div class="body">
+        <%= comment.message %>
+      </div>
+      
+      <div class="links">
+        <%= link_to 'reply', comment_reply_url(:comment_id => comment.id), :remote=> true, :class=>'reply_link' %>
+      </div>
+    </div>
+    <% unless comment.children.empty? %>
+    <div class="comment-replies">
+        <% comment.children.each do |child| %>
+          <%= render :partial => 'shared/comment', :locals => {:comment => child, :group => group} %>
+        <% end %>
+    </div>
+    <% end %>
+</div>
 <% end %>
-<div class="info">
- <%= link_to user.name, profile_path(user.id) %>
-</div>
-<div class="subinfo">
-<%= user.city rescue "" %> <%= user.region rescue ""  %> ~ <%= group.memberships.for_user(user).first.sharables.collect{|share| share.name }.join(", ") rescue "not sharing" %>
-<br/>
-</div>
-<div class="body">
-<%= comment.message %>
-</div>
-
-<%= link_to 'reply', comment_reply_url(:comment_id => comment.id), :remote=> true, :class=>'reply_link' %>
-<div id="reply_to_<%= comment.id %>" class="comment">
-  
-<% comment.children.each do |child| %>
-  <%= render :partial => 'shared/comment', :locals => {:comment => child, :group => group} %>
-<% end %>
-</div>
-</div>

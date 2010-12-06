@@ -1,9 +1,10 @@
-<div id="new_comment_<%= @comment.parent.nil? ? '0' : @comment.parent.id %>">
-</div>
+<div id="new_comment_<%= @comment.parent.nil? ? '0' : @comment.parent.id %>"></div>
 <div id ="comment_form_for_<%= @comment.parent.nil? ? '0' : @comment.parent.id %>">
-  <% form_for :comment, :url => comment_new_path(@group.id), :remote => true, :html => { :multipart => true } do |f| %>
-   <%= f.text_area :message, :size => "60x12" %>
-   <%= f.hidden_field :parent_id %>
-   <br /><%= submit_tag "Submit" %>
+   <% form_for :comment, :url => comment_new_path(@group.id), :remote => true, :html => { :multipart => true } do |f| %>
+   <div class="form">
+      <%= f.hidden_field :parent_id %>
+      <p><%= f.text_area :message, :size => "60x12", :style => "width: 98%" %></p>
+      <p><%= submit_tag "Submit" %></p>
+   </div>
 <% end %>
 </div>
