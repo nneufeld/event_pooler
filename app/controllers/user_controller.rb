@@ -78,6 +78,9 @@ class UserController < ApplicationController
       end
       comment.delete
     end
+    UserReview.find_all_by_reviewer_id(current_user.id).each do |review|
+      review.destroy
+    end
     current_user.destroy 
     session[:user_id] = nil
     redirect_to root_path

@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
   has_many :comments
-  has_many :reviews
+  has_many :user_reviews, :dependent => :destroy
   has_attached_file :avatar, 
                     :styles => { :medium => "100x100>",
                                  :thumb => "40x40>" }
