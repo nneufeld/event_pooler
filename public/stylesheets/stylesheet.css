@@ -960,3 +960,13 @@ img.rating_star{ height: 15px; width: 15px; }
 
 .search_result{ background-color: #EEEEEE; border: gray solid 1px; margin: 5px; padding: 2px; }
 .search_result .date{ background-color:#CCCCCC; padding: 2px; }
+
+.group-page .description {
+	padding: 15px 0px 15px 0px;
+}
+
+.right-column .block .user_profile {
+	background: none;
+	padding: 0px;
+	margin-bottom: 10px;
+}
